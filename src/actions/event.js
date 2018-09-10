@@ -43,7 +43,7 @@ export const fetchEventDetails = ({ id }) => dispatch => {
 
 export const joinEvent = ({ id }) => dispatch => {
   return dispatch => {
-    axios.post(`/api/events/${id}`)
+    axios.post(`/api/events/${id}`, {}, authHeader)
       .then(({ data }) => dispatch(addJoinedEvents(data.event)))
   }
 }
