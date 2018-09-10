@@ -1,7 +1,5 @@
 import {
   GET_ALL_EVENTS,
-  GET_JOINED_EVENTS,
-  GET_ATTENDED_EVENTS,
   GET_EVENT_DETAILS,
   CREATE_EVENT_REQUEST,
   CREATE_EVENT_SUCCESS,
@@ -15,8 +13,6 @@ import {
 const initalState = {
   events: null,
   currentEventDetails: null,
-  joinedEvents: null,
-  attendedEvents: null,
   loading: false,
   error: null
 }
@@ -27,16 +23,6 @@ export default function eventReducer (state = initalState, action) {
       return {
         ...state,
         events: action.payload.events
-      }
-    case GET_JOINED_EVENTS:
-      return {
-        ...state,
-        joinedEvents: action.payload.joinedEvents
-      }
-    case GET_ATTENDED_EVENTS:
-      return {
-        ...state,
-        attendedEvents: action.payload.attendedEvents
       }
     case CREATE_EVENT_REQUEST:
       return {
