@@ -1,8 +1,6 @@
 import axios from 'axios'
 import {
   GET_ALL_EVENTS,
-  GET_JOINED_EVENTS,
-  GET_ATTENDED_EVENTS,
   GET_EVENT_DETAILS,
   CREATE_EVENT_REQUEST,
   CREATE_EVENT_SUCCESS,
@@ -17,20 +15,6 @@ export const fetchAllEvents = () => dispatch => {
   return dispatch => {
     axios.get('/api/events')
       .then(({ data }) => dispatch(getAllEvents(data.events)))
-  }
-}
-
-export const fetchJoinedEvents = ({ id }) => dispatch => {
-  return dispatch => {
-    axios.get(`/api/users/${id}/joined`)
-      .then(({ data }) => dispatch(getAllJoinedEvents(data.events)))
-  }
-}
-
-export const fetchAttendedEvents = ({ id }) => dispatch => {
-  return dispatch => {
-    axios.get(`/api/users/${id}/attended`)
-      .then(({ data }) => dispatch(getAllAttendedEvents(data.events)))
   }
 }
 
@@ -69,8 +53,6 @@ export const updateEvent = ({ id, event, eventDetails }) => dispatch => {
 }
 
 const getAllEvents = events => ({ type: GET_ALL_EVENTS, payload: { events } })
-const getAllJoinedEvents = events => ({ type: GET_JOINED_EVENTS, payload: { joinedEvents: events } })
-const getAllAttendedEvents = events => ({ type: GET_ATTENDED_EVENTS, payload: { attendedEvents: events } })
 const getEventDetails = eventDetails => ({ type: GET_EVENT_DETAILS, payload: { eventDetails } })
 const addJoinedEvents = event => ({ type: JOIN_EVENT, payload: { event } })
 
