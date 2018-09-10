@@ -1,4 +1,4 @@
-#Kumpulin Client
+# Kumpulin Client
 ## Tech Stack
 * [**React**](https://reactjs.org/) JavaScript library for building user interfaces
 * [**Redux**](https://redux.js.org/) predictable state container for JavaScript apps
