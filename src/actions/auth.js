@@ -11,23 +11,19 @@ import {
 } from '../constants/ActionTypes'
 
 export const signUp = (email, password) => dispatch => {
-  return dispatch => {
-    dispatch(signUpStarted())
+  dispatch(signUpStarted())
 
-    axios.post('/api/auth/signup', { email, password })
-      .then(() => dispatch(signUpSuccess()))
-      .catch(err => dispatch(signUpFailure(err.message)))
-  }
+  axios.post('/api/auth/signup', { email, password })
+    .then(() => dispatch(signUpSuccess()))
+    .catch(err => dispatch(signUpFailure(err.message)))
 }
 
 export const signIn = (email, password) => dispatch => {
-  return dispatch => {
-    dispatch(signInStarted())
+  dispatch(signInStarted())
 
-    axios.post('/api/auth/signin', { email, password })
-      .then(({ data }) => dispatch(signInSuccess(data)))
-      .catch(err => dispatch(signInFailure(err.message)))
-  }
+  axios.post('/api/auth/signin', { email, password })
+    .then(({ data }) => dispatch(signInSuccess(data)))
+    .catch(err => dispatch(signInFailure(err.message)))
 }
 
 const signUpStarted = () => ({ type: SIGNUP_REQUEST })

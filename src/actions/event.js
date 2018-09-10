@@ -12,44 +12,34 @@ import {
 } from '../constants/ActionTypes'
 
 export const fetchAllEvents = () => dispatch => {
-  return dispatch => {
-    axios.get('/api/events')
-      .then(({ data }) => dispatch(getAllEvents(data.events)))
-  }
+  axios.get('/api/events')
+    .then(({ data }) => dispatch(getAllEvents(data.events)))
 }
 
 export const fetchEventDetails = ({ id }) => dispatch => {
-  return dispatch => {
-    axios.get(`/api/events/${id}`)
-      .then(({ data }) => dispatch(getEventDetails(data.eventDetails)))
-  }
+  axios.get(`/api/events/${id}`)
+    .then(({ data }) => dispatch(getEventDetails(data.eventDetails)))
 }
 
 export const joinEvent = ({ id }) => dispatch => {
-  return dispatch => {
-    axios.post(`/api/events/${id}`, {}, authHeader)
-      .then(({ data }) => dispatch(addJoinedEvents(data.event)))
-  }
+  axios.post(`/api/events/${id}`, {}, authHeader)
+    .then(({ data }) => dispatch(addJoinedEvents(data.event)))
 }
 
 export const createEvent = ({ event, eventDetails }) => dispatch => {
-  return dispatch => {
-    dispatch(createEventStarted())
+  dispatch(createEventStarted())
 
-    axios.post('/api/events/', { event, eventDetails }, authHeader)
-      .then(({ data }) => dispatch(createEventSuccess(data.event)))
-      .catch(err => dispatch(createEventFailure(err.message)))
-  }
+  axios.post('/api/events/', { event, eventDetails }, authHeader)
+    .then(({ data }) => dispatch(createEventSuccess(data.event)))
+    .catch(err => dispatch(createEventFailure(err.message)))
 }
 
 export const updateEvent = ({ id, event, eventDetails }) => dispatch => {
-  return dispatch => {
-    dispatch(updateEventStarted())
+  dispatch(updateEventStarted())
 
-    axios.post(`/api/events/${id}`, { event, eventDetails }, authHeader)
-      .then(({ data }) => dispatch(updateEventSuccess(data.event)))
-      .catch(err => dispatch(updateEventFailure(err.message)))
-  }
+  axios.post(`/api/events/${id}`, { event, eventDetails }, authHeader)
+    .then(({ data }) => dispatch(updateEventSuccess(data.event)))
+    .catch(err => dispatch(updateEventFailure(err.message)))
 }
 
 const getAllEvents = events => ({ type: GET_ALL_EVENTS, payload: { events } })
