@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Cookies from 'js-cookie'
 import {
   GET_ALL_EVENTS,
   GET_JOINED_EVENTS,
