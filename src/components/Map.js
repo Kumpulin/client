@@ -12,10 +12,6 @@ class Map extends Component {
     super(props)
   }
 
-  componentDidMount () {
-    this.props.fetchAllEvents()
-  }
-
   render () {
     const GoogleMapWithMarker = withGoogleMap(props => (
       <GoogleMap
