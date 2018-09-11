@@ -26,6 +26,11 @@ export const signIn = (email, password) => dispatch => {
     .catch(err => dispatch(signInFailure(err.message)))
 }
 
+export function logout() {
+  Cookies.remove('token')
+  return { type: LOGOUT }
+}
+
 const signUpStarted = () => ({ type: SIGNUP_REQUEST })
 const signUpSuccess = () => ({ type: SIGNUP_SUCCESS })
 const signUpFailure = message => ({ type: SIGNUP_FAILURE, payload: { message } })
@@ -41,8 +46,3 @@ const signInSuccess = ({ user, token }) => {
 }
 
 const signInFailure = message => ({ type: SIGNIN_FAILURE, payload: { message } })
-
-export function logout() {
-  Cookies.remove('token')
-  return { type: LOGOUT }
-}
