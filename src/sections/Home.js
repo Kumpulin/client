@@ -1,9 +1,10 @@
 import React from "react"
+import { connect } from "react-redux"
 import { Link, NavLink } from "react-router-dom"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
+import Avatar from "@material-ui/core/Avatar"
 
 const styles = theme => ({
   home: {
@@ -14,7 +15,7 @@ const styles = theme => ({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'stretch'
+    alignItems: 'center'
   },
   navbar: {
     display: 'flex',
@@ -47,10 +48,15 @@ const styles = theme => ({
   },
   linkActive: {
     fontWeight: 'bolder'
+  },
+  avatar: {
+    height: theme.spacing.unit * 6,
+    width: theme.spacing.unit * 6,
+    backgroundColor: 'white'
   }
 })
 
-function Home({ classes }) {
+function Home({ classes, user }) {
   return (
     <div className={classes.home}>
       <header className={classes.header}>
@@ -58,16 +64,25 @@ function Home({ classes }) {
           <h1 className={classes.logo}><Link to="/">Kumpulin</Link></h1>
           <NavLink className={classes.link} activeClassName={classes.linkActive} to="/team">Team</NavLink>
         </div>
-        <Button variant="extendedFab" className={classes.signInButton}>
-          Sign In
-        </Button>
+        {user !== null ? (
+          <Avatar className={classes.avatar} src={user.image} alt={user.displayName !== null ? user.displayName : ''} />
+        ) : (
+          <Button variant="extendedFab" className={classes.signInButton}>
+            Sign In
+          </Button>
+        )}
       </header>
     </div>
   )
 }
 
 Home.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object
 }
 
-export default withStyles(styles)(Home)
+const mapStateToProps = state => ({
+  user: state.auth.user
+})
+
+export default withStyles(styles)(connect(mapStateToProps)(Home))
