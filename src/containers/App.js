@@ -11,8 +11,10 @@ class App extends Component {
       <Fragment>
         <CssBaseline />
         <Router>
-          <LeftPage />
-          <MapPage />
+          <Fragment>
+            <LeftPage />
+            <MapPage />
+          </Fragment>
         </Router>
       </Fragment>
     )
