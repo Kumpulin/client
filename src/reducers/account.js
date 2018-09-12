@@ -4,8 +4,8 @@ import {
 } from '../constants/ActionTypes'
 
 const initalState = {
-  joinedEvents: null,
-  attendedEvents: null
+  joinedEvents: [],
+  attendedEvents: []
 }
 
 export default function eventReducer (state = initalState, action) {

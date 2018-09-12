@@ -11,7 +11,7 @@ import {
 } from '../constants/ActionTypes'
 
 const initalState = {
-  events: null,
+  events: [],
   currentEventDetails: null,
   loading: false,
   error: null
