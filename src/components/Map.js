@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer'
@@ -43,4 +44,8 @@ Map.propTypes = {
   events: PropTypes.arrayOf(PropTypes.object)
 }
 
-export default Map
+const mapStateToProps = state => ({
+  events: state.event.events
+})
+
+export default connect(mapStateToProps)(Map)

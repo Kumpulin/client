@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
 
-import LeftPage from '../pages/LeftPage'
-import MapPage from '../pages/MapPage'
+import LeftPage from './pages/LeftPage'
+import MapPage from './pages/MapPage'
 
 const styles = theme => ({
   startExploringButton: {

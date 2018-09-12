@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 
-import MapContainer from '../containers/MapContainer'
+import Map from '../components/Map'
 
 const styles = {
   page: {
@@ -18,7 +18,7 @@ const styles = {
 function Page ({ classes }) {
   return (
     <div className={classes.page}>
-      <MapContainer />
+      <Map />
     </div>
   )
 }
