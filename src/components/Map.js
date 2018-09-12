@@ -24,7 +24,7 @@ class Map extends Component {
           enableRetinaIcons
           gridSize={60}
         >
-          {this.state.events.map((event, i) => (
+          {this.props.events.map((event, i) => (
             <Marker
               key={i}
               position={{ lat: event.latitude  , lng: event.longitude }}
