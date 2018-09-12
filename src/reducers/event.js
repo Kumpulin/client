@@ -53,6 +53,8 @@ export default function eventReducer (state = initalState, action) {
         events: state.events.filter(event => {
           if (event.id === action.payload.event.id) {
             return action.payload.event
+          } else {
+            return event
           }
         })
       }
