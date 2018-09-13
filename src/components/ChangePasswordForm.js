@@ -1,40 +1,40 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { withStyles } from "@material-ui/core/styles"
-import Paper from "@material-ui/core/Paper"
-import IconButton from "@material-ui/core/IconButton"
-import Input from "@material-ui/core/Input"
-import InputLabel from "@material-ui/core/InputLabel"
-import InputAdornment from "@material-ui/core/InputAdornment"
-import FormHelperText from "@material-ui/core/FormHelperText"
-import FormControl from "@material-ui/core/FormControl"
-import Visibility from "@material-ui/icons/Visibility"
-import VisibilityOff from "@material-ui/icons/VisibilityOff"
-import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
-import TextField from "@material-ui/core/TextField"
-import classNames from "classnames"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
+import IconButton from '@material-ui/core/IconButton'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import FormControl from '@material-ui/core/FormControl'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import TextField from '@material-ui/core/TextField'
+import classNames from 'classnames'
 
 const styles = theme => ({
   paper: {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    [theme.breakpoints.up("lg")]: {
-      left: "75%"
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    [theme.breakpoints.up('lg')]: {
+      left: '75%'
     },
-    transform: "translate(-50%, -50%)",
+    transform: 'translate(-50%, -50%)',
     padding: theme.spacing.unit * 4,
-    borderRadius: "10px",
+    borderRadius: '10px',
     width: theme.spacing.unit * 48,
-    transition: theme.transitions.create(["transform"])
+    transition: theme.transitions.create(['transform'])
   },
   form: {
-    display: "flex",
-    flexDirection: "column"
+    display: 'flex',
+    flexDirection: 'column'
   },
   formTitleGroup: {
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: theme.spacing.unit * 4
   },
   formTitle: {
@@ -46,24 +46,24 @@ const styles = theme => ({
   },
   buttonGroup: {
     marginTop: theme.spacing.unit * 4,
-    display: "flex",
-    justifyContent: "space-between"
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   cancelButton: {
-    color: "#ff5d5d",
-    textTransform: "none",
+    color: '#ff5d5d',
+    textTransform: 'none',
     marginLeft: theme.spacing.unit * 2 * -1
   },
   changePasswordButton: {
-    backgroundColor: "#ff5d5d",
-    color: "white",
-    boxShadow: "none",
-    transition: theme.transitions.create(["color", "background-color"]),
-    textTransform: "none"
+    backgroundColor: '#ff5d5d',
+    color: 'white',
+    boxShadow: 'none',
+    transition: theme.transitions.create(['color', 'background-color']),
+    textTransform: 'none'
   },
   hideForm: {
     transform: `translate(calc(100% + ${theme.spacing.unit * 24}px), -50%)`,
-    [theme.breakpoints.up("lg")]: {
+    [theme.breakpoints.up('lg')]: {
       transform: `translate(calc(75% + ${theme.spacing.unit * 24}px), -50%)`
     }
   }
@@ -71,8 +71,8 @@ const styles = theme => ({
 
 class ChangePasswordForm extends Component {
   state = {
-    oldPassword: "",
-    newPassword: "",
+    oldPassword: '',
+    newPassword: '',
     showPassword: false
   }
 
@@ -120,7 +120,7 @@ class ChangePasswordForm extends Component {
           <FormControl className={classes.textFieldWithMarginTop}>
             <InputLabel>Password</InputLabel>
             <Input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               value={newPassword}
               onChange={this.handleNewPasswordChange}
               endAdornment={
