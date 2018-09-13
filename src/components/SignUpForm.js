@@ -208,7 +208,7 @@ class SignInForm extends Component {
                 <FormHelperText />
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} fullWidth>
+            <Grid item xs={12} sm={6}>
               <FormControl error={!isPasswordSame}>
                 <InputLabel
                   FormLabelClasses={{
