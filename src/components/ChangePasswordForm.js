@@ -2,23 +2,32 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Paper from "@material-ui/core/Paper"
+import IconButton from "@material-ui/core/IconButton"
 import Input from "@material-ui/core/Input"
 import InputLabel from "@material-ui/core/InputLabel"
+import InputAdornment from "@material-ui/core/InputAdornment"
 import FormHelperText from "@material-ui/core/FormHelperText"
 import FormControl from "@material-ui/core/FormControl"
+import Visibility from "@material-ui/icons/Visibility"
+import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import Button from "@material-ui/core/Button"
-import { Typography } from "@material-ui/core"
-import blue from "@material-ui/core/colors/blue"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import classNames from "classnames"
 
 const styles = theme => ({
   paper: {
     position: "fixed",
     top: "50%",
     left: "50%",
+    [theme.breakpoints.up("lg")]: {
+      left: "75%"
+    },
     transform: "translate(-50%, -50%)",
     padding: theme.spacing.unit * 4,
     borderRadius: "10px",
-    width: theme.spacing.unit * 40
+    width: theme.spacing.unit * 48,
+    transition: theme.transitions.create(["transform"])
   },
   form: {
     display: "flex",
@@ -26,64 +35,53 @@ const styles = theme => ({
   },
   formTitleGroup: {
     textAlign: "center",
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing.unit * 4
   },
   formTitle: {
     fontWeight: 400,
-    margin: theme.spacing.unit
+    marginBottom: theme.spacing.unit
   },
-  lastTextField: {
+  textFieldWithMarginTop: {
     marginTop: theme.spacing.unit * 2
   },
   buttonGroup: {
-    marginTop: theme.spacing.unit * 3,
-    borderRadius: "25px",
+    marginTop: theme.spacing.unit * 4,
     display: "flex",
     justifyContent: "space-between"
   },
-  signUpButton: {
+  cancelButton: {
     color: "#ff5d5d",
     textTransform: "none",
     marginLeft: theme.spacing.unit * 2 * -1
   },
-  signInButton: {
+  changePasswordButton: {
     backgroundColor: "#ff5d5d",
     color: "white",
     boxShadow: "none",
     transition: theme.transitions.create(["color", "background-color"]),
     textTransform: "none"
   },
-  cssLabel: {
-    "&$cssFocused": {
-      color: blue[500]
-    }
-  },
-  cssFocused: {},
-  cssUnderline: {
-    "&:after": {
-      borderBottomColor: blue[500]
+  hideForm: {
+    transform: `translate(calc(100% + ${theme.spacing.unit * 24}px), -50%)`,
+    [theme.breakpoints.up("lg")]: {
+      transform: `translate(calc(75% + ${theme.spacing.unit * 24}px), -50%)`
     }
   }
 })
 
 class ChangePasswordForm extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   state = {
+    oldPassword: "",
     newPassword: "",
-    showNewPassword: false,
-    confirmNewPassword: "",
-    showConfirmNewPassword: false
+    showPassword: false
   }
 
-  handlePasswordChange = event => {
-    this.setState({ newPassword: event.target.value })
+  handleOldPasswordChange = event => {
+    this.setState({ oldPassword: event.target.value })
   }
-  
-  handleConfirmPasswordChange = event => {
-    this.setState({ confirmNewPassword: event.target.value })
+
+  handleNewPasswordChange = event => {
+    this.setState({ newPassword: event.target.value })
   }
 
   handleMouseDownPassword = event => {
@@ -100,60 +98,48 @@ class ChangePasswordForm extends Component {
 
   render() {
     const { classes } = this.props
-    const { password, showPassword } = this.state
+    const { oldPassword, newPassword, showPassword } = this.state
 
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classNames([classes.paper])}>
         <form className={classes.form} onSubmit={this.handleSubmit}>
           <div className={classes.formTitleGroup}>
             <Typography className={classes.formTitle} variant="title">
               Change Password
             </Typography>
           </div>
-          <FormControl className={classes.lastTextField}>
-            <InputLabel
-              FormLabelClasses={{
-                root: classes.cssLabel,
-                focused: classes.cssFocused
-              }}
-            >
-              New Password
-            </InputLabel>
+
+          <TextField
+            label="Enter your Password"
+            type="password"
+            value={oldPassword}
+            onChange={this.handleOldPasswordChange}
+            helperText=" "
+          />
+
+          <FormControl className={classes.textFieldWithMarginTop}>
+            <InputLabel>Password</InputLabel>
             <Input
-              classes={{
-                underline: classes.cssUnderline
-              }}
               type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={this.handlePasswordChange}
-            />
-            <FormHelperText />
-          </FormControl>
-          <FormControl className={classes.lastTextField}>
-            <InputLabel
-              FormLabelClasses={{
-                root: classes.cssLabel,
-                focused: classes.cssFocused
-              }}
-            >
-              Confirm New Password
-            </InputLabel>
-            <Input
-              classes={{
-                underline: classes.cssUnderline
-              }}
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={this.handlePasswordChange}
+              value={newPassword}
+              onChange={this.handleNewPasswordChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={this.handleClickShowPassword}
+                    onMouseDown={this.handleMouseDownPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
             <FormHelperText />
           </FormControl>
           <div className={classes.buttonGroup}>
-            <Button className={classes.signInButton} variant="flat">
+            <Button className={classes.cancelButton}>Cancel</Button>
+            <Button className={classes.changePasswordButton} variant="flat">
               Change Password
-            </Button>
-            <Button className={classes.signUpButton} variant="flat">
-              Cancel
             </Button>
           </div>
         </form>
