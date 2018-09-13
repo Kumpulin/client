@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Avatar from "@material-ui/core/Avatar"
 import grey from "@material-ui/core/colors/grey"
+import { setCurrentFullPage } from '../actions/app'
 
 const styles = theme => ({
   home: {
@@ -60,13 +61,13 @@ const styles = theme => ({
   }
 })
 
-function Home({ classes, user }) {
+function Home({ classes, user, setLeftPageFull }) {
   return (
     <div className={classes.home}>
       <header className={classes.header}>
         <div className={classes.navbar}>
           <h1 className={classes.logo}><Link to="/">Kumpulin</Link></h1>
-          <NavLink className={classes.link} activeClassName={classes.linkActive} to="/team">Team</NavLink>
+          <NavLink onClick={setLeftPageFull} className={classes.link} activeClassName={classes.linkActive} to="/team">Team</NavLink>
         </div>
         {user !== null ? (
           <Avatar className={classes.avatar} src={user.image} alt={user.displayName !== null ? user.displayName : ''} />
@@ -82,11 +83,16 @@ function Home({ classes, user }) {
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object
+  user: PropTypes.object,
+  setLeftPageFull: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default withStyles(styles)(connect(mapStateToProps)(Home))
+const mapDispatchToProps = dispatch => ({
+  setLeftPageFull: () => dispatch(setCurrentFullPage('left'))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home))
