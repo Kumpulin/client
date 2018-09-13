@@ -11,7 +11,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 4,
     paddingBottom: theme.spacing.unit * 16,
     [theme.breakpoints.up('md')]: {
-      padding: theme.spacing.unit * 12,
+      padding: theme.spacing.unit * 12
     },
     [theme.breakpoints.up('lg')]: {
       padding: theme.spacing.unit * 16
@@ -39,7 +39,7 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing.unit * 28,
       height: theme.spacing.unit * 28
-    },
+    }
   },
   name: {
     textAlign: 'center',
@@ -55,22 +55,26 @@ const members = [
   {
     name: 'Gibran Khrisna Putra',
     title: 'Full Stack Developer',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
   },
   {
     name: 'Raafi Nindyo Haswoto',
     title: 'Frontend Developer',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
   },
   {
     name: 'Bagoes Ario Sukanto',
     title: 'Frontend Developer',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
   },
   {
     name: 'Ruchma Kurniasari',
     title: 'Frontend Developer',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
   }
 ]
 
@@ -78,19 +82,21 @@ function Team({ classes }) {
   return (
     <section className={classes.section}>
       <Grid container>
-        {
-          members.map(member => (
-            <Grid className={classes.member} item xs={12} sm={6}>
-              <Avatar alt={member.name} src={member.image} className={classes.avatar} />
-              <Typography className={classes.name} variant="title" gutterBottom>
-                {member.name}
-              </Typography>
-              <Typography className={classes.title} variant="subheading">
-                {member.title}
-              </Typography>
-            </Grid>
-          ))
-        }
+        {members.map(member => (
+          <Grid className={classes.member} item xs={12} sm={6}>
+            <Avatar
+              alt={member.name}
+              src={member.image}
+              className={classes.avatar}
+            />
+            <Typography className={classes.name} variant="title" gutterBottom>
+              {member.name}
+            </Typography>
+            <Typography className={classes.title} variant="subheading">
+              {member.title}
+            </Typography>
+          </Grid>
+        ))}
       </Grid>
     </section>
   )

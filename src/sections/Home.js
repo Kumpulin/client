@@ -1,55 +1,55 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
-import grey from "@material-ui/core/colors/grey";
-import Hidden from "@material-ui/core/Hidden";
-import { setCurrentFullPage } from "../actions/app";
-import { toggleSignInForm } from "../actions/app";
-import compose from "recompose/compose";
+import React from 'react'
+import { connect } from 'react-redux'
+import { Link, NavLink } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Avatar from '@material-ui/core/Avatar'
+import grey from '@material-ui/core/colors/grey'
+import Hidden from '@material-ui/core/Hidden'
+import { setCurrentFullPage } from '../actions/app'
+import { toggleSignInForm } from '../actions/app'
+import compose from 'recompose/compose'
 
 const styles = theme => ({
   home: {
     padding: theme.spacing.unit * 4,
-    [theme.breakpoints.up("lg")]: {
+    [theme.breakpoints.up('lg')]: {
       padding: theme.spacing.unit * 8
     },
-    backgroundColor: "#ff5d5d",
-    height: "100vh"
+    backgroundColor: '#ff5d5d',
+    height: '100vh'
   },
   header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   navbar: {
-    display: "flex",
-    alignItems: "center"
+    display: 'flex',
+    alignItems: 'center'
   },
   logo: {
-    fontFamily: "Pacifico",
-    color: "#ffffff",
+    fontFamily: 'Pacifico',
+    color: '#ffffff',
     margin: 0,
     marginRight: theme.spacing.unit * 4,
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing.unit * 8
     },
-    "& a": {
-      color: "inherit",
-      textDecoration: "none"
+    '& a': {
+      color: 'inherit',
+      textDecoration: 'none'
     }
   },
   signInButton: {
     paddingLeft: theme.spacing.unit * 4,
     paddingRight: theme.spacing.unit * 4,
     backgroundColor: theme.palette.common.white,
-    color: "#ff5d5d",
-    boxShadow: "none",
-    transition: theme.transitions.create(["box-shadow"]),
-    "&:hover": {
+    color: '#ff5d5d',
+    boxShadow: 'none',
+    transition: theme.transitions.create(['box-shadow']),
+    '&:hover': {
       boxShadow: theme.shadows[2],
       backgroundColor: grey[50]
     }
@@ -57,18 +57,18 @@ const styles = theme => ({
   link: {
     ...theme.typography.subheading,
     color: theme.palette.common.white,
-    textDecoration: "none",
+    textDecoration: 'none',
     marginRight: theme.spacing.unit * 8
   },
   linkActive: {
-    fontWeight: "bolder"
+    fontWeight: 'bolder'
   },
   avatar: {
     height: theme.spacing.unit * 6,
     width: theme.spacing.unit * 6,
     backgroundColor: theme.palette.common.white
   }
-});
+})
 
 function Home({
   classes,
@@ -99,7 +99,7 @@ function Home({
           <Avatar
             className={classes.avatar}
             src={user.image}
-            alt={user.displayName !== null ? user.displayName : ""}
+            alt={user.displayName !== null ? user.displayName : ''}
           />
         ) : (
           <Button
@@ -112,7 +112,7 @@ function Home({
         )}
       </header>
     </div>
-  );
+  )
 }
 
 Home.propTypes = {
@@ -121,17 +121,17 @@ Home.propTypes = {
   setLeftPageFull: PropTypes.func.isRequired,
   showSignInForm: PropTypes.func.isRequired,
   backToLandingPage: PropTypes.func.isRequired
-};
+}
 
 const mapStateToProps = state => ({
   user: state.auth.user
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   backToLandingPage: () => dispatch(setCurrentFullPage(null)),
-  setLeftPageFull: () => dispatch(setCurrentFullPage("left")),
+  setLeftPageFull: () => dispatch(setCurrentFullPage('left')),
   showSignInForm: () => dispatch(toggleSignInForm(true))
-});
+})
 
 export default compose(
   connect(
@@ -139,4 +139,4 @@ export default compose(
     mapDispatchToProps
   ),
   withStyles(styles)
-)(Home);
+)(Home)
