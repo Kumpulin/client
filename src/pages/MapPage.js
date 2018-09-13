@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import classNames from "classnames";
+import compose from "recompose/compose"
 
 import Map from "../components/Map";
 
@@ -62,4 +63,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default withStyles(styles)(connect(mapStateToProps)(Page));
+export default compose(withStyles(styles), connect(mapStateToProps))(Page);

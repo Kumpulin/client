@@ -18,6 +18,7 @@ import blue from "@material-ui/core/colors/blue"
 import Grid from "@material-ui/core/Grid"
 import classNames from 'classnames'
 import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
+import compose from "recompose/compose"
 
 const styles = theme => ({
   paper: {
@@ -284,4 +285,10 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(mapStateToProp, mapDispatchToProps)(withStyles(styles)(SignUpForm))
+export default compose(
+  connect(
+    mapStateToProp,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(SignUpForm);
