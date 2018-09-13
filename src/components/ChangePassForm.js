@@ -1,16 +1,14 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
-import blue from "@material-ui/core/colors/blue";
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import { withStyles } from "@material-ui/core/styles"
+import Paper from "@material-ui/core/Paper"
+import Input from "@material-ui/core/Input"
+import InputLabel from "@material-ui/core/InputLabel"
+import FormHelperText from "@material-ui/core/FormHelperText"
+import FormControl from "@material-ui/core/FormControl"
+import Button from "@material-ui/core/Button"
+import { Typography } from "@material-ui/core"
+import blue from "@material-ui/core/colors/blue"
 
 const styles = theme => ({
   paper: {
@@ -66,11 +64,11 @@ const styles = theme => ({
       borderBottomColor: blue[500]
     }
   }
-});
+})
 
 class ChangePasswordForm extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   state = {
@@ -78,38 +76,31 @@ class ChangePasswordForm extends Component {
     showNewPassword: false,
     confirmNewPassword: "",
     showConfirmNewPassword: false
-  };
-
-  handleEmailChange = event => {
-    if (!emailValidator.validate(event.target.value)) {
-      this.setState({ isEmailValid: false });
-    } else {
-      this.setState({ isEmailValid: true, email: event.target.value });
-    }
-  };
+  }
 
   handlePasswordChange = event => {
-    this.setState({ newPassword: event.target.value });
-  };
+    this.setState({ newPassword: event.target.value })
+  }
+  
   handleConfirmPasswordChange = event => {
-    this.setState({ confirmNewPassword: event.target.value });
-  };
+    this.setState({ confirmNewPassword: event.target.value })
+  }
 
   handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
 
   handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }));
-  };
+    this.setState(state => ({ showPassword: !state.showPassword }))
+  }
 
   handleSubmit() {
-    console.log(this.state);
+    console.log(this.state)
   }
 
   render() {
-    const { classes } = this.props;
-    const { password, showPassword, isEmailValid } = this.state;
+    const { classes } = this.props
+    const { password, showPassword } = this.state
 
     return (
       <Paper className={classes.paper}>
@@ -167,12 +158,12 @@ class ChangePasswordForm extends Component {
           </div>
         </form>
       </Paper>
-    );
+    )
   }
 }
 
 ChangePasswordForm.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(ChangePasswordForm);
+export default withStyles(styles)(ChangePasswordForm)
