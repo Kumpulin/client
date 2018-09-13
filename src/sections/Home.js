@@ -62,12 +62,12 @@ const styles = theme => ({
   }
 })
 
-function Home({ classes, user, setLeftPageFull, showSignInForm }) {
+function Home({ classes, user, setLeftPageFull, showSignInForm, backToLandingPage }) {
   return (
     <div className={classes.home}>
       <header className={classes.header}>
         <div className={classes.navbar}>
-          <h1 className={classes.logo}><Link to="/">Kumpulin</Link></h1>
+          <h1 className={classes.logo} onClick={backToLandingPage}><Link to="/">Kumpulin</Link></h1>
           <NavLink onClick={setLeftPageFull} className={classes.link} activeClassName={classes.linkActive} to="/team">Team</NavLink>
         </div>
         {user !== null ? (
@@ -87,6 +87,7 @@ Home.propTypes = {
   user: PropTypes.object,
   setLeftPageFull: PropTypes.func.isRequired,
   showSignInForm: PropTypes.func.isRequired,
+  backToLandingPage: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -94,6 +95,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  backToLandingPage: () => dispatch(setCurrentFullPage(null)),
   setLeftPageFull: () => dispatch(setCurrentFullPage('left')),
   showSignInForm: () => dispatch(toggleSignInForm(true))
 })
