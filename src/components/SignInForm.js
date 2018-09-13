@@ -1,19 +1,22 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
-import emailValidator from "email-validator";
-import blue from "@material-ui/core/colors/blue";
+import React, { Component } from "react"
+import { connect } from 'react-redux'
+import PropTypes from "prop-types"
+import { withStyles } from "@material-ui/core/styles"
+import Paper from "@material-ui/core/Paper"
+import IconButton from "@material-ui/core/IconButton"
+import Input from "@material-ui/core/Input"
+import InputLabel from "@material-ui/core/InputLabel"
+import InputAdornment from "@material-ui/core/InputAdornment"
+import FormHelperText from "@material-ui/core/FormHelperText"
+import FormControl from "@material-ui/core/FormControl"
+import Visibility from "@material-ui/icons/Visibility"
+import VisibilityOff from "@material-ui/icons/VisibilityOff"
+import Button from "@material-ui/core/Button"
+import { Typography } from "@material-ui/core"
+import emailValidator from "email-validator"
+import blue from "@material-ui/core/colors/blue"
+import classNames from 'classnames'
+import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
 
 const styles = theme => ({
   paper: {
@@ -23,7 +26,8 @@ const styles = theme => ({
     transform: "translate(-50%, -50%)",
     padding: theme.spacing.unit * 4,
     borderRadius: "10px",
-    width: theme.spacing.unit * 48
+    width: theme.spacing.unit * 48,
+    transition: theme.transitions.create(['transform'])
   },
   form: {
     display: "flex",
@@ -67,12 +71,15 @@ const styles = theme => ({
     "&:after": {
       borderBottomColor: blue[500]
     }
+  },
+  hideForm: {
+    transform: `translate(calc(75% + ${theme.spacing.unit * 24}px), -50%)`
   }
-});
+})
 
 class SignInForm extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   state = {
@@ -80,38 +87,38 @@ class SignInForm extends Component {
     isEmailValid: true,
     password: "",
     showPassword: false
-  };
+  }
 
   handleEmailChange = event => {
     if (!emailValidator.validate(event.target.value)) {
-      this.setState({ isEmailValid: false });
+      this.setState({ isEmailValid: false })
     } else {
-      this.setState({ isEmailValid: true, email: event.target.value });
+      this.setState({ isEmailValid: true, email: event.target.value })
     }
-  };
+  }
 
   handlePasswordChange = event => {
-    this.setState({ password: event.target.value });
-  };
+    this.setState({ password: event.target.value })
+  }
 
   handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
 
   handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }));
-  };
+    this.setState(state => ({ showPassword: !state.showPassword }))
+  }
 
   handleSubmit() {
-    console.log(this.state);
+    console.log(this.state)
   }
 
   render() {
-    const { classes } = this.props;
-    const { password, showPassword, isEmailValid } = this.state;
+    const { classes, showSignUpForm, showSignInForm } = this.props
+    const { password, showPassword, isEmailValid } = this.state
 
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classNames([classes.paper, !showSignInForm && classes.hideForm])}>
         <form className={classes.form} onSubmit={this.handleSubmit}>
           <div className={classes.formTitleGroup}>
             <Typography className={classes.formTitle} variant="title">
@@ -170,19 +177,31 @@ class SignInForm extends Component {
             <FormHelperText />
           </FormControl>
           <div className={classes.buttonGroup}>
-            <Button className={classes.signUpButton}>Create account</Button>
+            <Button className={classes.signUpButton} onClick={showSignUpForm}>Create account</Button>
             <Button className={classes.signInButton} variant="flat">
               Sign In
             </Button>
           </div>
         </form>
       </Paper>
-    );
+    )
   }
 }
 
 SignInForm.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+  classes: PropTypes.object.isRequired,
+  showSignUpForm: PropTypes.func.isRequired
+}
 
-export default withStyles(styles)(SignInForm);
+const mapStateToProp = state => ({
+  showSignInForm: state.app.isSignIn
+})
+
+const mapDispatchToProps = dispatch => ({
+  showSignUpForm: () => {
+    dispatch(toggleSignInForm(false))
+    dispatch(toggleSignUpForm(true))
+  }
+})
+
+export default connect(mapStateToProp, mapDispatchToProps)(withStyles(styles)(SignInForm))

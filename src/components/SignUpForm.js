@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { connect } from 'react-redux'
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Paper from "@material-ui/core/Paper"
@@ -15,6 +16,8 @@ import { Typography } from "@material-ui/core"
 import emailValidator from "email-validator"
 import blue from "@material-ui/core/colors/blue"
 import Grid from "@material-ui/core/Grid"
+import classNames from 'classnames'
+import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
 
 const styles = theme => ({
   paper: {
@@ -24,7 +27,8 @@ const styles = theme => ({
     transform: "translate(-50%, -50%)",
     padding: theme.spacing.unit * 4,
     borderRadius: "10px",
-    width: theme.spacing.unit * 72
+    width: theme.spacing.unit * 72,
+    transition: theme.transitions.create(['transform'])
   },
   form: {
     display: "flex",
@@ -75,10 +79,13 @@ const styles = theme => ({
     "&:after": {
       borderBottomColor: blue[500]
     }
+  },
+  hideForm: {
+    transform: `translate(calc(75% + ${theme.spacing.unit * 36}px), -50%)`
   }
 })
 
-class SignInForm extends Component {
+class SignUpForm extends Component {
   constructor(props) {
     super(props)
   }
@@ -133,11 +140,11 @@ class SignInForm extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, showSignUpForm, showSignInForm } = this.props
     const { password, confirmPassword, showPassword, isPasswordSame, isEmailValid } = this.state
 
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classNames([classes.paper, !showSignUpForm && classes.hideForm])}>
         <form className={classes.form} onSubmit={this.handleSubmit}>
           <div className={classes.formTitleGroup}>
             <Typography className={classes.formTitle} variant="title">
@@ -244,7 +251,7 @@ class SignInForm extends Component {
           </Grid>
 
           <div className={classes.buttonGroup}>
-            <Button className={classes.signInButton}>Sign in instead</Button>
+            <Button className={classes.signInButton} onClick={showSignInForm}>Sign in instead</Button>
             <Button className={classes.signUpButton} variant="flat">
               Sign Up
             </Button>
@@ -255,8 +262,20 @@ class SignInForm extends Component {
   }
 }
 
-SignInForm.propTypes = {
-  classes: PropTypes.object.isRequired
+SignUpForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+  showSignUpForm: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(SignInForm)
+const mapStateToProp = state => ({
+  showSignUpForm: state.app.isSignUp
+})
+
+const mapDispatchToProps = dispatch => ({
+  showSignInForm: () => {
+    dispatch(toggleSignUpForm(false))
+    dispatch(toggleSignInForm(true))
+  }
+})
+
+export default connect(mapStateToProp, mapDispatchToProps)(withStyles(styles)(SignUpForm))
