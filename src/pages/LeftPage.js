@@ -1,13 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import { Route } from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
-import classNames from "classnames";
+import React from "react"
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
+import { withStyles } from "@material-ui/core/styles"
+import { Route } from "react-router-dom"
+import Grid from "@material-ui/core/Grid"
+import classNames from "classnames"
+import compose from "recompose/compose"
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
-import Team from "../sections/Team";
-import Home from "../sections/Home";
+import Team from "../sections/Team"
+import Home from "../sections/Home"
 
 const styles = theme => ({
   page: {
@@ -17,7 +19,10 @@ const styles = theme => ({
     height: "100%",
     width: "100%",
     transition: theme.transitions.create(["transform"]),
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.down("lg")]: {
+      overflowY: "scroll"
+    },
+    [theme.breakpoints.up("lg")]: {
       transform: "translateX(-50vw)"
     }
   },
@@ -27,9 +32,9 @@ const styles = theme => ({
   fullPage: {
     transform: "translateX(0)"
   }
-});
+})
 
-function Page({ classes, currentFullPage }) {
+function Page({ classes, currentFullPage, width }) {
   return (
     <Grid
       container
@@ -44,19 +49,29 @@ function Page({ classes, currentFullPage }) {
         <Home />
       </Grid>
       <Grid item xs={12} lg={6}>
-        <Route path="/team" component={Team} />
+        {
+          isWidthUp('lg', width) ? (
+            <Route path="/team" component={Team} />
+          ) : (
+            <Team />
+          )
+        }
       </Grid>
     </Grid>
-  );
+  )
 }
 
 Page.propTypes = {
   classes: PropTypes.object.isRequired,
   currentFullPage: PropTypes.string
-};
+}
 
 const mapStateToProps = state => ({
   currentFullPage: state.app.currentFullPage
-});
+})
 
-export default withStyles(styles)(connect(mapStateToProps)(Page));
+export default compose(
+  withStyles(styles),
+  withWidth(),
+  connect(mapStateToProps)
+)(Page)
