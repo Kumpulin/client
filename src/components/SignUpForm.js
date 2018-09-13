@@ -1,38 +1,38 @@
-import React, { Component } from "react"
-import { connect } from 'react-redux'
-import PropTypes from "prop-types"
-import { withStyles } from "@material-ui/core/styles"
-import Paper from "@material-ui/core/Paper"
-import IconButton from "@material-ui/core/IconButton"
-import Input from "@material-ui/core/Input"
-import InputLabel from "@material-ui/core/InputLabel"
-import InputAdornment from "@material-ui/core/InputAdornment"
-import FormHelperText from "@material-ui/core/FormHelperText"
-import FormControl from "@material-ui/core/FormControl"
-import Visibility from "@material-ui/icons/Visibility"
-import VisibilityOff from "@material-ui/icons/VisibilityOff"
-import Button from "@material-ui/core/Button"
-import { Typography } from "@material-ui/core"
-import emailValidator from "email-validator"
-import blue from "@material-ui/core/colors/blue"
-import Grid from "@material-ui/core/Grid"
-import classNames from 'classnames'
-import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
-import compose from "recompose/compose"
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import emailValidator from "email-validator";
+import Grid from "@material-ui/core/Grid";
+import classNames from "classnames";
+import { toggleSignUpForm, toggleSignInForm } from "../actions/app";
+import compose from "recompose/compose";
 
 const styles = theme => ({
   paper: {
     position: "fixed",
     top: "50%",
     left: "50%",
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up("lg")]: {
       left: "75%"
     },
     transform: "translate(-50%, -50%)",
     padding: theme.spacing.unit * 4,
     borderRadius: "10px",
     width: theme.spacing.unit * 72,
-    transition: theme.transitions.create(['transform'])
+    transition: theme.transitions.create(["transform"])
   },
   form: {
     display: "flex",
@@ -67,156 +67,125 @@ const styles = theme => ({
     transition: theme.transitions.create(["box-shadow"]),
     color: "white",
     textTransform: "none",
-    '&:hover': {
+    "&:hover": {
       boxShadow: theme.shadows[2],
       backgroundColor: "#ff5d5d",
-      color: "white",
-    }
-  },
-  cssLabel: {
-    "&$cssFocused": {
-      color: blue[500]
-    }
-  },
-  cssFocused: {},
-  cssUnderline: {
-    "&:after": {
-      borderBottomColor: blue[500]
+      color: "white"
     }
   },
   hideForm: {
     transform: `translate(calc(100% + ${theme.spacing.unit * 36}px), -50%)`,
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up("lg")]: {
       transform: `translate(calc(75% + ${theme.spacing.unit * 36}px), -50%)`
-    },
+    }
   }
-})
+});
 
 class SignUpForm extends Component {
   state = {
-    email: '',
+    name: "",
+    email: "",
     isEmailValid: true,
-    password: '',
-    confirmPassword: '',
+    password: "",
+    confirmPassword: "",
     showPassword: false,
     isPasswordSame: true
-  }
+  };
 
   handleEmailChange = event => {
     if (!emailValidator.validate(event.target.value)) {
-      this.setState({ isEmailValid: false })
+      this.setState({ isEmailValid: false });
     } else {
-      this.setState({ isEmailValid: true, email: event.target.value })
+      this.setState({ isEmailValid: true, email: event.target.value });
     }
-  }
+  };
 
   handlePasswordChange = event => {
-    if (this.state.confirmPassword !== '') {
+    if (this.state.confirmPassword !== "") {
       if (event.target.value === this.state.confirmPassword) {
-        this.setState({ isPasswordSame: true, password: event.target.value })
+        this.setState({ isPasswordSame: true, password: event.target.value });
       } else {
-        this.setState({ isPasswordSame: false, password: event.target.value })
+        this.setState({ isPasswordSame: false, password: event.target.value });
       }
     } else {
-      this.setState({ password: event.target.value })
+      this.setState({ password: event.target.value });
     }
-  }
+  };
 
   handleConfirmPasswordChange = event => {
     if (event.target.value === this.state.password) {
-      this.setState({ isPasswordSame: true, confirmPassword: event.target.value })
+      this.setState({
+        isPasswordSame: true,
+        confirmPassword: event.target.value
+      });
     } else {
-      this.setState({ isPasswordSame: false, confirmPassword: event.target.value })
+      this.setState({
+        isPasswordSame: false,
+        confirmPassword: event.target.value
+      });
     }
-  }
+  };
 
   handleMouseDownPassword = event => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
 
   handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }))
-  }
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  };
 
   handleSubmit() {
-    console.log(this.state)
+    console.log(this.state);
   }
 
   render() {
-    const { classes, showSignUpForm, showSignInForm } = this.props
-    const { password, confirmPassword, showPassword, isPasswordSame, isEmailValid } = this.state
+    const { classes, showSignUpForm, showSignInForm } = this.props;
+    const {
+      password,
+      confirmPassword,
+      showPassword,
+      isPasswordSame,
+      isEmailValid
+    } = this.state;
 
     return (
-      <Paper className={classNames([classes.paper, !showSignUpForm && classes.hideForm])}>
+      <Paper
+        className={classNames([
+          classes.paper,
+          !showSignUpForm && classes.hideForm
+        ])}
+      >
         <form className={classes.form} onSubmit={this.handleSubmit}>
           <div className={classes.formTitleGroup}>
             <Typography className={classes.formTitle} variant="title">
               Create your Kumpulin Account
             </Typography>
-            <Typography variant="subheading">to continue to Kumpulin</Typography>
+            <Typography variant="subheading">
+              to continue to Kumpulin
+            </Typography>
           </div>
 
-          <FormControl>
-            <InputLabel
-              FormLabelClasses={{
-                root: classes.cssLabel,
-                focused: classes.cssFocused
-              }}
-            >
-              Name
-            </InputLabel>
-            <Input
-              classes={{
-                underline: classes.cssUnderline
-              }}
-            />
-            <FormHelperText />
-          </FormControl>
+          <TextField
+            label="Name"
+            onChange={this.handleNameChange}
+            helperText=" "
+          />
 
-          <FormControl
+          <TextField
             error={!isEmailValid}
             className={classes.textFieldWithMarginTop}
-          >
-            <InputLabel
-              FormLabelClasses={{
-                root: classes.cssLabel,
-                focused: classes.cssFocused
-              }}
-            >
-              Email
-            </InputLabel>
-            <Input
-              classes={{
-                underline: classes.cssUnderline
-              }}
-              onChange={this.handleEmailChange}
-            />
-            <FormHelperText>
-              {!isEmailValid && "Invalid email address."}
-            </FormHelperText>
-          </FormControl>
+            label="Email"
+            onChange={this.handleEmailChange}
+            helperText={!isEmailValid && "Invalid email address."}
+          />
 
           <Grid className={classes.passwordGroup} container spacing={16}>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel
-                  FormLabelClasses={{
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused
-                  }}
-                >
-                  Password
-                </InputLabel>
-                <Input
-                  classes={{
-                    underline: classes.cssUnderline
-                  }}
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={this.handlePasswordChange}
-                />
-                <FormHelperText />
-              </FormControl>
+              <TextField
+                label="Password"
+                onChange={this.handlePasswordChange}
+                helperText="  "
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl error={!isPasswordSame}>
@@ -247,39 +216,42 @@ class SignUpForm extends Component {
                   }
                 />
                 <FormHelperText>
-                  {!isPasswordSame && 'Those passwords didn\'t match. Try again.'}
+                  {!isPasswordSame &&
+                    "Those passwords didn't match. Try again."}
                 </FormHelperText>
               </FormControl>
             </Grid>
           </Grid>
 
           <div className={classes.buttonGroup}>
-            <Button className={classes.signInButton} onClick={showSignInForm}>Sign in instead</Button>
+            <Button className={classes.signInButton} onClick={showSignInForm}>
+              Sign in instead
+            </Button>
             <Button className={classes.signUpButton} variant="flat">
               Sign Up
             </Button>
           </div>
         </form>
       </Paper>
-    )
+    );
   }
 }
 
 SignUpForm.propTypes = {
   classes: PropTypes.object.isRequired,
   showSignUpForm: PropTypes.bool
-}
+};
 
 const mapStateToProp = state => ({
   showSignUpForm: state.app.isSignUp
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   showSignInForm: () => {
-    dispatch(toggleSignUpForm(false))
-    dispatch(toggleSignInForm(true))
+    dispatch(toggleSignUpForm(false));
+    dispatch(toggleSignInForm(true));
   }
-})
+});
 
 export default compose(
   connect(
