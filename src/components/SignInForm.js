@@ -85,10 +85,6 @@ const styles = theme => ({
 });
 
 class SignInForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     email: "",
     isEmailValid: true,
