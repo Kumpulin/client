@@ -15,7 +15,10 @@ const styles = theme => ({
     height: "100%",
     width: "100%",
     transition: theme.transitions.create(["transform"]),
-    transform: "translateX(50vw)"
+    transform: "translateX(100vw)",
+    [theme.breakpoints.up('lg')]: {
+      transform: "translateX(50vw)"
+    }
   },
   hidePage: {
     transform: "translateX(100vw)"

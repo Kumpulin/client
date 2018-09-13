@@ -21,7 +21,10 @@ const styles = theme => ({
     position: 'fixed',
     left: '50%',
     transform: 'translateX(-50%)',
-    bottom: theme.spacing.unit * 16,
+    bottom: theme.spacing.unit * 8,
+    [theme.breakpoints.up('lg')]: {
+      bottom: theme.spacing.unit * 16,
+    },
     width: theme.spacing.unit * 24,
     color: '#ff5d5d',
     backgroundColor: 'white',

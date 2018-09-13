@@ -22,7 +22,10 @@ const styles = theme => ({
   paper: {
     position: "fixed",
     top: "50%",
-    left: "75%",
+    left: "50%",
+    [theme.breakpoints.up('lg')]: {
+      left: "75%"
+    },
     transform: "translate(-50%, -50%)",
     padding: theme.spacing.unit * 4,
     borderRadius: "10px",
@@ -73,7 +76,10 @@ const styles = theme => ({
     }
   },
   hideForm: {
-    transform: `translate(calc(75% + ${theme.spacing.unit * 24}px), -50%)`
+    transform: `translate(calc(100% + ${theme.spacing.unit * 24}px), -50%)`,
+    [theme.breakpoints.up('lg')]: {
+      transform: `translate(calc(75% + ${theme.spacing.unit * 24}px), -50%)`
+    },
   }
 })
 

@@ -17,7 +17,9 @@ const styles = theme => ({
     height: "100%",
     width: "100%",
     transition: theme.transitions.create(["transform"]),
-    transform: "translateX(-50vw)"
+    [theme.breakpoints.up('lg')]: {
+      transform: "translateX(-50vw)"
+    }
   },
   hidePage: {
     transform: "translateX(-100vw)"
@@ -38,10 +40,10 @@ function Page({ classes, currentFullPage }) {
       ])}
       direction="row-reverse"
     >
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} lg={6}>
         <Home />
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} lg={6}>
         <Route path="/team" component={Team} />
       </Grid>
     </Grid>
