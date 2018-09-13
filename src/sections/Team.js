@@ -1,22 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Avatar from "@material-ui/core/Avatar";
-import { Typography } from "@material-ui/core";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Avatar from '@material-ui/core/Avatar'
+import { Typography } from '@material-ui/core'
+import grey from '@material-ui/core/colors/grey'
 
 const styles = theme => ({
   section: {
     padding: theme.spacing.unit * 16,
-    display: "flex",
-    flexWrap: "wrap",
-    height: "100%"
+    display: 'flex',
+    flexWrap: 'wrap',
+    height: '100%'
   },
   member: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column"
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
   avatar: {
     width: theme.spacing.unit * 28,
@@ -24,12 +25,12 @@ const styles = theme => ({
   },
   name: {
     marginTop: theme.spacing.unit * 2,
-    color: "#ff5d5d"
+    color: '#ff5d5d'
   },
   title: {
-    color: "#aaaaaa"
+    color: grey[400]
   }
-});
+})
 
 const members = [
   {
@@ -73,11 +74,11 @@ function Team({ classes }) {
         }
       </Grid>
     </section>
-  );
+  )
 }
 
 Team.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(Team);
+export default withStyles(styles)(Team)
