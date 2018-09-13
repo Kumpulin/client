@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button"
 import Avatar from "@material-ui/core/Avatar"
 import grey from "@material-ui/core/colors/grey"
 import { setCurrentFullPage } from '../actions/app'
+import { toggleSignInForm } from '../actions/app'
 
 const styles = theme => ({
   home: {
@@ -61,7 +62,7 @@ const styles = theme => ({
   }
 })
 
-function Home({ classes, user, setLeftPageFull }) {
+function Home({ classes, user, setLeftPageFull, showSignInForm }) {
   return (
     <div className={classes.home}>
       <header className={classes.header}>
@@ -72,7 +73,7 @@ function Home({ classes, user, setLeftPageFull }) {
         {user !== null ? (
           <Avatar className={classes.avatar} src={user.image} alt={user.displayName !== null ? user.displayName : ''} />
         ) : (
-          <Button variant="extendedFab" className={classes.signInButton}>
+          <Button variant="extendedFab" className={classes.signInButton} onClick={showSignInForm}>
             Sign In
           </Button>
         )}
@@ -84,7 +85,8 @@ function Home({ classes, user, setLeftPageFull }) {
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object,
-  setLeftPageFull: PropTypes.func.isRequired
+  setLeftPageFull: PropTypes.func.isRequired,
+  showSignInForm: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -92,7 +94,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setLeftPageFull: () => dispatch(setCurrentFullPage('left'))
+  setLeftPageFull: () => dispatch(setCurrentFullPage('left')),
+  showSignInForm: () => dispatch(toggleSignInForm(true))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home))
