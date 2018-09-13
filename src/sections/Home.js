@@ -34,15 +34,13 @@ const styles = theme => ({
   signInButton: {
     paddingLeft: theme.spacing.unit * 4,
     paddingRight: theme.spacing.unit * 4,
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.common.white,
     color: '#ff5d5d',
-    alignContent: 'strect',
-    transitionProperty: 'all',
     boxShadow: 'none'
   },
   link: {
     ...theme.typography.subheading,
-    color: 'white',
+    color: theme.palette.common.white,
     textDecoration: 'none',
     marginRight: theme.spacing.unit * 8
   },
@@ -52,7 +50,7 @@ const styles = theme => ({
   avatar: {
     height: theme.spacing.unit * 6,
     width: theme.spacing.unit * 6,
-    backgroundColor: 'white'
+    backgroundColor: theme.palette.common.white
   }
 })
 
