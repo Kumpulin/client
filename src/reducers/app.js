@@ -4,7 +4,7 @@ import {
   TOGGLE_SIGNIN_FORM,
   TOGGLE_FORGOT_PASSWORD_FORM,
   TOGGLE_CHANGE_PASSWORD_FORM
-} from '../constants/ActionTypes'
+} from "../constants/ActionTypes";
 
 const initialState = {
   currentFullPage: null,
@@ -12,21 +12,28 @@ const initialState = {
   isSignIn: false,
   isForgotPassword: false,
   isChangePassword: false
-}
+};
 
-export default function appReducer (state = initialState, action) {
+export default function appReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CURRENT_FULLPAGE:
-      return { ...state, currentFullPage: action.payload.page }
+      return {
+        ...state,
+        currentFullPage: action.payload.page,
+        isSignUp: false,
+        isSignIn: false,
+        isForgotPassword: false,
+        isChangePassword: false
+      };
     case TOGGLE_SIGNUP_FORM:
-      return { ...state, isSignUp: action.payload }
+      return { ...state, isSignUp: action.payload };
     case TOGGLE_SIGNIN_FORM:
-      return { ...state, isSignIn: action.payload }
+      return { ...state, isSignIn: action.payload };
     case TOGGLE_FORGOT_PASSWORD_FORM:
-      return { ...state, isForgotPassword: action.payload }
+      return { ...state, isForgotPassword: action.payload };
     case TOGGLE_CHANGE_PASSWORD_FORM:
-      return { ...state, isChangePassword: action.payload }
+      return { ...state, isChangePassword: action.payload };
     default:
-      return state
+      return state;
   }
 }
