@@ -6,12 +6,16 @@ import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Avatar from "@material-ui/core/Avatar"
 import grey from "@material-ui/core/colors/grey"
+import Hidden from "@material-ui/core/Hidden"
 import { setCurrentFullPage } from '../actions/app'
 import { toggleSignInForm } from '../actions/app'
 
 const styles = theme => ({
   home: {
-    padding: theme.spacing.unit * 8,
+    padding: theme.spacing.unit * 4,
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing.unit * 8,
+    },
     backgroundColor: '#ff5d5d',
     height: '100vh'
   },
@@ -28,7 +32,10 @@ const styles = theme => ({
     fontFamily: 'Pacifico',
     color: '#ffffff',
     margin: 0,
-    marginRight: theme.spacing.unit * 8,
+    marginRight: theme.spacing.unit * 4,
+    [theme.breakpoints.up('sm')]: {
+      marginRight: theme.spacing.unit * 8
+    },
     '& a': {
       color: 'inherit',
       textDecoration: 'none'
@@ -68,7 +75,9 @@ function Home({ classes, user, setLeftPageFull, showSignInForm, backToLandingPag
       <header className={classes.header}>
         <div className={classes.navbar}>
           <h1 className={classes.logo} onClick={backToLandingPage}><Link to="/">Kumpulin</Link></h1>
-          <NavLink onClick={setLeftPageFull} className={classes.link} activeClassName={classes.linkActive} to="/team">Team</NavLink>
+          <Hidden only="xs">
+            <NavLink onClick={setLeftPageFull} className={classes.link} activeClassName={classes.linkActive} to="/team">Team</NavLink>
+          </Hidden>
         </div>
         {user !== null ? (
           <Avatar className={classes.avatar} src={user.image} alt={user.displayName !== null ? user.displayName : ''} />

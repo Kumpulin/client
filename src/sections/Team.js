@@ -8,22 +8,41 @@ import grey from '@material-ui/core/colors/grey'
 
 const styles = theme => ({
   section: {
-    padding: theme.spacing.unit * 16,
+    padding: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 16,
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing.unit * 12,
+    },
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing.unit * 16
+    },
     display: 'flex',
     flexWrap: 'wrap',
-    height: '100vh'
+    minHeight: '100vh'
   },
   member: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginBottom: theme.spacing.unit * 4,
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: theme.spacing.unit * 6
+    },
+    [theme.breakpoints.up('md')]: {
+      marginBottom: 0
+    }
   },
   avatar: {
-    width: theme.spacing.unit * 28,
-    height: theme.spacing.unit * 28
+    width: theme.spacing.unit * 16,
+    height: theme.spacing.unit * 16,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing.unit * 28,
+      height: theme.spacing.unit * 28
+    },
   },
   name: {
+    textAlign: 'center',
     marginTop: theme.spacing.unit * 2,
     color: '#ff5d5d'
   },
@@ -36,22 +55,22 @@ const members = [
   {
     name: 'Gibran Khrisna Putra',
     title: 'Full Stack Developer',
-    image: ''
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
   },
   {
     name: 'Raafi Nindyo Haswoto',
     title: 'Frontend Developer',
-    image: ''
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
   },
   {
     name: 'Bagoes Ario Sukanto',
     title: 'Frontend Developer',
-    image: ''
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
   },
   {
     name: 'Ruchma Kurniasari',
     title: 'Frontend Developer',
-    image: ''
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
   }
 ]
 
@@ -61,7 +80,7 @@ function Team({ classes }) {
       <Grid container>
         {
           members.map(member => (
-            <Grid className={classes.member} item sm={12} md={6}>
+            <Grid className={classes.member} item xs={12} sm={6}>
               <Avatar alt={member.name} src={member.image} className={classes.avatar} />
               <Typography className={classes.name} variant="title" gutterBottom>
                 {member.name}
