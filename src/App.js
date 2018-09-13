@@ -8,7 +8,13 @@ import Button from '@material-ui/core/Button'
 import grey from '@material-ui/core/colors/grey'
 import classNames from 'classnames'
 
-import { setCurrentFullPage } from './actions/app'
+import {
+  setCurrentFullPage,
+  toggleSignUpForm,
+  toggleSignInForm,
+  toggleForgotPasswordForm,
+  toggleChangePasswordForm
+} from './actions/app'
 
 import LeftPage from './pages/LeftPage'
 import MapPage from './pages/MapPage'
@@ -68,7 +74,13 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setMapPageFull: () => dispatch(setCurrentFullPage('map'))
+  setMapPageFull: () => {
+    dispatch(toggleSignUpForm(false))
+    dispatch(toggleSignInForm(false))
+    dispatch(toggleForgotPasswordForm(false))
+    dispatch(toggleChangePasswordForm(false))
+    dispatch(setCurrentFullPage('map'))
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App))

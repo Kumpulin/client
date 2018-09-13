@@ -20,10 +20,6 @@ export default function appReducer(state = initialState, action) {
       return {
         ...state,
         currentFullPage: action.payload.page,
-        isSignUp: false,
-        isSignIn: false,
-        isForgotPassword: false,
-        isChangePassword: false
       };
     case TOGGLE_SIGNUP_FORM:
       return { ...state, isSignUp: action.payload };
