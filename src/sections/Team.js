@@ -11,7 +11,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 16,
     display: 'flex',
     flexWrap: 'wrap',
-    height: '100%'
+    height: '100vh'
   },
   member: {
     display: 'flex',

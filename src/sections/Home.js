@@ -13,7 +13,7 @@ const styles = theme => ({
   home: {
     padding: theme.spacing.unit * 8,
     backgroundColor: '#ff5d5d',
-    height: '100%'
+    height: '100vh'
   },
   header: {
     display: 'flex',
