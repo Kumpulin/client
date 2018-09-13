@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -12,6 +12,9 @@ import { setCurrentFullPage } from './actions/app'
 
 import LeftPage from './pages/LeftPage'
 import MapPage from './pages/MapPage'
+
+import SignInForm from './components/SignInForm'
+import SignUpForm from './components/SignUpForm'
 
 const styles = theme => ({
   startExploringButton: {
@@ -42,6 +45,8 @@ function App ({ classes, setMapPageFull, currentFullPage }) {
         <Fragment>
           <LeftPage />
           <MapPage />
+          <SignInForm />
+          <SignUpForm />
           <Button className={classNames([classes.startExploringButton, currentFullPage !== null && classes.hideStartExploringButton])} variant="extendedFab" onClick={setMapPageFull}>Start Exploring!</Button>
         </Fragment>
       </Router>
