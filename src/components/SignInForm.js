@@ -23,7 +23,7 @@ const styles = theme => ({
     transform: "translate(-50%, -50%)",
     padding: theme.spacing.unit * 4,
     borderRadius: "10px",
-    width: theme.spacing.unit * 45
+    width: theme.spacing.unit * 48
   },
   form: {
     display: "flex",
@@ -35,9 +35,9 @@ const styles = theme => ({
   },
   formTitle: {
     fontWeight: 400,
-    margin: theme.spacing.unit
+    marginBottom: theme.spacing.unit
   },
-  lastTextField: {
+  textFieldWithMarginTop: {
     marginTop: theme.spacing.unit * 2
   },
   buttonGroup: {
@@ -115,9 +115,9 @@ class SignInForm extends Component {
         <form className={classes.form} onSubmit={this.handleSubmit}>
           <div className={classes.formTitleGroup}>
             <Typography className={classes.formTitle} variant="title">
-              Masuk
+              Login
             </Typography>
-            <Typography variant="subheading">Lanjutkan ke Kumpulin</Typography>
+            <Typography variant="subheading">to continue to Kumpulin</Typography>
           </div>
 
           <FormControl error={!isEmailValid}>
@@ -140,7 +140,7 @@ class SignInForm extends Component {
             </FormHelperText>
           </FormControl>
 
-          <FormControl className={classes.lastTextField}>
+          <FormControl className={classes.textFieldWithMarginTop}>
             <InputLabel
               FormLabelClasses={{
                 root: classes.cssLabel,
