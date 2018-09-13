@@ -264,7 +264,7 @@ class SignUpForm extends Component {
 
 SignUpForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  showSignUpForm: PropTypes.func.isRequired
+  showSignUpForm: PropTypes.bool
 }
 
 const mapStateToProp = state => ({
