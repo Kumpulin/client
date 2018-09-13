@@ -12,7 +12,8 @@ import FormControl from '@material-ui/core/FormControl'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Button from '@material-ui/core/Button'
-import { Typography, TextField } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
+import TextField from '@material-ui/core/TextField'
 import emailValidator from 'email-validator'
 import classNames from 'classnames'
 import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
@@ -129,22 +130,12 @@ class SignInForm extends Component {
             error={!isEmailValid}
             label="Email"
             onChange={this.handleEmailChange}
-            helperText={!isEmailValid ? 'Invalid email address.': ' '}
+            helperText={!isEmailValid ? 'Invalid email address.' : ' '}
           />
 
           <FormControl className={classes.textFieldWithMarginTop}>
-            <InputLabel
-              FormLabelClasses={{
-                root: classes.cssLabel,
-                focused: classes.cssFocused
-              }}
-            >
-              Password
-            </InputLabel>
+            <InputLabel>Password</InputLabel>
             <Input
-              classes={{
-                underline: classes.cssUnderline
-              }}
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={this.handlePasswordChange}
