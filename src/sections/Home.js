@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Avatar from "@material-ui/core/Avatar"
+import grey from "@material-ui/core/colors/grey"
 
 const styles = theme => ({
   home: {
@@ -36,7 +37,12 @@ const styles = theme => ({
     paddingRight: theme.spacing.unit * 4,
     backgroundColor: theme.palette.common.white,
     color: '#ff5d5d',
-    boxShadow: 'none'
+    boxShadow: 'none',
+    transition: theme.transitions.create(['box-shadow']),
+    '&:hover': {
+      boxShadow: theme.shadows[2],
+      backgroundColor: grey[50]
+    }
   },
   link: {
     ...theme.typography.subheading,
