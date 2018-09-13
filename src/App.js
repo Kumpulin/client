@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button'
 import LeftPage from './pages/LeftPage'
 import MapPage from './pages/MapPage'
 
+import SignInForm from './components/SignInForm'
+
 const styles = theme => ({
   startExploringButton: {
     position: 'fixed',
@@ -36,6 +38,7 @@ class App extends Component {
           <Fragment>
             <LeftPage />
             <MapPage />
+            <SignInForm />
             <Button className={classes.startExploringButton} variant="extendedFab">Start Exploring!</Button>
           </Fragment>
         </Router>
