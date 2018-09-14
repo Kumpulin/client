@@ -29,7 +29,7 @@ const styles = theme => ({
     transform: 'translateX(-50%)',
     bottom: theme.spacing.unit * 8,
     [theme.breakpoints.up('lg')]: {
-      bottom: theme.spacing.unit * 16,
+      bottom: theme.spacing.unit * 16
     },
     width: theme.spacing.unit * 24,
     color: '#ff5d5d',
@@ -46,7 +46,7 @@ const styles = theme => ({
   }
 })
 
-function App ({ classes, setMapPageFull, currentFullPage }) {
+function App({ classes, setMapPageFull, currentFullPage }) {
   return (
     <Fragment>
       <CssBaseline />
@@ -56,7 +56,16 @@ function App ({ classes, setMapPageFull, currentFullPage }) {
           <MapPage />
           <SignInForm />
           <SignUpForm />
-          <Button className={classNames([classes.startExploringButton, currentFullPage !== null && classes.hideStartExploringButton])} variant="extendedFab" onClick={setMapPageFull}>Start Exploring!</Button>
+          <Button
+            className={classNames([
+              classes.startExploringButton,
+              currentFullPage !== null && classes.hideStartExploringButton
+            ])}
+            variant="extendedFab"
+            onClick={setMapPageFull}
+          >
+            Start Exploring!
+          </Button>
         </Fragment>
       </Router>
     </Fragment>
@@ -83,4 +92,7 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(App))
