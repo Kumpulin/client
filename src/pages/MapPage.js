@@ -9,6 +9,7 @@ import classNames from 'classnames'
 import compose from 'recompose/compose'
 
 import Map from '../components/Map'
+import Search from '../components/Search'
 
 const styles = theme => ({
   page: {
@@ -29,14 +30,6 @@ const styles = theme => ({
   fullPage: {
     transform: 'translateX(0)'
   },
-  avatar: {
-    position: 'fixed',
-    top: theme.spacing.unit * 4,
-    left: theme.spacing.unit * 4,
-    height: theme.spacing.unit * 6,
-    width: theme.spacing.unit * 6,
-    zIndex: 3
-  },
   backButton: {
     position: 'fixed',
     top: theme.spacing.unit * 4,
@@ -45,7 +38,7 @@ const styles = theme => ({
     backgroundColor: '#ff5d5d',
     color: 'white',
     boxShadow: theme.shadows[2],
-    transition: theme.transitions.create(['transform'])
+    transition: theme.transitions.create(['transform', 'box-shadow'])
   },
   hideBackButton: {
     transform: `translateY(calc(-100% + -${theme.spacing.unit * 6}px))`
@@ -58,7 +51,7 @@ const styles = theme => ({
     backgroundColor: '#ff5d5d',
     color: 'white',
     boxShadow: theme.shadows[2],
-    transition: theme.transitions.create(['transform'])
+    transition: theme.transitions.create(['transform', 'box-shadow'])
   },
   hidecreateEventFormButton: {
     transform: `translateY(calc(100% + ${theme.spacing.unit * 6}px))`
@@ -83,6 +76,7 @@ function Page({ classes, user, currentFullPage }) {
       >
         <BackIcon />
       </Button>
+      <Search />
       <Button
         className={classNames([
           classes.createEventFormButton,
