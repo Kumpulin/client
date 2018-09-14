@@ -76,7 +76,7 @@ function Page({ classes, user, currentFullPage, backToLandingPage }) {
           <AddIcon />
         </Button>
       </Zoom>
-      {/* <Map /> */}
+      <Map />
     </div>
   )
 }
