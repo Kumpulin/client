@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
+import classNames from 'classnames'
+import compose from 'recompose/compose'
+import Slide from '@material-ui/core/Slide'
 
 const styles = theme => ({
   search: {
@@ -23,7 +27,8 @@ const styles = theme => ({
   },
   searchButton: {
     backgroundColor: '#ff5d5d',
-    color: 'white'
+    color: 'white',
+    boxShadow: theme.shadows[2]
   }
 })
 
@@ -32,16 +37,22 @@ class Search extends Component {
     query: ''
   }
 
-  render () {
-    const { classes } = this.props
+  handleEntering = node => {
+    node.style.transform = 'translate(-50%, 0)'
+  }
+
+  render() {
+    const { classes, currentFullPage } = this.props
 
     return (
-      <div className={classes.search}>
-        <Input className={classes.searchInput} label="bla" disableUnderline />
-        <Button className={classes.searchButton} variant="fab">
-          <SearchIcon />
-        </Button>
-      </div>
+      <Slide in={currentFullPage === 'map'} onEntering={this.handleEntering}>
+        <div className={classes.search}>
+          <Input className={classes.searchInput} label="bla" disableUnderline />
+          <Button className={classes.searchButton} variant="fab">
+            <SearchIcon />
+          </Button>
+        </div>
+      </Slide>
     )
   }
 }
@@ -49,5 +60,11 @@ class Search extends Component {
 Search.propTypes = {
   classes: PropTypes.object.isRequired
 }
+const mapStateToProps = state => ({
+  currentFullPage: state.app.currentFullPage
+})
 
-export default withStyles(styles)(Search)
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(Search)
