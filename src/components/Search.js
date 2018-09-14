@@ -5,7 +5,6 @@ import { withStyles } from '@material-ui/core/styles'
 import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
-import classNames from 'classnames'
 import compose from 'recompose/compose'
 import Slide from '@material-ui/core/Slide'
 
