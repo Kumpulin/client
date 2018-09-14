@@ -18,6 +18,7 @@ import emailValidator from 'email-validator'
 import classNames from 'classnames'
 import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
 import compose from 'recompose/compose'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 const styles = theme => ({
   paper: {
@@ -106,62 +107,69 @@ class SignInForm extends Component {
   }
 
   render() {
-    const { classes, showSignUpForm, showSignInForm } = this.props
+    const {
+      classes,
+      showSignUpForm,
+      showSignInForm,
+      hideSignInForm
+    } = this.props
     const { password, showPassword, isEmailValid } = this.state
 
     return (
-      <Paper
-        className={classNames([
-          classes.paper,
-          !showSignInForm && classes.hideForm
-        ])}
-      >
-        <form className={classes.form} onSubmit={this.handleSubmit}>
-          <div className={classes.formTitleGroup}>
-            <Typography className={classes.formTitle} variant="title">
-              Login
-            </Typography>
-            <Typography variant="subheading">
-              to continue to Kumpulin
-            </Typography>
-          </div>
+      <ClickAwayListener onClickAway={hideSignInForm}>
+        <Paper
+          className={classNames([
+            classes.paper,
+            !showSignInForm && classes.hideForm
+          ])}
+        >
+          <form className={classes.form} onSubmit={this.handleSubmit}>
+            <div className={classes.formTitleGroup}>
+              <Typography className={classes.formTitle} variant="title">
+                Login
+              </Typography>
+              <Typography variant="subheading">
+                to continue to Kumpulin
+              </Typography>
+            </div>
 
-          <TextField
-            error={!isEmailValid}
-            label="Email"
-            onChange={this.handleEmailChange}
-            helperText={!isEmailValid ? 'Invalid email address.' : ' '}
-          />
-
-          <FormControl className={classes.textFieldWithMarginTop}>
-            <InputLabel>Password</InputLabel>
-            <Input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={this.handlePasswordChange}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={this.handleClickShowPassword}
-                    onMouseDown={this.handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
+            <TextField
+              error={!isEmailValid}
+              label="Email"
+              onChange={this.handleEmailChange}
+              helperText={!isEmailValid ? 'Invalid email address.' : ' '}
             />
-            <FormHelperText />
-          </FormControl>
-          <div className={classes.buttonGroup}>
-            <Button className={classes.signUpButton} onClick={showSignUpForm}>
-              Create account
-            </Button>
-            <Button className={classes.signInButton} variant="flat">
-              Sign In
-            </Button>
-          </div>
-        </form>
-      </Paper>
+
+            <FormControl className={classes.textFieldWithMarginTop}>
+              <InputLabel>Password</InputLabel>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={this.handlePasswordChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={this.handleClickShowPassword}
+                      onMouseDown={this.handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <FormHelperText />
+            </FormControl>
+            <div className={classes.buttonGroup}>
+              <Button className={classes.signUpButton} onClick={showSignUpForm}>
+                Create account
+              </Button>
+              <Button className={classes.signInButton} variant="flat">
+                Sign In
+              </Button>
+            </div>
+          </form>
+        </Paper>
+      </ClickAwayListener>
     )
   }
 }
@@ -176,6 +184,9 @@ const mapStateToProp = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  hideSignInForm: () => {
+    dispatch(toggleSignInForm(false))
+  },
   showSignUpForm: () => {
     dispatch(toggleSignInForm(false))
     dispatch(toggleSignUpForm(true))

@@ -19,6 +19,7 @@ import Grid from '@material-ui/core/Grid'
 import classNames from 'classnames'
 import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
 import compose from 'recompose/compose'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 const styles = theme => ({
   paper: {
@@ -143,7 +144,12 @@ class SignUpForm extends Component {
   }
 
   render() {
-    const { classes, showSignUpForm, showSignInForm } = this.props
+    const {
+      classes,
+      showSignUpForm,
+      showSignInForm,
+      hideSignUpForm
+    } = this.props
     const {
       name,
       email,
@@ -155,83 +161,85 @@ class SignUpForm extends Component {
     } = this.state
 
     return (
-      <Paper
-        className={classNames([
-          classes.paper,
-          !showSignUpForm && classes.hideForm
-        ])}
-      >
-        <form className={classes.form} onSubmit={this.handleSubmit}>
-          <div className={classes.formTitleGroup}>
-            <Typography className={classes.formTitle} variant="title">
-              Create your Kumpulin Account
-            </Typography>
-            <Typography variant="subheading">
-              to continue to Kumpulin
-            </Typography>
-          </div>
+      <ClickAwayListener onClickAway={hideSignUpForm}>
+        <Paper
+          className={classNames([
+            classes.paper,
+            !showSignUpForm && classes.hideForm
+          ])}
+        >
+          <form className={classes.form} onSubmit={this.handleSubmit}>
+            <div className={classes.formTitleGroup}>
+              <Typography className={classes.formTitle} variant="title">
+                Create your Kumpulin Account
+              </Typography>
+              <Typography variant="subheading">
+                to continue to Kumpulin
+              </Typography>
+            </div>
 
-          <TextField
-            label="Name"
-            value={name}
-            onChange={this.handleNameChange}
-            helperText=" "
-          />
+            <TextField
+              label="Name"
+              value={name}
+              onChange={this.handleNameChange}
+              helperText=" "
+            />
 
-          <TextField
-            error={!isEmailValid}
-            className={classes.textFieldWithMarginTop}
-            label="Email"
-            value={email}
-            onChange={this.handleEmailChange}
-            helperText={!isEmailValid && 'Invalid email address.'}
-          />
+            <TextField
+              error={!isEmailValid}
+              className={classes.textFieldWithMarginTop}
+              label="Email"
+              value={email}
+              onChange={this.handleEmailChange}
+              helperText={!isEmailValid && 'Invalid email address.'}
+            />
 
-          <Grid className={classes.passwordGroup} container spacing={16}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Password"
-                value={password}
-                onChange={this.handlePasswordChange}
-                helperText="  "
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl error={!isPasswordSame}>
-                <InputLabel>Confirm password</InputLabel>
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  value={confirmPassword}
-                  onChange={this.handleConfirmPasswordChange}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
+            <Grid className={classes.passwordGroup} container spacing={16}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Password"
+                  value={password}
+                  onChange={this.handlePasswordChange}
+                  helperText="  "
                 />
-                <FormHelperText>
-                  {!isPasswordSame &&
-                    "Those passwords didn't match. Try again."}
-                </FormHelperText>
-              </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl error={!isPasswordSame}>
+                  <InputLabel>Confirm password</InputLabel>
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={this.handleConfirmPasswordChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={this.handleClickShowPassword}
+                          onMouseDown={this.handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  <FormHelperText>
+                    {!isPasswordSame &&
+                      "Those passwords didn't match. Try again."}
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
             </Grid>
-          </Grid>
 
-          <div className={classes.buttonGroup}>
-            <Button className={classes.signInButton} onClick={showSignInForm}>
-              Sign in instead
-            </Button>
-            <Button className={classes.signUpButton} variant="flat">
-              Sign Up
-            </Button>
-          </div>
-        </form>
-      </Paper>
+            <div className={classes.buttonGroup}>
+              <Button className={classes.signInButton} onClick={showSignInForm}>
+                Sign in instead
+              </Button>
+              <Button className={classes.signUpButton} variant="flat">
+                Sign Up
+              </Button>
+            </div>
+          </form>
+        </Paper>
+      </ClickAwayListener>
     )
   }
 }
@@ -246,6 +254,9 @@ const mapStateToProp = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  hideSignUpForm: () => {
+    dispatch(toggleSignUpForm(false))
+  },
   showSignInForm: () => {
     dispatch(toggleSignUpForm(false))
     dispatch(toggleSignInForm(true))
