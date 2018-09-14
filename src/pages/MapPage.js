@@ -7,6 +7,8 @@ import BackIcon from '@material-ui/icons/ArrowBack'
 import AddIcon from '@material-ui/icons/Add'
 import classNames from 'classnames'
 import compose from 'recompose/compose'
+import { setCurrentFullPage } from '../actions/app'
+import Zoom from '@material-ui/core/Zoom'
 
 import Map from '../components/Map'
 import Search from '../components/Search'
@@ -37,11 +39,7 @@ const styles = theme => ({
     zIndex: 3,
     backgroundColor: '#ff5d5d',
     color: 'white',
-    boxShadow: theme.shadows[2],
-    transition: theme.transitions.create(['transform', 'box-shadow'])
-  },
-  hideBackButton: {
-    transform: `translateY(calc(-100% + -${theme.spacing.unit * 6}px))`
+    boxShadow: theme.shadows[2]
   },
   createEventFormButton: {
     position: 'fixed',
@@ -50,15 +48,11 @@ const styles = theme => ({
     zIndex: 3,
     backgroundColor: '#ff5d5d',
     color: 'white',
-    boxShadow: theme.shadows[2],
-    transition: theme.transitions.create(['transform', 'box-shadow'])
-  },
-  hidecreateEventFormButton: {
-    transform: `translateY(calc(100% + ${theme.spacing.unit * 6}px))`
+    boxShadow: theme.shadows[2]
   }
 })
 
-function Page({ classes, user, currentFullPage }) {
+function Page({ classes, user, currentFullPage, backToLandingPage }) {
   return (
     <div
       className={classNames([
@@ -67,26 +61,22 @@ function Page({ classes, user, currentFullPage }) {
         currentFullPage === 'left' && classes.hidePage
       ])}
     >
-      <Button
-        className={classNames([
-          classes.backButton,
-          currentFullPage !== 'map' && classes.hideBackButton
-        ])}
-        variant="fab"
-      >
-        <BackIcon />
-      </Button>
+      <Zoom in={currentFullPage === 'map'}>
+        <Button
+          className={classes.backButton}
+          onClick={backToLandingPage}
+          variant="fab"
+        >
+          <BackIcon />
+        </Button>
+      </Zoom>
       <Search />
-      <Button
-        className={classNames([
-          classes.createEventFormButton,
-          currentFullPage !== 'map' && classes.hidecreateEventFormButton
-        ])}
-        variant="fab"
-      >
-        <AddIcon />
-      </Button>
-      <Map />
+      <Zoom in={currentFullPage === 'map'}>
+        <Button className={classes.createEventFormButton} variant="fab">
+          <AddIcon />
+        </Button>
+      </Zoom>
+      {/* <Map /> */}
     </div>
   )
 }
@@ -102,7 +92,14 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
+const mapDispatchToProps = dispatch => ({
+  backToLandingPage: () => dispatch(setCurrentFullPage(null))
+})
+
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(Page)
