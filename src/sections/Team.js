@@ -82,8 +82,8 @@ function Team({ classes }) {
   return (
     <section className={classes.section}>
       <Grid container>
-        {members.map(member => (
-          <Grid className={classes.member} item xs={12} sm={6}>
+        {members.map((member, i) => (
+          <Grid className={classes.member} item xs={12} sm={6} key={i}>
             <Avatar
               alt={member.name}
               src={member.image}
