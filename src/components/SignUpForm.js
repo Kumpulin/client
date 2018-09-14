@@ -92,6 +92,10 @@ class SignUpForm extends Component {
     isPasswordSame: true
   }
 
+  handleNameChange = event => {
+    this.setState({ name: event.target.value })
+  }
+
   handleEmailChange = event => {
     if (!emailValidator.validate(event.target.value)) {
       this.setState({ isEmailValid: false })
@@ -141,6 +145,8 @@ class SignUpForm extends Component {
   render() {
     const { classes, showSignUpForm, showSignInForm } = this.props
     const {
+      name,
+      email,
       password,
       confirmPassword,
       showPassword,
@@ -167,6 +173,7 @@ class SignUpForm extends Component {
 
           <TextField
             label="Name"
+            value={name}
             onChange={this.handleNameChange}
             helperText=" "
           />
@@ -175,6 +182,7 @@ class SignUpForm extends Component {
             error={!isEmailValid}
             className={classes.textFieldWithMarginTop}
             label="Email"
+            value={email}
             onChange={this.handleEmailChange}
             helperText={!isEmailValid && 'Invalid email address.'}
           />
@@ -183,6 +191,7 @@ class SignUpForm extends Component {
             <Grid item xs={12} sm={6}>
               <TextField
                 label="Password"
+                value={password}
                 onChange={this.handlePasswordChange}
                 helperText="  "
               />
