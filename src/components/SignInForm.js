@@ -63,8 +63,12 @@ const styles = theme => ({
     backgroundColor: '#ff5d5d',
     color: 'white',
     boxShadow: 'none',
-    transition: theme.transitions.create(['color', 'background-color']),
-    textTransform: 'none'
+    transition: theme.transitions.create(['box-shadow', 'background-color']),
+    textTransform: 'none',
+    '&:hover': {
+      boxShadow: theme.shadows[2],
+      backgroundColor: '#DF554F'
+    }
   },
   hideForm: {
     transform: `translate(calc(100% + ${theme.spacing.unit * 24}px), -50%)`,

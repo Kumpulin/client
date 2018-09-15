@@ -65,13 +65,12 @@ const styles = theme => ({
   },
   signUpButton: {
     backgroundColor: '#ff5d5d',
-    transition: theme.transitions.create(['box-shadow']),
+    transition: theme.transitions.create(['box-shadow', 'background-color']),
     color: 'white',
     textTransform: 'none',
     '&:hover': {
       boxShadow: theme.shadows[2],
-      backgroundColor: '#ff5d5d',
-      color: 'white'
+      backgroundColor: '#DF554F'
     }
   },
   hideForm: {
