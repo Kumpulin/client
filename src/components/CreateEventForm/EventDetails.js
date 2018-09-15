@@ -20,9 +20,6 @@ const styles = theme => ({
   form: {
     paddingBottom: theme.spacing.unit * 3
   },
-  input: {
-    marginTop: theme.spacing.unit * 2
-  },
   inputLocationContainer: {
     position: 'relative'
   },
