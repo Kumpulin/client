@@ -79,17 +79,19 @@ function Page({
         </Button>
       </Zoom>
       <Search />
-      <Zoom in={currentFullPage === 'map'}>
-        <Button
-          className={classes.createEventFormButton}
-          onClick={showCreateEventForm}
-          variant="fab"
-        >
-          <AddIcon />
-        </Button>
-      </Zoom>
+      {user && (
+        <Zoom in={currentFullPage === 'map'}>
+          <Button
+            className={classes.createEventFormButton}
+            onClick={showCreateEventForm}
+            variant="fab"
+          >
+            <AddIcon />
+          </Button>
+        </Zoom>
+      )}
       {isCreateEvent && <CreateEventForm />}
-      {/* <Map /> */}
+      <Map />
     </div>
   )
 }
