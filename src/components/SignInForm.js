@@ -18,8 +18,11 @@ import emailValidator from 'email-validator'
 import Grid from '@material-ui/core/Grid'
 import classNames from 'classnames'
 import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
+import { signIn } from '../actions/auth'
 import compose from 'recompose/compose'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Fade from '@material-ui/core/Fade'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const styles = theme => ({
   paper: {
@@ -44,6 +47,9 @@ const styles = theme => ({
   },
   formTitle: {
     fontWeight: 400
+  },
+  textFieldWithMarginTop: {
+    marginTop: theme.spacing.unit * 3
   },
   buttonGroup: {
     marginTop: theme.spacing.unit * 4,
@@ -71,10 +77,26 @@ const styles = theme => ({
     [theme.breakpoints.up('lg')]: {
       transform: `translate(calc(75% + ${theme.spacing.unit * 24}px), -50%)`
     }
+  },
+  loaderContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'rgba(255,255,255, .75)',
+    zIndex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
 class SignInForm extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   state = {
     email: '',
     isEmailValid: true,
@@ -83,10 +105,10 @@ class SignInForm extends Component {
   }
 
   handleEmailChange = event => {
-    if (!emailValidator.validate(event.target.value)) {
+    if (!emailValidator.validate(event.target.value.trim())) {
       this.setState({ isEmailValid: false })
     } else {
-      this.setState({ isEmailValid: true, email: event.target.value })
+      this.setState({ isEmailValid: true, email: event.target.value.trim() })
     }
   }
 
@@ -102,8 +124,13 @@ class SignInForm extends Component {
     this.setState(state => ({ showPassword: !state.showPassword }))
   }
 
-  handleSubmit() {
-    console.log(this.state)
+  handleSubmit = event => {
+    event.preventDefault()
+
+    const { email, password } = this.state
+    const { dispatch } = this.props
+
+    dispatch(signIn({ email, password }))
   }
 
   render() {
@@ -111,7 +138,8 @@ class SignInForm extends Component {
       classes,
       showSignUpForm,
       showSignInForm,
-      hideSignInForm
+      hideSignInForm,
+      isLoading
     } = this.props
     const { password, showPassword, isEmailValid } = this.state
 
@@ -123,6 +151,11 @@ class SignInForm extends Component {
             !showSignInForm && classes.hideForm
           ])}
         >
+          <Fade in={isLoading} unmountOnExit>
+            <div className={classes.loaderContainer}>
+              <CircularProgress />
+            </div>
+          </Fade>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <Grid container spacing={24}>
               <Grid item xs={12} className={classes.formTitleGroup}>
@@ -176,7 +209,11 @@ class SignInForm extends Component {
               <Button className={classes.signUpButton} onClick={showSignUpForm}>
                 Create account
               </Button>
-              <Button className={classes.signInButton} variant="flat">
+              <Button
+                type="submit"
+                className={classes.signInButton}
+                variant="flat"
+              >
                 Sign In
               </Button>
             </Grid>
@@ -193,6 +230,7 @@ SignInForm.propTypes = {
 }
 
 const mapStateToProp = state => ({
+  isLoading: state.auth.loading,
   showSignInForm: state.app.isSignIn
 })
 
@@ -203,7 +241,8 @@ const mapDispatchToProps = dispatch => ({
   showSignUpForm: () => {
     dispatch(toggleSignInForm(false))
     dispatch(toggleSignUpForm(true))
-  }
+  },
+  dispatch
 })
 
 export default compose(

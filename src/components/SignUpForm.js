@@ -20,6 +20,9 @@ import classNames from 'classnames'
 import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
 import compose from 'recompose/compose'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Fade from '@material-ui/core/Fade'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import { signUp } from '../actions/auth'
 
 const styles = theme => ({
   paper: {
@@ -39,6 +42,9 @@ const styles = theme => ({
   },
   formTitle: {
     fontWeight: 400
+  },
+  textFieldWithMarginTop: {
+    marginTop: theme.spacing.unit * 3
   },
   buttonGroup: {
     marginTop: theme.spacing.unit * 3,
@@ -65,6 +71,18 @@ const styles = theme => ({
     [theme.breakpoints.up('lg')]: {
       transform: `translate(calc(75% + ${theme.spacing.unit * 36}px), -50%)`
     }
+  },
+  loaderContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'rgba(255,255,255, .75)',
+    zIndex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
@@ -84,37 +102,28 @@ class SignUpForm extends Component {
   }
 
   handleEmailChange = event => {
-    if (!emailValidator.validate(event.target.value)) {
-      this.setState({ isEmailValid: false })
-    } else {
-      this.setState({ isEmailValid: true, email: event.target.value })
-    }
+    this.setState({
+      isEmailValid: emailValidator.validate(event.target.value),
+      email: event.target.value
+    })
   }
 
   handlePasswordChange = event => {
     if (this.state.confirmPassword !== '') {
-      if (event.target.value === this.state.confirmPassword) {
-        this.setState({ isPasswordSame: true, password: event.target.value })
-      } else {
-        this.setState({ isPasswordSame: false, password: event.target.value })
-      }
+      this.setState({
+        isPasswordSame: event.target.value === this.state.confirmPassword,
+        password: event.target.value
+      })
     } else {
       this.setState({ password: event.target.value })
     }
   }
 
   handleConfirmPasswordChange = event => {
-    if (event.target.value === this.state.password) {
-      this.setState({
-        isPasswordSame: true,
-        confirmPassword: event.target.value
-      })
-    } else {
-      this.setState({
-        isPasswordSame: false,
-        confirmPassword: event.target.value
-      })
-    }
+    this.setState({
+      isPasswordSame: event.target.value === this.state.password,
+      confirmPassword: event.target.value
+    })
   }
 
   handleMouseDownPassword = event => {
@@ -125,8 +134,13 @@ class SignUpForm extends Component {
     this.setState(state => ({ showPassword: !state.showPassword }))
   }
 
-  handleSubmit() {
-    console.log(this.state)
+  handleSubmit = event => {
+    event.preventDefault()
+
+    const { name, email, password } = this.state
+    const { dispatch } = this.props
+
+    dispatch(signUp({ name, email, password }))
   }
 
   render() {
@@ -134,7 +148,8 @@ class SignUpForm extends Component {
       classes,
       showSignUpForm,
       showSignInForm,
-      hideSignUpForm
+      hideSignUpForm,
+      isLoading
     } = this.props
     const {
       name,
@@ -154,6 +169,11 @@ class SignUpForm extends Component {
             !showSignUpForm && classes.hideForm
           ])}
         >
+          <Fade in={isLoading} unmountOnExit>
+            <div className={classes.loaderContainer}>
+              <CircularProgress />
+            </div>
+          </Fade>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <Grid container spacing={24}>
               <Grid item xs={12} className={classes.formTitleGroup}>
@@ -192,12 +212,18 @@ class SignUpForm extends Component {
                 <TextField
                   fullWidth
                   label="Password"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={this.handlePasswordChange}
+                  className={classes.textFieldWithMarginTop}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl error={!isPasswordSame} fullWidth>
+                <FormControl
+                  error={!isPasswordSame}
+                  fullWidth
+                  className={classes.textFieldWithMarginTop}
+                >
                   <InputLabel>Confirm password</InputLabel>
                   <Input
                     type={showPassword ? 'text' : 'password'}
@@ -226,7 +252,11 @@ class SignUpForm extends Component {
               <Button className={classes.signInButton} onClick={showSignInForm}>
                 Sign in instead
               </Button>
-              <Button className={classes.signUpButton} variant="flat">
+              <Button
+                type="submit"
+                className={classes.signUpButton}
+                variant="flat"
+              >
                 Sign Up
               </Button>
             </Grid>
@@ -243,6 +273,7 @@ SignUpForm.propTypes = {
 }
 
 const mapStateToProp = state => ({
+  isLoading: state.auth.loading,
   showSignUpForm: state.app.isSignUp
 })
 
@@ -253,7 +284,8 @@ const mapDispatchToProps = dispatch => ({
   showSignInForm: () => {
     dispatch(toggleSignUpForm(false))
     dispatch(toggleSignInForm(true))
-  }
+  },
+  dispatch
 })
 
 export default compose(
