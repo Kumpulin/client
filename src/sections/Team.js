@@ -6,6 +6,10 @@ import Avatar from '@material-ui/core/Avatar'
 import { Typography } from '@material-ui/core'
 import grey from '@material-ui/core/colors/grey'
 
+import GibraKhrisnaPutraImage from '../assets/images/gibran-khrisna-putra.jpg'
+import RuchmaKurniasariImage from '../assets/images/ruchma-kurniasari.jpg'
+import BagoesArioSukanto from '../assets/images/bagoes-ario-sukanto.jpg'
+
 const styles = theme => ({
   section: {
     padding: theme.spacing.unit * 4,
@@ -39,7 +43,8 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing.unit * 28,
       height: theme.spacing.unit * 28
-    }
+    },
+    backgroundColor: '#dddddd'
   },
   name: {
     textAlign: 'center',
@@ -55,26 +60,22 @@ const members = [
   {
     name: 'Gibran Khrisna Putra',
     title: 'Full Stack Developer',
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
+    image: GibraKhrisnaPutraImage
   },
   {
     name: 'Raafi Nindyo Haswoto',
     title: 'Frontend Developer',
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
+    image: ''
   },
   {
     name: 'Bagoes Ario Sukanto',
     title: 'Frontend Developer',
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
+    image: BagoesArioSukanto
   },
   {
     name: 'Ruchma Kurniasari',
     title: 'Frontend Developer',
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPVL4686tbTOUl2Hd00_-G225IekkCmV0fh2pnUuaLKKt1mqt'
+    image: RuchmaKurniasariImage
   }
 ]
 
