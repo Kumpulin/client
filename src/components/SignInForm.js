@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import emailValidator from 'email-validator'
+import Grid from '@material-ui/core/Grid'
 import classNames from 'classnames'
 import { toggleSignUpForm, toggleSignInForm } from '../actions/app'
 import compose from 'recompose/compose'
@@ -32,22 +33,17 @@ const styles = theme => ({
     padding: theme.spacing.unit * 4,
     borderRadius: '10px',
     width: theme.spacing.unit * 48,
-    transition: theme.transitions.create(['transform'])
+    transition: theme.transitions.create('transform')
   },
   form: {
     display: 'flex',
     flexDirection: 'column'
   },
   formTitleGroup: {
-    textAlign: 'center',
     marginBottom: theme.spacing.unit * 4
   },
   formTitle: {
-    fontWeight: 400,
-    marginBottom: theme.spacing.unit
-  },
-  textFieldWithMarginTop: {
-    marginTop: theme.spacing.unit * 2
+    fontWeight: 400
   },
   buttonGroup: {
     marginTop: theme.spacing.unit * 4,
@@ -128,49 +124,62 @@ class SignInForm extends Component {
           ])}
         >
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            <div className={classes.formTitleGroup}>
-              <Typography className={classes.formTitle} variant="title">
-                Login
-              </Typography>
-              <Typography variant="subheading">
-                to continue to Kumpulin
-              </Typography>
-            </div>
+            <Grid container spacing={24}>
+              <Grid item xs={12} className={classes.formTitleGroup}>
+                <Typography
+                  align="center"
+                  className={classes.formTitle}
+                  variant="title"
+                  gutterBottom
+                >
+                  Login
+                </Typography>
+                <Typography align="center" variant="subheading">
+                  to continue to Kumpulin
+                </Typography>
+              </Grid>
+            </Grid>
 
-            <TextField
-              error={!isEmailValid}
-              label="Email"
-              onChange={this.handleEmailChange}
-              helperText={!isEmailValid ? 'Invalid email address.' : ' '}
-            />
-
-            <FormControl className={classes.textFieldWithMarginTop}>
-              <InputLabel>Password</InputLabel>
-              <Input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={this.handlePasswordChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={this.handleClickShowPassword}
-                      onMouseDown={this.handleMouseDownPassword}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                error={!isEmailValid}
+                label="Email"
+                onChange={this.handleEmailChange}
+                helperText={!isEmailValid ? 'Invalid email address.' : ' '}
               />
-              <FormHelperText />
-            </FormControl>
-            <div className={classes.buttonGroup}>
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl className={classes.textFieldWithMarginTop} fullWidth>
+                <InputLabel>Password</InputLabel>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={this.handlePasswordChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={this.handleClickShowPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+                <FormHelperText />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} className={classes.buttonGroup}>
               <Button className={classes.signUpButton} onClick={showSignUpForm}>
                 Create account
               </Button>
               <Button className={classes.signInButton} variant="flat">
                 Sign In
               </Button>
-            </div>
+            </Grid>
           </form>
         </Paper>
       </ClickAwayListener>

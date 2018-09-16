@@ -32,29 +32,16 @@ const styles = theme => ({
     transform: 'translate(-50%, -50%)',
     padding: theme.spacing.unit * 4,
     borderRadius: '10px',
-    width: theme.spacing.unit * 72,
-    transition: theme.transitions.create(['transform'])
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column'
+    transition: theme.transitions.create('transform')
   },
   formTitleGroup: {
-    textAlign: 'center',
     marginBottom: theme.spacing.unit * 4
   },
   formTitle: {
-    fontWeight: 400,
-    marginBottom: theme.spacing.unit
-  },
-  textFieldWithMarginTop: {
-    marginTop: theme.spacing.unit * 2
-  },
-  passwordGroup: {
-    marginTop: theme.spacing.unit * 2
+    fontWeight: 400
   },
   buttonGroup: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing.unit * 3,
     display: 'flex',
     justifyContent: 'space-between'
   },
@@ -168,42 +155,49 @@ class SignUpForm extends Component {
           ])}
         >
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            <div className={classes.formTitleGroup}>
-              <Typography className={classes.formTitle} variant="title">
-                Create your Kumpulin Account
-              </Typography>
-              <Typography variant="subheading">
-                to continue to Kumpulin
-              </Typography>
-            </div>
-
-            <TextField
-              label="Name"
-              value={name}
-              onChange={this.handleNameChange}
-              helperText=" "
-            />
-
-            <TextField
-              error={!isEmailValid}
-              className={classes.textFieldWithMarginTop}
-              label="Email"
-              value={email}
-              onChange={this.handleEmailChange}
-              helperText={!isEmailValid && 'Invalid email address.'}
-            />
-
-            <Grid className={classes.passwordGroup} container spacing={16}>
-              <Grid item xs={12} sm={6}>
+            <Grid container spacing={24}>
+              <Grid item xs={12} className={classes.formTitleGroup}>
+                <Typography
+                  align="center"
+                  className={classes.formTitle}
+                  variant="title"
+                  gutterBottom
+                >
+                  Create your Kumpulin Account
+                </Typography>
+                <Typography align="center" variant="subheading">
+                  to continue to Kumpulin
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
                 <TextField
-                  label="Password"
-                  value={password}
-                  onChange={this.handlePasswordChange}
-                  helperText="  "
+                  fullWidth
+                  label="Name"
+                  value={name}
+                  onChange={this.handleNameChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  error={!isEmailValid}
+                  className={classes.textFieldWithMarginTop}
+                  label="Email"
+                  value={email}
+                  onChange={this.handleEmailChange}
+                  helperText={!isEmailValid && 'Invalid email address.'}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl error={!isPasswordSame}>
+                <TextField
+                  fullWidth
+                  label="Password"
+                  value={password}
+                  onChange={this.handlePasswordChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl error={!isPasswordSame} fullWidth>
                   <InputLabel>Confirm password</InputLabel>
                   <Input
                     type={showPassword ? 'text' : 'password'}
@@ -228,14 +222,14 @@ class SignUpForm extends Component {
               </Grid>
             </Grid>
 
-            <div className={classes.buttonGroup}>
+            <Grid item xs={12} className={classes.buttonGroup}>
               <Button className={classes.signInButton} onClick={showSignInForm}>
                 Sign in instead
               </Button>
               <Button className={classes.signUpButton} variant="flat">
                 Sign Up
               </Button>
-            </div>
+            </Grid>
           </form>
         </Paper>
       </ClickAwayListener>
