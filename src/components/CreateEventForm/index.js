@@ -25,7 +25,8 @@ const styles = theme => ({
     transform: 'translate(-50%, -50%)',
     padding: theme.spacing.unit * 4,
     borderRadius: '10px',
-    minWidth: theme.spacing.unit * 92
+    minWidth: theme.spacing.unit * 92,
+    zIndex: 1
   },
   stepper: {
     padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`
