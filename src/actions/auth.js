@@ -20,6 +20,7 @@ export const signUp = data => dispatch => {
     .then(() => {
       dispatch(signUpSuccess())
       dispatch(toggleSignUpForm(false))
+      dispatch(toggleSignInForm(true))
     })
     .catch(err => dispatch(signUpFailure(err.message)))
 }
