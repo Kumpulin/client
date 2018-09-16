@@ -7,11 +7,12 @@ import BackIcon from '@material-ui/icons/ArrowBack'
 import AddIcon from '@material-ui/icons/Add'
 import classNames from 'classnames'
 import compose from 'recompose/compose'
-import { setCurrentFullPage } from '../actions/app'
+import { setCurrentFullPage, toggleCreateEventForm } from '../actions/app'
 import Zoom from '@material-ui/core/Zoom'
 
 import Map from '../components/Map'
 import Search from '../components/Search'
+import CreateEventForm from '../components/CreateEventForm'
 
 const styles = theme => ({
   page: {
@@ -52,7 +53,14 @@ const styles = theme => ({
   }
 })
 
-function Page({ classes, user, currentFullPage, backToLandingPage }) {
+function Page({
+  classes,
+  user,
+  currentFullPage,
+  backToLandingPage,
+  showCreateEventForm,
+  isCreateEvent
+}) {
   return (
     <div
       className={classNames([
@@ -72,11 +80,16 @@ function Page({ classes, user, currentFullPage, backToLandingPage }) {
       </Zoom>
       <Search />
       <Zoom in={currentFullPage === 'map'}>
-        <Button className={classes.createEventFormButton} variant="fab">
+        <Button
+          className={classes.createEventFormButton}
+          onClick={showCreateEventForm}
+          variant="fab"
+        >
           <AddIcon />
         </Button>
       </Zoom>
-      <Map />
+      {isCreateEvent && <CreateEventForm />}
+      {/* <Map /> */}
     </div>
   )
 }
@@ -84,16 +97,20 @@ function Page({ classes, user, currentFullPage, backToLandingPage }) {
 Page.propTypes = {
   classes: PropTypes.object.isRequired,
   currentFullPage: PropTypes.string,
-  user: PropTypes.object
+  user: PropTypes.object,
+  isCreateEvent: PropTypes.bool.isRequired,
+  showCreateEventForm: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   currentFullPage: state.app.currentFullPage,
-  user: state.auth.user
+  user: state.auth.user,
+  isCreateEvent: state.app.isCreateEvent
 })
 
 const mapDispatchToProps = dispatch => ({
-  backToLandingPage: () => dispatch(setCurrentFullPage(null))
+  backToLandingPage: () => dispatch(setCurrentFullPage(null)),
+  showCreateEventForm: () => dispatch(toggleCreateEventForm(true))
 })
 
 export default compose(

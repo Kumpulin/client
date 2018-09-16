@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -8,6 +9,9 @@ import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import { toggleCreateEventForm } from '../../actions/app'
+import compose from 'recompose/compose'
 
 import EventDetails from './EventDetails'
 import EventImages from './EventImages'
@@ -69,9 +73,9 @@ function getStepContent(step) {
   }
 }
 
-class ChangeEventForm extends React.Component {
+class ChangeEventForm extends Component {
   state = {
-    activeStep: 1,
+    activeStep: 0,
     skipped: new Set()
   }
 
@@ -92,6 +96,10 @@ class ChangeEventForm extends React.Component {
       activeStep: activeStep + 1,
       skipped
     })
+  }
+
+  handleFinish = () => {
+    this.props.hideCreateEventForm()
   }
 
   handleBack = () => {
@@ -128,88 +136,111 @@ class ChangeEventForm extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, hideCreateEventForm } = this.props
     const { activeStep } = this.state
 
     return (
-      <Paper className={classes.paper}>
-        <Typography variant="title" align="center">
-          Create An Event
-        </Typography>
-        <Stepper activeStep={activeStep} className={classes.stepper}>
-          {steps.map((label, index) => {
-            const props = {}
-            const labelProps = {}
+      <ClickAwayListener onClickAway={hideCreateEventForm}>
+        <Paper className={classes.paper}>
+          <Typography variant="title" align="center">
+            Create An Event
+          </Typography>
+          <Stepper activeStep={activeStep} className={classes.stepper}>
+            {steps.map((label, index) => {
+              const props = {}
+              const labelProps = {}
 
-            if (this.isStepOptional(index)) {
-              labelProps.optional = (
-                <Typography variant="caption">Optional</Typography>
+              if (this.isStepOptional(index)) {
+                labelProps.optional = (
+                  <Typography variant="caption">Optional</Typography>
+                )
+              }
+              if (this.isStepSkipped(index)) {
+                props.completed = false
+              }
+              return (
+                <Step key={label} {...props}>
+                  <StepLabel {...labelProps}>{label}</StepLabel>
+                </Step>
               )
-            }
-            if (this.isStepSkipped(index)) {
-              props.completed = false
-            }
-            return (
-              <Step key={label} {...props}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            )
-          })}
-        </Stepper>
-        <div>
-          {activeStep === steps.length ? (
-            <div>
-              <Typography className={classes.instructions}>
-                All steps completed - you&quot;re finished
-              </Typography>
-              <Button onClick={this.handleReset} className={classes.leftButton}>
-                Reset
-              </Button>
-            </div>
-          ) : (
-            <div>
-              {getStepContent(activeStep)}
-              <div className={classes.buttonGroup}>
+            })}
+          </Stepper>
+          <div>
+            {activeStep === steps.length ? (
+              <div>
+                <Typography className={classes.instructions}>
+                  All steps completed - you&quot;re finished
+                </Typography>
                 <Button
-                  disabled={activeStep === 0}
-                  onClick={this.handleBack}
+                  onClick={this.handleReset}
                   className={classes.leftButton}
                 >
-                  Back
+                  Reset
                 </Button>
+              </div>
+            ) : (
+              <div>
+                {getStepContent(activeStep)}
+                <div className={classes.buttonGroup}>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={this.handleBack}
+                    className={classes.leftButton}
+                  >
+                    Back
+                  </Button>
 
-                <div>
-                  {this.isStepOptional(activeStep) && (
+                  <div>
+                    {this.isStepOptional(activeStep) && (
+                      <Button
+                        variant="flat"
+                        onClick={this.handleSkip}
+                        className={classNames([
+                          classes.button,
+                          classes.skipButton
+                        ])}
+                      >
+                        Skip
+                      </Button>
+                    )}
                     <Button
                       variant="flat"
-                      onClick={this.handleSkip}
+                      onClick={
+                        activeStep === steps.length - 1
+                          ? this.handleFinish
+                          : this.handleNext
+                      }
                       className={classNames([
                         classes.button,
-                        classes.skipButton
+                        classes.nextButton
                       ])}
                     >
-                      Skip
+                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                     </Button>
-                  )}
-                  <Button
-                    variant="flat"
-                    onClick={this.handleNext}
-                    className={classNames([classes.button, classes.nextButton])}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      </Paper>
+            )}
+          </div>
+        </Paper>
+      </ClickAwayListener>
     )
   }
 }
 
 ChangeEventForm.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  hideCreateEventForm: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(ChangeEventForm)
+const mapDispatchToProps = dispatch => ({
+  hideCreateEventForm: () => dispatch(toggleCreateEventForm(false))
+})
+
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(ChangeEventForm)
