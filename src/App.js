@@ -7,6 +7,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
 import grey from '@material-ui/core/colors/grey'
 import classNames from 'classnames'
+import compose from 'recompose/compose'
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
 import {
   setCurrentFullPage,
@@ -46,7 +48,7 @@ const styles = theme => ({
   }
 })
 
-function App({ classes, setMapPageFull, currentFullPage }) {
+function App({ classes, setMapPageFull, currentFullPage, width }) {
   return (
     <Fragment>
       <CssBaseline />
@@ -59,7 +61,9 @@ function App({ classes, setMapPageFull, currentFullPage }) {
           <Button
             className={classNames([
               classes.startExploringButton,
-              currentFullPage !== null && classes.hideStartExploringButton
+              currentFullPage !== null &&
+                isWidthUp('lg', width) &&
+                classes.hideStartExploringButton
             ])}
             variant="extendedFab"
             onClick={setMapPageFull}
@@ -92,7 +96,11 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(App))
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withWidth(),
+  withStyles(styles)
+)(App)
