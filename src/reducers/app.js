@@ -8,7 +8,7 @@ import {
 } from '../constants/ActionTypes'
 
 const initialState = {
-  currentFullPage: 'map',
+  currentFullPage: null,
   isSignUp: false,
   isSignIn: false,
   isForgotPassword: false,
