@@ -10,19 +10,29 @@ import {
   LOGOUT
 } from '../constants/ActionTypes'
 
-export const signUp = (email, password) => dispatch => {
+import { toggleSignInForm, toggleSignUpForm } from './app'
+
+export const signUp = data => dispatch => {
   dispatch(signUpStarted())
 
-  axios.post('/api/auth/signup', { email, password })
-    .then(() => dispatch(signUpSuccess()))
+  axios
+    .post('/api/auth/signup', data)
+    .then(() => {
+      dispatch(signUpSuccess())
+      dispatch(toggleSignUpForm(false))
+    })
     .catch(err => dispatch(signUpFailure(err.message)))
 }
 
-export const signIn = (email, password) => dispatch => {
+export const signIn = data => dispatch => {
   dispatch(signInStarted())
 
-  axios.post('/api/auth/signin', { email, password })
-    .then(({ data }) => dispatch(signInSuccess(data)))
+  axios
+    .post('/api/auth/signin', data)
+    .then(({ data }) => {
+      dispatch(signInSuccess(data))
+      dispatch(toggleSignInForm(false))
+    })
     .catch(err => dispatch(signInFailure(err.message)))
 }
 
@@ -33,7 +43,10 @@ export function logout() {
 
 const signUpStarted = () => ({ type: SIGNUP_REQUEST })
 const signUpSuccess = () => ({ type: SIGNUP_SUCCESS })
-const signUpFailure = message => ({ type: SIGNUP_FAILURE, payload: { message } })
+const signUpFailure = message => ({
+  type: SIGNUP_FAILURE,
+  payload: { message }
+})
 
 const signInStarted = () => ({ type: SIGNIN_REQUEST })
 
@@ -45,4 +58,7 @@ const signInSuccess = ({ user, token }) => {
   }
 }
 
-const signInFailure = message => ({ type: SIGNIN_FAILURE, payload: { message } })
+const signInFailure = message => ({
+  type: SIGNIN_FAILURE,
+  payload: { message }
+})
