@@ -9,13 +9,13 @@ import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import { toggleCreateEventForm } from '../../actions/app'
+import { toggleCreateEventForm, setActiveStep } from '../../actions/app'
 import compose from 'recompose/compose'
 
 import EventDetails from './EventDetails'
-import EventImages from './EventImages'
+import EventImage from './EventImage'
 import AdditionalSettings from './AdditionalSettings'
+import { createEventHandler } from 'recompose'
 
 const styles = theme => ({
   paper: {
@@ -26,7 +26,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 4,
     borderRadius: '10px',
     minWidth: theme.spacing.unit * 92,
-    zIndex: 1
+    zIndex: 4
   },
   stepper: {
     padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`
@@ -66,7 +66,7 @@ function getStepContent(step) {
     case 0:
       return <EventDetails />
     case 1:
-      return <EventImages />
+      return <EventImage />
     case 2:
       return <AdditionalSettings />
     default:
@@ -75,156 +75,68 @@ function getStepContent(step) {
 }
 
 class ChangeEventForm extends Component {
-  state = {
-    activeStep: 0,
-    skipped: new Set()
-  }
-
-  isStepOptional = step => {
-    return step === 1
-  }
-
   handleNext = () => {
-    const { activeStep } = this.state
-    let { skipped } = this.state
+    const { activeStep } = this.props
 
-    if (this.isStepSkipped(activeStep)) {
-      skipped = new Set(skipped.values())
-
-      skipped.delete(activeStep)
-    }
-    this.setState({
-      activeStep: activeStep + 1,
-      skipped
-    })
+    this.props.dispatch(setActiveStep(activeStep + 1))
   }
 
   handleFinish = () => {
+    // this.props.dispatch()
+
     this.props.hideCreateEventForm()
   }
 
   handleBack = () => {
-    const { activeStep } = this.state
+    const { activeStep } = this.props
 
-    this.setState({
-      activeStep: activeStep - 1
-    })
-  }
-
-  handleSkip = () => {
-    const { activeStep } = this.state
-
-    this.setState(state => {
-      const skipped = new Set(state.skipped.values())
-
-      skipped.add(activeStep)
-
-      return {
-        activeStep: state.activeStep + 1,
-        skipped
-      }
-    })
-  }
-
-  handleReset = () => {
-    this.setState({
-      activeStep: 0
-    })
-  }
-
-  isStepSkipped(step) {
-    return this.state.skipped.has(step)
+    this.props.dispatch(setActiveStep(activeStep - 1))
   }
 
   render() {
-    const { classes, hideCreateEventForm } = this.props
-    const { activeStep } = this.state
+    const { classes, activeStep } = this.props
 
     return (
-      <ClickAwayListener onClickAway={hideCreateEventForm}>
-        <Paper className={classes.paper}>
-          <Typography variant="title" align="center">
-            Create An Event
-          </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label, index) => {
-              const props = {}
-              const labelProps = {}
-
-              if (this.isStepOptional(index)) {
-                labelProps.optional = (
-                  <Typography variant="caption">Optional</Typography>
-                )
-              }
-              if (this.isStepSkipped(index)) {
-                props.completed = false
-              }
-              return (
-                <Step key={label} {...props}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
-                </Step>
-              )
-            })}
-          </Stepper>
+      <Paper className={classes.paper}>
+        <Typography variant="title" align="center">
+          Create An Event
+        </Typography>
+        <Stepper activeStep={activeStep} className={classes.stepper}>
+          {steps.map(label => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <div>
           <div>
-            {activeStep === steps.length ? (
+            {getStepContent(activeStep)}
+            <div className={classes.buttonGroup}>
+              <Button
+                disabled={activeStep === 0}
+                onClick={this.handleBack}
+                className={classes.leftButton}
+              >
+                Back
+              </Button>
+
               <div>
-                <Typography className={classes.instructions}>
-                  All steps completed - you&quot;re finished
-                </Typography>
                 <Button
-                  onClick={this.handleReset}
-                  className={classes.leftButton}
+                  variant="flat"
+                  onClick={
+                    activeStep === steps.length - 1
+                      ? this.handleFinish
+                      : this.handleNext
+                  }
+                  className={classNames([classes.button, classes.nextButton])}
                 >
-                  Reset
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>
               </div>
-            ) : (
-              <div>
-                {getStepContent(activeStep)}
-                <div className={classes.buttonGroup}>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={this.handleBack}
-                    className={classes.leftButton}
-                  >
-                    Back
-                  </Button>
-
-                  <div>
-                    {this.isStepOptional(activeStep) && (
-                      <Button
-                        variant="flat"
-                        onClick={this.handleSkip}
-                        className={classNames([
-                          classes.button,
-                          classes.skipButton
-                        ])}
-                      >
-                        Skip
-                      </Button>
-                    )}
-                    <Button
-                      variant="flat"
-                      onClick={
-                        activeStep === steps.length - 1
-                          ? this.handleFinish
-                          : this.handleNext
-                      }
-                      className={classNames([
-                        classes.button,
-                        classes.nextButton
-                      ])}
-                    >
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
-        </Paper>
-      </ClickAwayListener>
+        </div>
+      </Paper>
     )
   }
 }
@@ -234,13 +146,22 @@ ChangeEventForm.propTypes = {
   hideCreateEventForm: PropTypes.func.isRequired
 }
 
+const mapStateToProps = state => ({
+  activeStep: state.app.activeStep,
+  temp: state.event.temp
+})
+
 const mapDispatchToProps = dispatch => ({
-  hideCreateEventForm: () => dispatch(toggleCreateEventForm(false))
+  hideCreateEventForm: () => {
+    dispatch(toggleCreateEventForm(false))
+    dispatch(setActiveStep(0))
+  },
+  dispatch
 })
 
 export default compose(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   ),
   withStyles(styles)
