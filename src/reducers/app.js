@@ -1,4 +1,5 @@
 import {
+  SET_ACTIVE_STEP,
   SET_CURRENT_FULLPAGE,
   TOGGLE_SIGNUP_FORM,
   TOGGLE_SIGNIN_FORM,
@@ -8,6 +9,7 @@ import {
 } from '../constants/ActionTypes'
 
 const initialState = {
+  activeStep: 0,
   currentFullPage: null,
   isSignUp: false,
   isSignIn: false,
@@ -18,6 +20,11 @@ const initialState = {
 
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_ACTIVE_STEP:
+      return {
+        ...state,
+        activeStep: action.payload
+      }
     case SET_CURRENT_FULLPAGE:
       return {
         ...state,

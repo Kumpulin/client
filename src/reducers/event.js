@@ -1,4 +1,7 @@
 import {
+  SAVE_TEMP_EVENT_DETAILS,
+  SAVE_TEMP_EVENT_IMAGE,
+  SAVE_TEMP_EVENT_ADDITIONAL_SETTINGS,
   GET_ALL_EVENTS,
   GET_EVENT_DETAILS,
   CREATE_EVENT_REQUEST,
@@ -7,18 +10,57 @@ import {
   UPDATE_EVENT_REQUEST,
   UPDATE_EVENT_SUCCESS,
   UPDATE_EVENT_FAILURE,
-  JOIN_EVENT
+  JOIN_EVENT,
+  CLEAR_TEMP_EVENT_DATA
 } from '../constants/ActionTypes'
 
 const initalState = {
   events: [],
   currentEventDetails: null,
   loading: false,
-  error: null
+  error: null,
+  temp: {
+    eventDetails: null,
+    eventImage: null,
+    eventAdditionalSettings: null
+  }
 }
 
-export default function eventReducer (state = initalState, action) {
+export default function eventReducer(state = initalState, action) {
   switch (action.type) {
+    case SAVE_TEMP_EVENT_DETAILS:
+      return {
+        ...state,
+        temp: {
+          ...state.temp,
+          eventDetails: action.payload.eventDetails
+        }
+      }
+    case SAVE_TEMP_EVENT_IMAGE:
+      return {
+        ...state,
+        temp: {
+          ...state.temp,
+          eventImage: action.payload.eventImage
+        }
+      }
+    case SAVE_TEMP_EVENT_ADDITIONAL_SETTINGS:
+      return {
+        ...state,
+        temp: {
+          ...state.temp,
+          additionalSettings: action.payload.additionalSettings
+        }
+      }
+    case CLEAR_TEMP_EVENT_DATA:
+      return {
+        ...state,
+        temp: {
+          eventDetails: null,
+          eventImage: null,
+          eventAdditionalSettings: null
+        }
+      }
     case GET_ALL_EVENTS:
       return {
         ...state,

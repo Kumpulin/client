@@ -1,4 +1,5 @@
 import {
+  SET_ACTIVE_STEP,
   SET_CURRENT_FULLPAGE,
   TOGGLE_SIGNUP_FORM,
   TOGGLE_SIGNIN_FORM,
@@ -6,6 +7,10 @@ import {
   TOGGLE_CHANGE_PASSWORD_FORM,
   TOGGLE_CREATE_EVENT_FORM
 } from '../constants/ActionTypes'
+
+export function setActiveStep(index) {
+  return { type: SET_ACTIVE_STEP, payload: index }
+}
 
 export function setCurrentFullPage(page) {
   return { type: SET_CURRENT_FULLPAGE, payload: { page } }
