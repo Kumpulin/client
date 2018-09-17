@@ -106,7 +106,7 @@ class SignInForm extends Component {
 
   handleEmailChange = event => {
     if (!emailValidator.validate(event.target.value.trim())) {
-      this.setState({ isEmailValid: false })
+      this.setState({ isEmailValid: false, email: event.target.value.trim() })
     } else {
       this.setState({ isEmailValid: true, email: event.target.value.trim() })
     }
@@ -124,27 +124,34 @@ class SignInForm extends Component {
     this.setState(state => ({ showPassword: !state.showPassword }))
   }
 
+  handleClickAway = () => {
+    const { hideSignInForm } = this.props
+
+    hideSignInForm()
+
+    this.setState({
+      email: '',
+      isEmailValid: true,
+      password: '',
+      showPassword: false
+    })
+  }
+
   handleSubmit = event => {
     event.preventDefault()
 
     const { email, password } = this.state
-    const { dispatch } = this.props
+    const { dispatch, isAuthenticated } = this.props
 
     dispatch(signIn({ email, password }))
   }
 
   render() {
-    const {
-      classes,
-      showSignUpForm,
-      showSignInForm,
-      hideSignInForm,
-      isLoading
-    } = this.props
-    const { password, showPassword, isEmailValid } = this.state
+    const { classes, showSignUpForm, showSignInForm, isLoading } = this.props
+    const { email, password, showPassword, isEmailValid } = this.state
 
     return (
-      <ClickAwayListener onClickAway={hideSignInForm}>
+      <ClickAwayListener onClickAway={this.handleClickAway}>
         <Paper
           className={classNames([
             classes.paper,
@@ -179,6 +186,7 @@ class SignInForm extends Component {
                 error={!isEmailValid}
                 label="Email"
                 onChange={this.handleEmailChange}
+                value={email}
                 helperText={!isEmailValid ? 'Invalid email address.' : ' '}
               />
             </Grid>
@@ -231,7 +239,8 @@ SignInForm.propTypes = {
 
 const mapStateToProp = state => ({
   isLoading: state.auth.loading,
-  showSignInForm: state.app.isSignIn
+  showSignInForm: state.app.isSignIn,
+  isAuthenticated: state.auth.isAuthenticated
 })
 
 const mapDispatchToProps = dispatch => ({

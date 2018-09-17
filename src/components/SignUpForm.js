@@ -143,6 +143,22 @@ class SignUpForm extends Component {
     dispatch(signUp({ name, email, password }))
   }
 
+  handleClickAway = () => {
+    const { hideSignUpForm } = this.props
+
+    this.setState({
+      name: '',
+      email: '',
+      isEmailValid: true,
+      password: '',
+      confirmPassword: '',
+      showPassword: false,
+      isPasswordSame: true
+    })
+
+    hideSignUpForm()
+  }
+
   render() {
     const {
       classes,
@@ -162,7 +178,7 @@ class SignUpForm extends Component {
     } = this.state
 
     return (
-      <ClickAwayListener onClickAway={hideSignUpForm}>
+      <ClickAwayListener onClickAway={this.handleClickAway}>
         <Paper
           className={classNames([
             classes.paper,
