@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import Typography from '@material-ui/core/Typography'
+import compose from 'recompose/compose'
+import { saveTempEventImage } from '../../actions/event'
 
 const styles = theme => ({
   form: {
@@ -51,7 +54,7 @@ const styles = theme => ({
   }
 })
 
-class EventImages extends Component {
+class EventImage extends Component {
   state = {
     image: null
   }
@@ -60,9 +63,17 @@ class EventImages extends Component {
     this.setState({ image: event.target.files[0] })
   }
 
+  componentDidMount() {
+    console.log(this.props.eventImage)
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(saveTempEventImage(this.state))
+  }
+
   render() {
     const { image } = this.state
-    const { classes } = this.props
+    const { classes, eventImage } = this.props
 
     return (
       <form className={classes.form}>
@@ -79,7 +90,11 @@ class EventImages extends Component {
               className={classes.image}
               style={{
                 backgroundImage: `url(${
-                  image ? URL.createObjectURL(image) : ''
+                  eventImage
+                    ? URL.createObjectURL(eventImage.image)
+                    : image
+                      ? URL.createObjectURL(image)
+                      : ''
                 })`
               }}
             />
@@ -100,8 +115,22 @@ class EventImages extends Component {
   }
 }
 
-EventImages.propTypes = {
+EventImage.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(EventImages)
+const mapStateToProps = state => ({
+  eventImage: state.event.temp.eventImage
+})
+
+const mapDispatchToProps = dispatch => ({
+  dispatch
+})
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(EventImage)
