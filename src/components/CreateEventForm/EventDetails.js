@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
@@ -15,6 +16,8 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
 } from 'react-places-autocomplete'
+import compose from 'recompose/compose'
+import { saveTempEventDetails } from '../../actions/event'
 
 const styles = theme => ({
   form: {
@@ -35,26 +38,26 @@ const styles = theme => ({
 class EventDetails extends Component {
   state = {
     title: '',
-    address: '',
-    cityName: '',
+    full_address: '',
+    city_name: '',
     latitude: 0,
     longitude: 0,
-    startDateTime: null,
-    endDateTime: null,
+    start: null,
+    end: null,
     description: ''
   }
 
-  handleAddressChange = address => {
-    this.setState({ address })
+  handleAddressChange = full_address => {
+    this.setState({ full_address })
   }
 
-  handleLocationSelect = async address => {
-    const [location] = await geocodeByAddress(address)
+  handleLocationSelect = async full_address => {
+    const [location] = await geocodeByAddress(full_address)
     const { lat, lng } = await getLatLng(location)
 
     this.setState({
-      address,
-      cityName:
+      full_address,
+      city_name:
         location.address_components[location.address_components.length - 4]
           .short_name,
       latitude: lat,
@@ -74,15 +77,13 @@ class EventDetails extends Component {
     })
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(saveTempEventDetails(this.state))
+  }
+
   render() {
-    const {
-      title,
-      address,
-      startDateTime,
-      endDateTime,
-      description
-    } = this.state
-    const { classes } = this.props
+    const { title, full_address, start, end, description } = this.state
+    const { classes, eventDetails } = this.props
 
     return (
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -92,7 +93,7 @@ class EventDetails extends Component {
               <TextField
                 label="Title"
                 fullWidth
-                value={title}
+                value={eventDetails ? eventDetails.title : title}
                 onChange={this.handleChange('title')}
               />
             </Grid>
@@ -103,7 +104,7 @@ class EventDetails extends Component {
               className={classes.inputLocationContainer}
             >
               <PlacesAutocomplete
-                value={address}
+                value={eventDetails ? eventDetails.full_address : full_address}
                 onChange={this.handleAddressChange}
                 onSelect={this.handleLocationSelect}
               >
@@ -114,7 +115,9 @@ class EventDetails extends Component {
                         label: 'Location',
                         fullWidth: true
                       })}
-                      value={address}
+                      value={
+                        eventDetails ? eventDetails.full_address : full_address
+                      }
                     />
                     <Paper className={classes.locationSuggestions} square>
                       {suggestions.map(suggestion => (
@@ -137,8 +140,8 @@ class EventDetails extends Component {
                 leftArrowIcon={<LeftArrowIcon />}
                 rightArrowIcon={<RightArrowIcon />}
                 disablePast={true}
-                value={startDateTime}
-                onChange={this.handleDateChange('startDateTime')}
+                value={eventDetails ? eventDetails.start : start}
+                onChange={this.handleDateChange('start')}
               />
             </Grid>
             <Grid item xs={6} sm={3}>
@@ -146,8 +149,8 @@ class EventDetails extends Component {
                 label="Start Time"
                 ampm={false}
                 autoOk={true}
-                value={startDateTime}
-                onChange={this.handleDateChange('startDateTime')}
+                value={eventDetails ? eventDetails.start : start}
+                onChange={this.handleDateChange('start')}
               />
             </Grid>
             <Grid item xs={6} sm={3}>
@@ -156,8 +159,8 @@ class EventDetails extends Component {
                 leftArrowIcon={<LeftArrowIcon />}
                 rightArrowIcon={<RightArrowIcon />}
                 disablePast={true}
-                value={endDateTime}
-                onChange={this.handleDateChange('endDateTime')}
+                value={eventDetails ? eventDetails.end : end}
+                onChange={this.handleDateChange('end')}
               />
             </Grid>
             <Grid item xs={6} sm={3}>
@@ -165,8 +168,8 @@ class EventDetails extends Component {
                 label="End Time"
                 ampm={false}
                 autoOk={true}
-                value={endDateTime}
-                onChange={this.handleDateChange('endDateTime')}
+                value={eventDetails ? eventDetails.end : end}
+                onChange={this.handleDateChange('end')}
               />
             </Grid>
             <Grid item xs={12}>
@@ -175,7 +178,7 @@ class EventDetails extends Component {
                 multiline={true}
                 rows={10}
                 fullWidth
-                value={description}
+                value={eventDetails ? eventDetails.description : description}
                 onChange={this.handleChange('description')}
               />
             </Grid>
@@ -190,4 +193,18 @@ EventDetails.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(EventDetails)
+const mapStateToProps = state => ({
+  eventDetails: state.event.temp.eventDetails
+})
+
+const mapDispatchToProps = dispatch => ({
+  dispatch
+})
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(EventDetails)

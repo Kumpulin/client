@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -15,6 +16,8 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import IconButton from '@material-ui/core/IconButton'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import compose from 'recompose/compose'
+import { saveTempEventAdditionalSettings } from '../../actions/event'
 
 const styles = theme => ({
   form: {
@@ -28,7 +31,7 @@ class AdditionalSettings extends Component {
     type: '',
     topic: '',
     showPassword: false,
-    privateEventPassword: ''
+    password: ''
   }
 
   handleChange = name => event => {
@@ -47,15 +50,17 @@ class AdditionalSettings extends Component {
     this.setState(state => ({ showPassword: !state.showPassword }))
   }
 
+  componentWillUnmount() {
+    const data = Object.assign({}, this.state)
+
+    delete data.showPassword
+
+    this.props.dispatch(saveTempEventAdditionalSettings(data))
+  }
+
   render() {
-    const {
-      privacy,
-      type,
-      topic,
-      showPassword,
-      privateEventPassword
-    } = this.state
-    const { classes } = this.props
+    const { privacy, type, topic, showPassword, password } = this.state
+    const { classes, additionalSettings } = this.props
 
     return (
       <form className={classes.form}>
@@ -64,7 +69,9 @@ class AdditionalSettings extends Component {
             <FormControl fullWidth>
               <FormLabel>Event Privacy</FormLabel>
               <RadioGroup
-                value={privacy}
+                value={
+                  additionalSettings ? additionalSettings.privacy : privacy
+                }
                 onChange={this.handleChange('privacy')}
               >
                 <FormControlLabel
@@ -81,8 +88,12 @@ class AdditionalSettings extends Component {
                   <InputLabel>Password</InputLabel>
                   <Input
                     type={showPassword ? 'text' : 'password'}
-                    value={privateEventPassword}
-                    onChange={this.handleChange('privateEventPassword')}
+                    value={
+                      additionalSettings
+                        ? additionalSettings.password
+                        : password
+                    }
+                    onChange={this.handleChange('password')}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -102,7 +113,7 @@ class AdditionalSettings extends Component {
             <FormControl fullWidth>
               <InputLabel>Event Type</InputLabel>
               <Select
-                value={type}
+                value={additionalSettings ? additionalSettings.type : type}
                 onChange={this.handleChange('type')}
                 fullWidth
               >
@@ -119,7 +130,7 @@ class AdditionalSettings extends Component {
             <FormControl fullWidth>
               <InputLabel>Event Topic</InputLabel>
               <Select
-                value={topic}
+                value={additionalSettings ? additionalSettings.topic : topic}
                 onChange={this.handleChange('topic')}
                 fullWidth
               >
@@ -142,4 +153,18 @@ AdditionalSettings.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(AdditionalSettings)
+const mapStateToProps = state => ({
+  additionalSettings: state.event.temp.additionalSettings
+})
+
+const mapDispatchToProps = dispatch => ({
+  dispatch
+})
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(AdditionalSettings)
