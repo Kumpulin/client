@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import {
+  GET_USER_DATA,
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
@@ -11,6 +12,16 @@ import {
 } from '../constants/ActionTypes'
 
 import { toggleSignInForm, toggleSignUpForm } from './app'
+
+export const fetchUserData = token => dispatch => {
+  axios
+    .get('/api/account/', {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    })
+    .then(({ data }) => dispatch(getUserData(data.user)))
+}
 
 export const signUp = data => dispatch => {
   dispatch(signUpStarted())
@@ -41,6 +52,8 @@ export function logout() {
   Cookies.remove('token')
   return { type: LOGOUT }
 }
+
+const getUserData = user => ({ type: GET_USER_DATA, payload: { user } })
 
 const signUpStarted = () => ({ type: SIGNUP_REQUEST })
 const signUpSuccess = () => ({ type: SIGNUP_SUCCESS })

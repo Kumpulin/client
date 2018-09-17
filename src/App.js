@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -8,7 +8,9 @@ import Button from '@material-ui/core/Button'
 import grey from '@material-ui/core/colors/grey'
 import classNames from 'classnames'
 import compose from 'recompose/compose'
+import Cookies from 'js-cookie'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import { fetchUserData } from './actions/auth'
 
 import {
   setCurrentFullPage,
@@ -48,32 +50,49 @@ const styles = theme => ({
   }
 })
 
-function App({ classes, setMapPageFull, currentFullPage, width }) {
-  return (
-    <Fragment>
-      <CssBaseline />
-      <Router>
-        <Fragment>
-          <LeftPage />
-          <MapPage />
-          <SignInForm />
-          <SignUpForm />
-          <Button
-            className={classNames([
-              classes.startExploringButton,
-              currentFullPage !== null &&
-                isWidthUp('lg', width) &&
-                classes.hideStartExploringButton
-            ])}
-            variant="extendedFab"
-            onClick={setMapPageFull}
-          >
-            Start Exploring!
-          </Button>
-        </Fragment>
-      </Router>
-    </Fragment>
-  )
+class App extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props
+    const token = Cookies.get('token')
+
+    if (token) {
+      dispatch(fetchUserData(token))
+    }
+  }
+
+  render() {
+    const { classes, setMapPageFull, currentFullPage, width } = this.props
+
+    return (
+      <Fragment>
+        <CssBaseline />
+        <Router>
+          <Fragment>
+            <LeftPage />
+            <MapPage />
+            <SignInForm />
+            <SignUpForm />
+            <Button
+              className={classNames([
+                classes.startExploringButton,
+                currentFullPage !== null &&
+                  isWidthUp('lg', width) &&
+                  classes.hideStartExploringButton
+              ])}
+              variant="extendedFab"
+              onClick={setMapPageFull}
+            >
+              Start Exploring!
+            </Button>
+          </Fragment>
+        </Router>
+      </Fragment>
+    )
+  }
 }
 
 App.propTypes = {
@@ -93,7 +112,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleForgotPasswordForm(false))
     dispatch(toggleChangePasswordForm(false))
     dispatch(setCurrentFullPage('map'))
-  }
+  },
+  dispatch
 })
 
 export default compose(

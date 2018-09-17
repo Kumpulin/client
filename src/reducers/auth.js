@@ -1,4 +1,5 @@
 import {
+  GET_USER_DATA,
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
@@ -15,18 +16,23 @@ const initialState = {
   error: null
 }
 
-export default function authReducer (state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_USER_DATA:
+      return {
+        ...state,
+        user: action.payload.user
+      }
     case SIGNUP_REQUEST:
       return {
         ...state,
         loading: true
-    }
+      }
     case SIGNUP_SUCCESS:
       return {
         ...state,
         loading: false
-    }
+      }
     case SIGNUP_FAILURE:
       return {
         ...state,
