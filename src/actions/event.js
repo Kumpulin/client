@@ -5,7 +5,7 @@ import {
   SAVE_TEMP_EVENT_IMAGE,
   SAVE_TEMP_EVENT_ADDITIONAL_SETTINGS,
   GET_ALL_EVENTS,
-  GET_EVENT_DETAILS,
+  GET_CURRENT_EVENT_DETAILS,
   CREATE_EVENT_REQUEST,
   CREATE_EVENT_SUCCESS,
   CREATE_EVENT_FAILURE,
@@ -13,8 +13,14 @@ import {
   UPDATE_EVENT_SUCCESS,
   UPDATE_EVENT_FAILURE,
   JOIN_EVENT,
-  CLEAR_TEMP_EVENT_DATA
+  CLEAR_TEMP_EVENT_DATA,
+  SET_CURRENT_EVENT
 } from '../constants/ActionTypes'
+
+export const setCurrentEvent = id => ({
+  type: SET_CURRENT_EVENT,
+  payload: id
+})
 
 export const saveTempEventDetails = eventDetails => ({
   type: SAVE_TEMP_EVENT_DETAILS,
@@ -41,16 +47,16 @@ export const fetchAllEvents = () => dispatch => {
     .then(({ data }) => dispatch(getAllEvents(data.events)))
 }
 
-export const fetchEventDetails = id => dispatch => {
+export const fetchCurrentEventDetails = id => dispatch => {
   axios
     .get(`/api/events/${id}/details`)
-    .then(({ data }) => dispatch(getEventDetails(data)))
+    .then(({ data }) => dispatch(getCurrentEventDetails(data)))
 }
 
-export const joinEvent = ({ id }) => dispatch => {
+export const joinEvent = id => dispatch => {
   axios
-    .post(`/api/events/${id}`, {}, authHeader)
-    .then(({ data }) => dispatch(addJoinedEvents(data.event)))
+    .post(`/api/events/${id}/join`, {}, authHeader)
+    .then(({ data }) => ({ type: JOIN_EVENT }))
 }
 
 export const createEvent = data => dispatch => {
@@ -77,11 +83,10 @@ export const updateEvent = (id, data) => dispatch => {
 }
 
 const getAllEvents = events => ({ type: GET_ALL_EVENTS, payload: { events } })
-const getEventDetails = data => ({
-  type: GET_EVENT_DETAILS,
+export const getCurrentEventDetails = data => ({
+  type: GET_CURRENT_EVENT_DETAILS,
   payload: { ...data }
 })
-const addJoinedEvents = event => ({ type: JOIN_EVENT, payload: { event } })
 
 const createEventStarted = () => ({ type: CREATE_EVENT_REQUEST })
 const createEventSuccess = event => ({

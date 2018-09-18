@@ -3,15 +3,32 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer'
-import { fetchAllEvents, fetchEventDetails } from '../actions/event'
+import { toggleEventDetailSidebar } from '../actions/app'
+import {
+  fetchAllEvents,
+  fetchCurrentEventDetails,
+  setCurrentEvent
+} from '../actions/event'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const defaultOptions = {
   disableDefaultUI: true
 }
 
 class Map extends Component {
-  handleClick = id => {
-    this.props.getEventDetails(id)
+  state = {
+    event: {
+      latitude: -6.2297419,
+      longitude: 106.759478
+    }
+  }
+
+  handleClick = event => {
+    this.setState({ event })
+
+    this.props.fetchCurrentEventDetails(event.id)
+    this.props.setCurrentEvent(event.id)
+    this.props.showEventDetailSidebar()
   }
 
   componentDidMount() {
@@ -19,18 +36,22 @@ class Map extends Component {
   }
 
   render() {
-    const { events, getEventDetails } = this.props
+    const { event } = this.state
+    const { events } = this.props
 
     const GoogleMapWithMarker = withGoogleMap(props => (
       <GoogleMap
         defaultZoom={12}
-        defaultCenter={{ lat: -6.2297419, lng: 106.759478 }}
+        defaultCenter={{
+          lat: JSON.parse(event.latitude),
+          lng: JSON.parse(event.longitude)
+        }}
         defaultOptions={defaultOptions}
       >
         <MarkerClusterer averageCenter enableRetinaIcons gridSize={60}>
           {events.map((event, i) => (
             <Marker
-              onClick={() => this.handleClick(event.id)}
+              onClick={() => this.handleClick(event)}
               key={i}
               position={{
                 lat: JSON.parse(event.latitude),
@@ -44,7 +65,7 @@ class Map extends Component {
 
     return (
       <GoogleMapWithMarker
-        loadingElement={<div style={{ height: `100%` }} />}
+        loadingElement={<CircularProgress />}
         containerElement={<div style={{ height: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}
       />
@@ -63,7 +84,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchAllEvents: () => dispatch(fetchAllEvents()),
-  getEventDetails: id => dispatch(fetchEventDetails(id)),
+  fetchCurrentEventDetails: id => dispatch(fetchCurrentEventDetails(id)),
+  setCurrentEvent: id => dispatch(setCurrentEvent(id)),
+  showEventDetailSidebar: () => dispatch(toggleEventDetailSidebar(true)),
   dispatch
 })
 

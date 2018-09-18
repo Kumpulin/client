@@ -5,7 +5,8 @@ import {
   TOGGLE_SIGNIN_FORM,
   TOGGLE_FORGOT_PASSWORD_FORM,
   TOGGLE_CHANGE_PASSWORD_FORM,
-  TOGGLE_CREATE_EVENT_FORM
+  TOGGLE_CREATE_EVENT_FORM,
+  TOGGLE_EVENT_DETAIL_SIDEBAR
 } from '../constants/ActionTypes'
 
 export function setActiveStep(index) {
@@ -34,4 +35,8 @@ export function toggleChangePasswordForm(payload) {
 
 export function toggleCreateEventForm(payload) {
   return { type: TOGGLE_CREATE_EVENT_FORM, payload }
+}
+
+export function toggleEventDetailSidebar(payload) {
+  return { type: TOGGLE_EVENT_DETAIL_SIDEBAR, payload }
 }

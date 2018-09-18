@@ -5,7 +5,8 @@ import {
   TOGGLE_SIGNIN_FORM,
   TOGGLE_FORGOT_PASSWORD_FORM,
   TOGGLE_CHANGE_PASSWORD_FORM,
-  TOGGLE_CREATE_EVENT_FORM
+  TOGGLE_CREATE_EVENT_FORM,
+  TOGGLE_EVENT_DETAIL_SIDEBAR
 } from '../constants/ActionTypes'
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   isSignIn: false,
   isForgotPassword: false,
   isChangePassword: false,
-  isCreateEvent: false
+  isCreateEvent: false,
+  isMarkerClicked: false
 }
 
 export default function appReducer(state = initialState, action) {
@@ -40,6 +42,8 @@ export default function appReducer(state = initialState, action) {
       return { ...state, isChangePassword: action.payload }
     case TOGGLE_CREATE_EVENT_FORM:
       return { ...state, isCreateEvent: action.payload }
+    case TOGGLE_EVENT_DETAIL_SIDEBAR:
+      return { ...state, isMarkerClicked: action.payload }
     default:
       return state
   }

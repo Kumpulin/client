@@ -17,6 +17,7 @@ import Zoom from '@material-ui/core/Zoom'
 import Map from '../components/Map'
 import Search from '../components/Search'
 import CreateEventForm from '../components/CreateEventForm'
+import EventDetailSidebar from '../components/EventDetailSidebar'
 
 const styles = theme => ({
   page: {
@@ -85,7 +86,8 @@ function Page({
   backToLandingPage,
   showCreateEventForm,
   isCreateEvent,
-  hideCreateEventForm
+  hideCreateEventForm,
+  eventDetails
 }) {
   return (
     <div
@@ -106,7 +108,7 @@ function Page({
       </Zoom>
       <Search />
       {user && (
-        <Zoom in={currentFullPage === 'map'}>
+        <Zoom in={currentFullPage === 'map' && !eventDetails}>
           <Button
             className={classes.createEventFormButton}
             onClick={showCreateEventForm}
@@ -117,6 +119,7 @@ function Page({
         </Zoom>
       )}
       {isCreateEvent && currentFullPage === 'map' && <CreateEventForm />}
+      <EventDetailSidebar />
       <Map />
       <div
         className={classNames([
@@ -140,7 +143,8 @@ Page.propTypes = {
 const mapStateToProps = state => ({
   currentFullPage: state.app.currentFullPage,
   user: state.auth.user,
-  isCreateEvent: state.app.isCreateEvent
+  isCreateEvent: state.app.isCreateEvent,
+  eventDetails: state.event.eventDetails
 })
 
 const mapDispatchToProps = dispatch => ({
