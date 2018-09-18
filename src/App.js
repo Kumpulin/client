@@ -51,16 +51,13 @@ const styles = theme => ({
 })
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
     const { dispatch } = this.props
     const token = Cookies.get('token')
 
     if (token) {
       dispatch(fetchUserData(token))
+      dispatch(setCurrentFullPage('map'))
     }
   }
 

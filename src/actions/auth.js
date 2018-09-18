@@ -11,7 +11,7 @@ import {
   LOGOUT
 } from '../constants/ActionTypes'
 
-import { toggleSignInForm, toggleSignUpForm } from './app'
+import { setCurrentFullPage, toggleSignInForm, toggleSignUpForm } from './app'
 
 export const fetchUserData = token => dispatch => {
   axios
@@ -44,6 +44,7 @@ export const signIn = data => dispatch => {
     .then(({ data }) => {
       dispatch(signInSuccess(data))
       dispatch(toggleSignInForm(false))
+      dispatch(setCurrentFullPage('map'))
     })
     .catch(err => dispatch(signInFailure(err.message)))
 }
