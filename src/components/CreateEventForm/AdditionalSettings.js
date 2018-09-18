@@ -120,9 +120,26 @@ class AdditionalSettings extends Component {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value="Appearance or Signing">Appearance or Signing</MenuItem>
+                <MenuItem value="Attraction">Attraction</MenuItem>
+                <MenuItem value="Camp, Trip, or Retreat">Camp, Trip, or Retreat</MenuItem>
+                <MenuItem value="Class, Training, or Workshop">Class, Training, or Workshop</MenuItem>
+                <MenuItem value="Concert or Performance">Concert or Performance</MenuItem>
+                <MenuItem value="Conference">Conference</MenuItem>
+                <MenuItem value="Convention">Convention</MenuItem>
+                <MenuItem value="Dinner or Gala">Dinner or Gala</MenuItem>
+                <MenuItem value="Festival or Fair">Festival or Fair</MenuItem>
+                <MenuItem value="Game or Competition">Game or Competition</MenuItem>
+                <MenuItem value="Meeting or Networking Event">Meeting or Networking Event</MenuItem>
+                <MenuItem value="Other">Other</MenuItem>
+                <MenuItem value="Party or Social Gathering">Party or Social Gathering</MenuItem>
+                <MenuItem value="Race or Endurance Event">Race or Endurance Event</MenuItem>
+                <MenuItem value="Rally">Rally</MenuItem>
+                <MenuItem value="Screening">Screening</MenuItem>
+                <MenuItem value="Seminar or Talk">Seminar or Talk</MenuItem>
+                <MenuItem value="Tour">Tour</MenuItem>
+                <MenuItem value="Tournament">Tournament</MenuItem>
+                <MenuItem value="Tradeshow, Consumer Show, or Expo">Tradeshow, Consumer Show, or Expo</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -137,9 +154,27 @@ class AdditionalSettings extends Component {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value="Auto, Boat & Air">Auto, Boat & Air</MenuItem>
+                <MenuItem value="Business & Professional">Business & Professional</MenuItem>
+                <MenuItem value="Charity & Causes">Charity & Causes</MenuItem>
+                <MenuItem value="Community & Culture">Community & Culture</MenuItem>
+                <MenuItem value="Family & Education">Family & Education</MenuItem>
+                <MenuItem value="Fashion & Beauty">Fashion & Beauty</MenuItem>
+                <MenuItem value="Film, Media & Entertainment">Film, Media & Entertainment</MenuItem>
+                <MenuItem value="Food & Drink">Food & Drink</MenuItem>
+                <MenuItem value="Government & Politics">Government & Politics</MenuItem>
+                <MenuItem value="Health & Wellness">Health & Wellness</MenuItem>
+                <MenuItem value="Hobbies & Special Interest">Hobbies & Special Interest</MenuItem>
+                <MenuItem value="Home & Lifestyle">Home & Lifestyle</MenuItem>
+                <MenuItem value="Music">Music</MenuItem>
+                <MenuItem value="Other">Other</MenuItem>
+                <MenuItem value="Performing & Visual Arts">Performing & Visual Arts</MenuItem>
+                <MenuItem value="Religion & Spirituality">Religion & Spirituality</MenuItem>
+                <MenuItem value="School Activities">School Activities</MenuItem>
+                <MenuItem value="Science & Technology">Science & Technology</MenuItem>
+                <MenuItem value="Seasonal & Holiday">Seasonal & Holiday</MenuItem>
+                <MenuItem value="Sports & Fitness">Sports & Fitness</MenuItem>
+                <MenuItem value="Travel & Outdoor">Travel & Outdoor</MenuItem>
               </Select>
             </FormControl>
           </Grid>
