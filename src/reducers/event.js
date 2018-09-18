@@ -49,7 +49,7 @@ export default function eventReducer(state = initalState, action) {
         ...state,
         temp: {
           ...state.temp,
-          additionalSettings: action.payload.additionalSettings
+          eventAdditionalSettings: action.payload.eventAdditionalSettings
         }
       }
     case CLEAR_TEMP_EVENT_DATA:

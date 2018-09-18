@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -10,12 +10,13 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
 import { toggleCreateEventForm, setActiveStep } from '../../actions/app'
+import { createEvent } from '../../actions/event'
 import compose from 'recompose/compose'
 
 import EventDetails from './EventDetails'
 import EventImage from './EventImage'
 import AdditionalSettings from './AdditionalSettings'
-import { createEventHandler } from 'recompose'
+import Finish from './Finish'
 
 const styles = theme => ({
   paper: {
@@ -56,6 +57,9 @@ const styles = theme => ({
   },
   skipButton: {
     marginRight: theme.spacing.unit
+  },
+  closeButton: {
+    alignSelf: 'end'
   }
 })
 
@@ -69,6 +73,8 @@ function getStepContent(step) {
       return <EventImage />
     case 2:
       return <AdditionalSettings />
+    case 3:
+      return <Finish />
     default:
       return 'Unknown step'
   }
@@ -81,10 +87,16 @@ class ChangeEventForm extends Component {
     this.props.dispatch(setActiveStep(activeStep + 1))
   }
 
-  handleFinish = () => {
-    // this.props.dispatch()
+  handleClose = () => {
+    const data = new FormData()
+    data.append('images', this.props.temp.eventImage.image)
+    data.append('event_details', JSON.stringify(this.props.temp.eventDetails))
+    data.append(
+      'additional_settings',
+      JSON.stringify(this.props.temp.eventAdditionalSettings)
+    )
 
-    this.props.hideCreateEventForm()
+    this.props.dispatch(createEvent(data))
   }
 
   handleBack = () => {
@@ -112,27 +124,38 @@ class ChangeEventForm extends Component {
           <div>
             {getStepContent(activeStep)}
             <div className={classes.buttonGroup}>
-              <Button
-                disabled={activeStep === 0}
-                onClick={this.handleBack}
-                className={classes.leftButton}
-              >
-                Back
-              </Button>
-
-              <div>
-                <Button
-                  variant="flat"
-                  onClick={
-                    activeStep === steps.length - 1
-                      ? this.handleFinish
-                      : this.handleNext
-                  }
-                  className={classNames([classes.button, classes.nextButton])}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
-              </div>
+              {activeStep !== 3 ? (
+                <Fragment>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={this.handleBack}
+                    className={classes.leftButton}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="flat"
+                    onClick={this.handleNext}
+                    className={classNames([classes.button, classes.nextButton])}
+                  >
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <span />
+                  <Button
+                    variant="flat"
+                    onClick={this.handleClose}
+                    className={classNames([
+                      classes.button,
+                      classes.closeButton
+                    ])}
+                  >
+                    Close
+                  </Button>
+                </Fragment>
+              )}
             </div>
           </div>
         </div>

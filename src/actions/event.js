@@ -57,7 +57,12 @@ export const createEvent = data => dispatch => {
   dispatch(createEventStarted())
 
   axios
-    .post('/api/events/', data, authHeader)
+    .post('/api/events/', data, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    })
     .then(({ data }) => dispatch(createEventSuccess(data.event)))
     .catch(err => dispatch(createEventFailure(err.message)))
 }
