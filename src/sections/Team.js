@@ -7,6 +7,7 @@ import { Typography } from '@material-ui/core'
 import grey from '@material-ui/core/colors/grey'
 
 import GibraKhrisnaPutraImage from '../assets/images/gibran-khrisna-putra.jpg'
+import RaafiHaswotoImage from '../assets/images/raafi-haswoto.jpeg'
 import RuchmaKurniasariImage from '../assets/images/ruchma-kurniasari.jpg'
 import BagoesArioSukanto from '../assets/images/bagoes-ario-sukanto.jpg'
 
@@ -65,7 +66,7 @@ const members = [
   {
     name: 'Raafi Nindyo Haswoto',
     title: 'Frontend Developer',
-    image: ''
+    image: RaafiHaswotoImage
   },
   {
     name: 'Bagoes Ario Sukanto',
