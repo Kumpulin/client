@@ -97,6 +97,8 @@ class ChangeEventForm extends Component {
     )
 
     this.props.dispatch(createEvent(data))
+
+    this.props.hideCreateEventForm()
   }
 
   handleBack = () => {
