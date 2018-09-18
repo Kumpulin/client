@@ -93,10 +93,6 @@ const styles = theme => ({
 })
 
 class SignInForm extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   state = {
     email: '',
     isEmailValid: true,
@@ -141,7 +137,7 @@ class SignInForm extends Component {
     event.preventDefault()
 
     const { email, password } = this.state
-    const { dispatch, isAuthenticated } = this.props
+    const { dispatch } = this.props
 
     dispatch(signIn({ email, password }))
   }

@@ -160,13 +160,7 @@ class SignUpForm extends Component {
   }
 
   render() {
-    const {
-      classes,
-      showSignUpForm,
-      showSignInForm,
-      hideSignUpForm,
-      isLoading
-    } = this.props
+    const { classes, showSignUpForm, showSignInForm, isLoading } = this.props
     const {
       name,
       email,
