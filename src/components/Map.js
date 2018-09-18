@@ -3,19 +3,23 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer'
-import { fetchAllEvents } from '../actions/event'
+import { fetchAllEvents, fetchEventDetails } from '../actions/event'
 
 const defaultOptions = {
   disableDefaultUI: true
 }
 
 class Map extends Component {
+  handleClick = id => {
+    this.props.getEventDetails(id)
+  }
+
   componentDidMount() {
     this.props.fetchAllEvents()
   }
 
   render() {
-    const { events } = this.props
+    const { events, getEventDetails } = this.props
 
     const GoogleMapWithMarker = withGoogleMap(props => (
       <GoogleMap
@@ -26,6 +30,7 @@ class Map extends Component {
         <MarkerClusterer averageCenter enableRetinaIcons gridSize={60}>
           {events.map((event, i) => (
             <Marker
+              onClick={() => this.handleClick(event.id)}
               key={i}
               position={{
                 lat: JSON.parse(event.latitude),
@@ -52,11 +57,14 @@ Map.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  events: state.event.events
+  events: state.event.events,
+  eventDetails: state.event.eventDetails
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllEvents: () => dispatch(fetchAllEvents())
+  fetchAllEvents: () => dispatch(fetchAllEvents()),
+  getEventDetails: id => dispatch(fetchEventDetails(id)),
+  dispatch
 })
 
 export default connect(

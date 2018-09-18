@@ -16,7 +16,7 @@ import {
 
 const initalState = {
   events: [],
-  currentEventDetails: null,
+  eventDetails: null,
   loading: false,
   error: null,
   temp: {
@@ -109,7 +109,7 @@ export default function eventReducer(state = initalState, action) {
     case GET_EVENT_DETAILS:
       return {
         ...state,
-        currentEventDetails: action.payload.eventDetails
+        eventDetails: action.payload
       }
     case JOIN_EVENT:
       return {

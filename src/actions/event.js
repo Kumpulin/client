@@ -41,10 +41,10 @@ export const fetchAllEvents = () => dispatch => {
     .then(({ data }) => dispatch(getAllEvents(data.events)))
 }
 
-export const fetchEventDetails = ({ id }) => dispatch => {
+export const fetchEventDetails = id => dispatch => {
   axios
-    .get(`/api/events/${id}`)
-    .then(({ data }) => dispatch(getEventDetails(data.eventDetails)))
+    .get(`/api/events/${id}/details`)
+    .then(({ data }) => dispatch(getEventDetails(data)))
 }
 
 export const joinEvent = ({ id }) => dispatch => {
@@ -77,9 +77,9 @@ export const updateEvent = (id, data) => dispatch => {
 }
 
 const getAllEvents = events => ({ type: GET_ALL_EVENTS, payload: { events } })
-const getEventDetails = eventDetails => ({
+const getEventDetails = data => ({
   type: GET_EVENT_DETAILS,
-  payload: { eventDetails }
+  payload: { ...data }
 })
 const addJoinedEvents = event => ({ type: JOIN_EVENT, payload: { event } })
 
