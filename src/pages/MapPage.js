@@ -7,7 +7,11 @@ import BackIcon from '@material-ui/icons/ArrowBack'
 import AddIcon from '@material-ui/icons/Add'
 import classNames from 'classnames'
 import compose from 'recompose/compose'
-import { setCurrentFullPage, toggleCreateEventForm } from '../actions/app'
+import {
+  setCurrentFullPage,
+  toggleCreateEventForm,
+  setActiveStep
+} from '../actions/app'
 import Zoom from '@material-ui/core/Zoom'
 
 import Map from '../components/Map'
@@ -40,7 +44,11 @@ const styles = theme => ({
     zIndex: 3,
     backgroundColor: '#ff5d5d',
     color: 'white',
-    boxShadow: theme.shadows[2]
+    boxShadow: theme.shadows[2],
+    transition: theme.transitions.create('background-color'),
+    '&:hover': {
+      backgroundColor: '#DF554F'
+    }
   },
   createEventFormButton: {
     position: 'fixed',
@@ -49,7 +57,24 @@ const styles = theme => ({
     zIndex: 3,
     backgroundColor: '#ff5d5d',
     color: 'white',
-    boxShadow: theme.shadows[2]
+    boxShadow: theme.shadows[2],
+    transition: theme.transitions.create('background-color'),
+    '&:hover': {
+      backgroundColor: '#DF554F'
+    }
+  },
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: '100vh',
+    width: '100vw',
+    zIndex: 3
+  },
+  hideOverlay: {
+    display: 'none'
   }
 })
 
@@ -59,7 +84,8 @@ function Page({
   currentFullPage,
   backToLandingPage,
   showCreateEventForm,
-  isCreateEvent
+  isCreateEvent,
+  hideCreateEventForm
 }) {
   return (
     <div
@@ -90,8 +116,15 @@ function Page({
           </Button>
         </Zoom>
       )}
-      {isCreateEvent && <CreateEventForm />}
+      {isCreateEvent && currentFullPage === 'map' && <CreateEventForm />}
       <Map />
+      <div
+        className={classNames([
+          classes.overlay,
+          !isCreateEvent && classes.hideOverlay
+        ])}
+        onClick={hideCreateEventForm}
+      />
     </div>
   )
 }
@@ -112,7 +145,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   backToLandingPage: () => dispatch(setCurrentFullPage(null)),
-  showCreateEventForm: () => dispatch(toggleCreateEventForm(true))
+  showCreateEventForm: () => dispatch(toggleCreateEventForm(true)),
+  hideCreateEventForm: () => {
+    dispatch(toggleCreateEventForm(false))
+    dispatch(setActiveStep(0))
+  }
 })
 
 export default compose(
