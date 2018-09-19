@@ -83,7 +83,7 @@ export const updateEvent = (id, data) => dispatch => {
   dispatch(updateEventStarted())
 
   axios
-    .post(`/api/events/${id}`, data, {
+    .patch(`/api/events/${id}`, data, {
       headers: {
         Authorization: `Bearer ${Cookies.get('token')}`,
         'Content-Type': 'multipart/form-data'
