@@ -110,7 +110,7 @@ class ChangeEventForm extends Component {
       this.props.dispatch(createEvent(data))
     }
 
-    this.props.hideCreateEventForm()
+    // this.props.hideCreateEventForm()
   }
 
   handleBack = () => {
@@ -120,12 +120,12 @@ class ChangeEventForm extends Component {
   }
 
   render() {
-    const { classes, activeStep } = this.props
+    const { classes, activeStep, isUpdateEvent } = this.props
 
     return (
       <Paper className={classes.paper}>
         <Typography variant="title" align="center">
-          Create An Event
+          {isUpdateEvent ? 'Update' : 'Create'} An Event
         </Typography>
         <Stepper activeStep={activeStep} className={classes.stepper}>
           {steps.map(label => (
