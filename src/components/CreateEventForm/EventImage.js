@@ -80,7 +80,7 @@ class EventImage extends Component {
 
   render() {
     const { image } = this.state
-    const { classes, isUpdateEvent, isImageChange, eventImage } = this.props
+    const { classes, isUpdateEvent, eventImage } = this.props
 
     return (
       <form className={classes.form}>
@@ -131,7 +131,6 @@ EventImage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  isImageChange: state.event.isImageChange,
   isUpdateEvent: state.event.isUpdateEvent,
   currentEventDetails: state.event.currentEventDetails,
   eventImage: state.event.temp.eventImage

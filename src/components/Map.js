@@ -36,7 +36,7 @@ class Map extends Component {
   }
 
   render() {
-    const { event, zoom } = this.state
+    const { event } = this.state
     const { events } = this.props
 
     const GoogleMapWithMarker = withGoogleMap(props => (
