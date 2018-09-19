@@ -131,6 +131,7 @@ class EventDetailSidebar extends Component {
       showCreateEventForm,
       isAuthenticated
     } = this.props
+
     return (
       isMarkerClicked &&
       currentEventDetails && (
@@ -139,7 +140,7 @@ class EventDetailSidebar extends Component {
             <Paper className={classes.sidebar}>
               <div className={classes.eventHeader}>
                 {isAuthenticated &&
-                  currentEventDetails.user.id === user.id && (
+                  currentEvent.userId === user.id && (
                     <Button
                       variant="fab"
                       onClick={showCreateEventForm}
