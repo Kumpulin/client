@@ -128,7 +128,8 @@ class EventDetailSidebar extends Component {
       currentEventDetails,
       hideEventDetailSidebar,
       isMarkerClicked,
-      showCreateEventForm
+      showCreateEventForm,
+      isAuthenticated
     } = this.props
     return (
       isMarkerClicked &&
@@ -137,18 +138,22 @@ class EventDetailSidebar extends Component {
           <Slide direction="left" in={currentEventDetails !== null}>
             <Paper className={classes.sidebar}>
               <div className={classes.eventHeader}>
-                <Button
-                  variant="fab"
-                  onClick={showCreateEventForm}
-                  className={classes.editButton}
-                >
-                  <EditIcon />
-                </Button>
+                {isAuthenticated &&
+                  currentEventDetails.user.id === user.id && (
+                    <Button
+                      variant="fab"
+                      onClick={showCreateEventForm}
+                      className={classes.editButton}
+                    >
+                      <EditIcon />
+                    </Button>
+                  )}
                 <img
                   className={classes.eventImage}
-                  src={`http://localhost:8081/images/uploads/${
-                    currentEventDetails.image
-                  }`}
+                  src={`${
+                    process.env.REACT_APP_KUMPULIN_API_URL
+                  }/images/uploads/${currentEventDetails.image}`}
+                  alt="Event"
                 />
               </div>
               <div className={classes.content}>
@@ -202,18 +207,19 @@ class EventDetailSidebar extends Component {
               </div>
               {user && (
                 <div className={classes.buttonGroup}>
-                  {currentEventDetails.attendees.indexOf(user.id) === -1 && (
-                    <Button
-                      className={classNames([
-                        classes.button,
-                        classes.joinButton
-                      ])}
-                      variant="fab"
-                      onClick={this.handleJoinButtonClick}
-                    >
-                      <AddIcon />
-                    </Button>
-                  )}
+                  {currentEventDetails.user.id === user.id ||
+                    (currentEventDetails.attendees.indexOf(user.id) === -1 && (
+                      <Button
+                        className={classNames([
+                          classes.button,
+                          classes.joinButton
+                        ])}
+                        variant="fab"
+                        onClick={this.handleJoinButtonClick}
+                      >
+                        <AddIcon />
+                      </Button>
+                    ))}
                   <Button
                     className={classNames([
                       classes.button,
@@ -242,6 +248,7 @@ EventDetailSidebar.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
   isMarkerClicked: state.app.isMarkerClicked,
   user: state.auth.user,
   currentEvent: state.event.currentEvent,
