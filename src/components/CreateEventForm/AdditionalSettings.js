@@ -51,7 +51,17 @@ class AdditionalSettings extends Component {
   }
 
   componentDidMount() {
-    this.setState({ ...this.props.currentEventDetails })
+    if (this.props.isUpdateEvent) {
+      this.setState({ ...this.props.currentEventDetails })
+    } else {
+      this.setState({
+        privacy: 'PUBLIC',
+        type: '',
+        topic: '',
+        showPassword: false,
+        password: ''
+      })
+    }
   }
 
   componentWillUnmount() {

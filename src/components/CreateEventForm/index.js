@@ -10,7 +10,11 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
 import { toggleCreateEventForm, setActiveStep } from '../../actions/app'
-import { createEvent, updateEvent } from '../../actions/event'
+import {
+  createEvent,
+  updateEvent,
+  clearTempEventData
+} from '../../actions/event'
 import compose from 'recompose/compose'
 
 import EventDetails from './EventDetails'
@@ -85,6 +89,10 @@ class ChangeEventForm extends Component {
     const { activeStep } = this.props
 
     this.props.dispatch(setActiveStep(activeStep + 1))
+  }
+
+  componentDidMount() {
+    this.props.dispatch(clearTempEventData())
   }
 
   handleClose = () => {

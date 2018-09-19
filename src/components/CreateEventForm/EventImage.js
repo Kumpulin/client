@@ -67,11 +67,9 @@ class EventImage extends Component {
   componentDidMount() {
     if (this.props.isUpdateEvent) {
       this.setState({ image: this.props.currentEventDetails.image })
+    } else {
+      this.setState({ image: null })
     }
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(saveTempEventImage({ image: this.state.image }))
   }
 
   render() {

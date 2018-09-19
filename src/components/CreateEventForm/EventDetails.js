@@ -93,6 +93,17 @@ class EventDetails extends Component {
         latitude: lat,
         longitude: lng
       })
+    } else {
+      this.setState({
+        title: '',
+        full_address: '',
+        city_name: '',
+        latitude: 0,
+        longitude: 0,
+        start: null,
+        end: null,
+        description: ''
+      })
     }
   }
 
