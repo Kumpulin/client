@@ -9,7 +9,7 @@ import registerServiceWorker from './registerServiceWorker'
 
 import './index.css'
 
-axios.defaults.baseURL = 'http://localhost:8081'
+axios.defaults.baseURL = process.env.REACT_APP_KUMPULIN_API_URL
 
 const store = configureStore()
 
