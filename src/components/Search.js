@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
 import compose from 'recompose/compose'
 import Slide from '@material-ui/core/Slide'
+import { fetchAllEvents } from '../actions/event'
 
 const styles = theme => ({
   search: {
@@ -40,16 +41,37 @@ class Search extends Component {
     node.style.transform = 'translate(-50%, 0)'
   }
 
+  handleChange = event => {
+    this.setState({ query: event.target.value })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault()
+
+    this.props.dispatch(fetchAllEvents(this.state.query))
+  }
+
   render() {
     const { classes, currentFullPage } = this.props
 
     return (
       <Slide in={currentFullPage === 'map'} onEntering={this.handleEntering}>
         <div className={classes.search}>
-          <Input className={classes.searchInput} label="bla" disableUnderline />
-          <Button className={classes.searchButton} variant="fab">
-            <SearchIcon />
-          </Button>
+          <form onSubmit={this.handleSubmit}>
+            <Input
+              className={classes.searchInput}
+              label="bla"
+              disableUnderline
+              onChange={this.handleChange}
+            />
+            <Button
+              type="submit"
+              className={classes.searchButton}
+              variant="fab"
+            >
+              <SearchIcon />
+            </Button>
+          </form>
         </div>
       </Slide>
     )
@@ -63,7 +85,14 @@ const mapStateToProps = state => ({
   currentFullPage: state.app.currentFullPage
 })
 
+const mapDispatchToProps = dispatch => ({
+  dispatch
+})
+
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(Search)

@@ -18,6 +18,8 @@ import {
   TOGGLE_UPDATE_EVENT
 } from '../constants/ActionTypes'
 
+import { toggleEventDetailSidebar } from '../actions/app'
+
 export const toggleUpdateEvent = payload => ({
   type: TOGGLE_UPDATE_EVENT,
   payload
@@ -47,9 +49,9 @@ export const clearTempEventData = () => ({
   type: CLEAR_TEMP_EVENT_DATA
 })
 
-export const fetchAllEvents = () => dispatch => {
+export const fetchAllEvents = query => dispatch => {
   axios
-    .get('/api/events')
+    .get(`/api/events?q=${query}`)
     .then(({ data }) => dispatch(getAllEvents(data.events)))
 }
 
@@ -89,7 +91,10 @@ export const updateEvent = (id, data) => dispatch => {
         'Content-Type': 'multipart/form-data'
       }
     })
-    .then(({ data }) => dispatch(updateEventSuccess(data.event)))
+    .then(({ data }) => {
+      dispatch(updateEventSuccess(data.event))
+      dispatch(toggleEventDetailSidebar(true))
+    })
     .catch(err => dispatch(updateEventFailure(err.message)))
 }
 

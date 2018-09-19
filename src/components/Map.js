@@ -87,7 +87,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllEvents: () => dispatch(fetchAllEvents()),
+  fetchAllEvents: () => dispatch(fetchAllEvents('')),
   fetchCurrentEventDetails: id => dispatch(fetchCurrentEventDetails(id)),
   setCurrentEvent: id => dispatch(setCurrentEvent(id)),
   showEventDetailSidebar: () => dispatch(toggleEventDetailSidebar(true)),
