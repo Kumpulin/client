@@ -36,13 +36,17 @@ class Map extends Component {
   }
 
   render() {
-    const { event } = this.state
+    const { event, zoom } = this.state
     const { events } = this.props
 
     const GoogleMapWithMarker = withGoogleMap(props => (
       <GoogleMap
         defaultZoom={12}
         defaultCenter={{
+          lat: -6.2297419,
+          lng: 106.759478
+        }}
+        center={{
           lat: JSON.parse(event.latitude),
           lng: JSON.parse(event.longitude)
         }}
