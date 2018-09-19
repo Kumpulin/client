@@ -12,6 +12,7 @@ import {
   toggleCreateEventForm,
   setActiveStep
 } from '../actions/app'
+import { clearTempEventData, toggleUpdateEvent } from '../actions/event'
 import Zoom from '@material-ui/core/Zoom'
 
 import Map from '../components/Map'
@@ -151,6 +152,8 @@ const mapDispatchToProps = dispatch => ({
   backToLandingPage: () => dispatch(setCurrentFullPage(null)),
   showCreateEventForm: () => dispatch(toggleCreateEventForm(true)),
   hideCreateEventForm: () => {
+    dispatch(clearTempEventData())
+    dispatch(toggleUpdateEvent(false))
     dispatch(toggleCreateEventForm(false))
     dispatch(setActiveStep(0))
   }

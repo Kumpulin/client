@@ -24,6 +24,7 @@ const initalState = {
   error: null,
   isUpdateEvent: false,
   temp: {
+    isImageChange: false,
     eventDetails: null,
     eventImage: null,
     eventAdditionalSettings: null
@@ -55,7 +56,8 @@ export default function eventReducer(state = initalState, action) {
         ...state,
         temp: {
           ...state.temp,
-          eventImage: action.payload.eventImage
+          eventImage: action.payload.eventImage,
+          isImageChange: true
         }
       }
     case SAVE_TEMP_EVENT_ADDITIONAL_SETTINGS:
@@ -70,6 +72,7 @@ export default function eventReducer(state = initalState, action) {
       return {
         ...state,
         temp: {
+          isImageChange: false,
           eventDetails: null,
           eventImage: null,
           eventAdditionalSettings: null

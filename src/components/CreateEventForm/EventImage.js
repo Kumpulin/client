@@ -64,9 +64,19 @@ class EventImage extends Component {
     this.props.dispatch(saveTempEventImage({ image: event.target.files[0] }))
   }
 
+  componentDidMount() {
+    if (this.props.isUpdateEvent) {
+      this.setState({ image: this.props.currentEventDetails.image })
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(saveTempEventImage({ image: this.state.image }))
+  }
+
   render() {
     const { image } = this.state
-    const { classes, eventImage } = this.props
+    const { classes, isUpdateEvent, isImageChange, eventImage } = this.props
 
     return (
       <form className={classes.form}>
@@ -85,9 +95,13 @@ class EventImage extends Component {
                 backgroundImage: `url(${
                   eventImage
                     ? URL.createObjectURL(eventImage.image)
-                    : image
-                      ? URL.createObjectURL(image)
-                      : ''
+                    : isUpdateEvent
+                      ? `${
+                          process.env.REACT_APP_KUMPULIN_API_URL
+                        }/images/uploads/${image}`
+                      : image
+                        ? URL.createObjectURL(image)
+                        : ''
                 })`
               }}
             />
@@ -113,6 +127,9 @@ EventImage.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  isImageChange: state.event.isImageChange,
+  isUpdateEvent: state.event.isUpdateEvent,
+  currentEventDetails: state.event.currentEventDetails,
   eventImage: state.event.temp.eventImage
 })
 

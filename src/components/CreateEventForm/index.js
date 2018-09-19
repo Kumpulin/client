@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
 import { toggleCreateEventForm, setActiveStep } from '../../actions/app'
-import { createEvent } from '../../actions/event'
+import { createEvent, updateEvent } from '../../actions/event'
 import compose from 'recompose/compose'
 
 import EventDetails from './EventDetails'
@@ -96,7 +96,11 @@ class ChangeEventForm extends Component {
       JSON.stringify(this.props.temp.eventAdditionalSettings)
     )
 
-    this.props.dispatch(createEvent(data))
+    if (this.props.isUpdateEvent) {
+      this.props.dispatch(updateEvent(this.props.currentEvent.id, data))
+    } else {
+      this.props.dispatch(createEvent(data))
+    }
 
     this.props.hideCreateEventForm()
   }
@@ -172,6 +176,8 @@ ChangeEventForm.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  isUpdateEvent: state.event.isUpdateEvent,
+  currentEvent: state.event.currentEvent,
   activeStep: state.app.activeStep,
   temp: state.event.temp
 })

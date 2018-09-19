@@ -77,6 +77,25 @@ class EventDetails extends Component {
     })
   }
 
+  async componentDidMount() {
+    if (this.props.isUpdateEvent) {
+      const [location] = await geocodeByAddress(
+        this.props.currentEventDetails.full_address
+      )
+      const { lat, lng } = await getLatLng(location)
+
+      this.setState({
+        ...this.props.currentEvent,
+        ...this.props.currentEventDetails,
+        city_name:
+          location.address_components[location.address_components.length - 4]
+            .short_name,
+        latitude: lat,
+        longitude: lng
+      })
+    }
+  }
+
   componentWillUnmount() {
     this.props.dispatch(saveTempEventDetails(this.state))
   }
@@ -194,6 +213,9 @@ EventDetails.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  isUpdateEvent: state.event.isUpdateEvent,
+  currentEvent: state.event.currentEvent,
+  currentEventDetails: state.event.currentEventDetails,
   eventDetails: state.event.temp.eventDetails
 })
 

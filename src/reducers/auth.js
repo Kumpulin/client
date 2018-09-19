@@ -21,6 +21,7 @@ export default function authReducer(state = initialState, action) {
     case GET_USER_DATA:
       return {
         ...state,
+        isAuthenticated: true,
         user: action.payload.user
       }
     case SIGNUP_REQUEST:
