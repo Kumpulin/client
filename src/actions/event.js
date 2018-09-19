@@ -14,8 +14,14 @@ import {
   UPDATE_EVENT_FAILURE,
   JOIN_EVENT,
   CLEAR_TEMP_EVENT_DATA,
-  SET_CURRENT_EVENT
+  SET_CURRENT_EVENT,
+  TOGGLE_UPDATE_EVENT
 } from '../constants/ActionTypes'
+
+export const toggleUpdateEvent = payload => ({
+  type: TOGGLE_UPDATE_EVENT,
+  payload
+})
 
 export const setCurrentEvent = id => ({
   type: SET_CURRENT_EVENT,

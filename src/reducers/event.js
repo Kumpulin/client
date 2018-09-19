@@ -12,7 +12,8 @@ import {
   UPDATE_EVENT_FAILURE,
   JOIN_EVENT,
   CLEAR_TEMP_EVENT_DATA,
-  SET_CURRENT_EVENT
+  SET_CURRENT_EVENT,
+  TOGGLE_UPDATE_EVENT
 } from '../constants/ActionTypes'
 
 const initalState = {
@@ -21,6 +22,7 @@ const initalState = {
   currentEventDetails: null,
   loading: false,
   error: null,
+  isUpdateEvent: false,
   temp: {
     eventDetails: null,
     eventImage: null,
@@ -30,6 +32,11 @@ const initalState = {
 
 export default function eventReducer(state = initalState, action) {
   switch (action.type) {
+    case TOGGLE_UPDATE_EVENT:
+      return {
+        ...state,
+        isUpdateEvent: action.payload
+      }
     case SET_CURRENT_EVENT:
       return {
         ...state,

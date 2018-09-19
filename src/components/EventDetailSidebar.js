@@ -13,9 +13,14 @@ import PlaceIcon from '@material-ui/icons/Place'
 import AddIcon from '@material-ui/icons/Add'
 import classNames from 'classnames'
 import format from 'date-fns/format'
-import { toggleEventDetailSidebar } from '../actions/app'
-import { fetchCurrentEventDetails, joinEvent } from '../actions/event'
+import { toggleEventDetailSidebar, toggleCreateEventForm } from '../actions/app'
+import {
+  fetchCurrentEventDetails,
+  joinEvent,
+  toggleUpdateEvent
+} from '../actions/event'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import EditIcon from '@material-ui/icons/Edit'
 
 const styles = theme => ({
   sidebar: {
@@ -29,9 +34,20 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column'
   },
-  eventImage: {
+  eventHeader: {
+    display: 'flex',
+    alignItem: 'center',
+    justifyContent: 'center',
     height: theme.spacing.unit * 24,
+    position: 'relative'
+  },
+  eventImage: {
     minWidth: '100%'
+  },
+  editButton: {
+    position: 'absolute',
+    top: theme.spacing.unit * 3,
+    right: theme.spacing.unit * 3
   },
   content: {
     padding: theme.spacing.unit * 4,
@@ -111,7 +127,8 @@ class EventDetailSidebar extends Component {
       currentEvent,
       currentEventDetails,
       hideEventDetailSidebar,
-      isMarkerClicked
+      isMarkerClicked,
+      showCreateEventForm
     } = this.props
     return (
       isMarkerClicked &&
@@ -119,12 +136,21 @@ class EventDetailSidebar extends Component {
         <ClickAwayListener onClickAway={hideEventDetailSidebar}>
           <Slide direction="left" in={currentEventDetails !== null}>
             <Paper className={classes.sidebar}>
-              <img
-                className={classes.eventImage}
-                src={`http://localhost:8081/images/uploads/${
-                  currentEventDetails.image
-                }`}
-              />
+              <div className={classes.eventHeader}>
+                <Button
+                  variant="fab"
+                  onClick={showCreateEventForm}
+                  className={classes.editButton}
+                >
+                  <EditIcon />
+                </Button>
+                <img
+                  className={classes.eventImage}
+                  src={`http://localhost:8081/images/uploads/${
+                    currentEventDetails.image
+                  }`}
+                />
+              </div>
               <div className={classes.content}>
                 <div className={classes.contentHeader}>
                   <Typography
@@ -174,30 +200,35 @@ class EventDetailSidebar extends Component {
                   </Typography>
                 </div>
               </div>
-              <div className={classes.buttonGroup}>
-                {currentEventDetails.attendees.indexOf(user.id) === -1 && (
+              {user && (
+                <div className={classes.buttonGroup}>
+                  {currentEventDetails.attendees.indexOf(user.id) === -1 && (
+                    <Button
+                      className={classNames([
+                        classes.button,
+                        classes.joinButton
+                      ])}
+                      variant="fab"
+                      onClick={this.handleJoinButtonClick}
+                    >
+                      <AddIcon />
+                    </Button>
+                  )}
                   <Button
-                    className={classNames([classes.button, classes.joinButton])}
-                    variant="fab"
-                    onClick={this.handleJoinButtonClick}
+                    className={classNames([
+                      classes.button,
+                      classes.attendeesCounter,
+                      currentEventDetails.attendees.indexOf(user.id) !== -1 &&
+                        classes.incrementedCounter
+                    ])}
+                    variant="extendedFab"
+                    fullWidth
+                    disabled
                   >
-                    <AddIcon />
+                    {currentEventDetails.attendees.length}
                   </Button>
-                )}
-                <Button
-                  className={classNames([
-                    classes.button,
-                    classes.attendeesCounter,
-                    currentEventDetails.attendees.indexOf(user.id) !== -1 &&
-                      classes.incrementedCounter
-                  ])}
-                  variant="extendedFab"
-                  fullWidth
-                  disabled
-                >
-                  {currentEventDetails.attendees.length}
-                </Button>
-              </div>
+                </div>
+              )}
             </Paper>
           </Slide>
         </ClickAwayListener>
@@ -221,6 +252,11 @@ const mapDispatchToProps = dispatch => ({
   joinEvent: id => dispatch(joinEvent(id)),
   fetchCurrentEventDetails: id => dispatch(fetchCurrentEventDetails(id)),
   hideEventDetailSidebar: () => dispatch(toggleEventDetailSidebar(false)),
+  showCreateEventForm: () => {
+    dispatch(toggleEventDetailSidebar(false))
+    dispatch(toggleCreateEventForm(true))
+    dispatch(toggleUpdateEvent(true))
+  },
   dispatch
 })
 
