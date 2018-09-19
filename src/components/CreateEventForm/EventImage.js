@@ -61,14 +61,7 @@ class EventImage extends Component {
 
   handleImageChange = event => {
     this.setState({ image: event.target.files[0] })
-  }
-
-  componentDidMount() {
-    console.log(this.props.eventImage)
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(saveTempEventImage(this.state))
+    this.props.dispatch(saveTempEventImage({ image: event.target.files[0] }))
   }
 
   render() {
