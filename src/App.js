@@ -9,7 +9,6 @@ import grey from '@material-ui/core/colors/grey'
 import classNames from 'classnames'
 import compose from 'recompose/compose'
 import Cookies from 'js-cookie'
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 import { fetchUserData } from './actions/auth'
 
 import {
@@ -62,7 +61,13 @@ class App extends Component {
   }
 
   render() {
-    const { classes, setMapPageFull, currentFullPage, width } = this.props
+    const {
+      classes,
+      setMapPageFull,
+      currentFullPage,
+      isSignUp,
+      isSignIn
+    } = this.props
 
     return (
       <Fragment>
@@ -76,8 +81,7 @@ class App extends Component {
             <Button
               className={classNames([
                 classes.startExploringButton,
-                currentFullPage !== null &&
-                  isWidthUp('lg', width) &&
+                (currentFullPage !== null || isSignUp || isSignIn) &&
                   classes.hideStartExploringButton
               ])}
               variant="extendedFab"
@@ -99,6 +103,8 @@ App.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  isSignUp: state.app.isSignUp,
+  isSignIn: state.app.isSignIn,
   currentFullPage: state.app.currentFullPage
 })
 
@@ -118,6 +124,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  withWidth(),
   withStyles(styles)
 )(App)

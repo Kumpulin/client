@@ -34,6 +34,8 @@ const styles = theme => ({
     },
     transform: 'translate(-50%, -50%)',
     padding: theme.spacing.unit * 4,
+    maxWidth: `calc(100% - ${theme.spacing.unit * 2}px)`,
+    width: theme.spacing.unit * 64,
     borderRadius: '10px',
     transition: theme.transitions.create('transform')
   },

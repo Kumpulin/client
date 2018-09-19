@@ -40,9 +40,16 @@ const styles = theme => ({
     transform: 'translateX(0)'
   },
   backButton: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    },
     position: 'fixed',
     top: theme.spacing.unit * 4,
     left: theme.spacing.unit * 4,
+    [theme.breakpoints.down('xs')]: {
+      top: theme.spacing.unit * 2,
+      left: theme.spacing.unit * 2
+    },
     zIndex: 3,
     backgroundColor: '#ff5d5d',
     color: 'white',
@@ -56,6 +63,10 @@ const styles = theme => ({
     position: 'fixed',
     bottom: theme.spacing.unit * 4,
     right: theme.spacing.unit * 4,
+    [theme.breakpoints.down('xs')]: {
+      bottom: theme.spacing.unit * 2,
+      right: theme.spacing.unit * 2
+    },
     zIndex: 3,
     backgroundColor: '#ff5d5d',
     color: 'white',
