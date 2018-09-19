@@ -83,7 +83,12 @@ export const updateEvent = (id, data) => dispatch => {
   dispatch(updateEventStarted())
 
   axios
-    .post(`/api/events/${id}`, data, authHeader)
+    .post(`/api/events/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    })
     .then(({ data }) => dispatch(updateEventSuccess(data.event)))
     .catch(err => dispatch(updateEventFailure(err.message)))
 }
