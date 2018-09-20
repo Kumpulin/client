@@ -4,11 +4,7 @@ import PropTypes from 'prop-types'
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer'
 import { toggleEventDetailSidebar } from '../actions/app'
-import {
-  fetchAllEvents,
-  fetchCurrentEventDetails,
-  setCurrentEvent
-} from '../actions/event'
+import { fetchCurrentEventDetails, setCurrentEvent } from '../actions/event'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const defaultOptions = {
@@ -29,10 +25,6 @@ class Map extends Component {
     this.props.fetchCurrentEventDetails(event.id)
     this.props.setCurrentEvent(event.id)
     this.props.showEventDetailSidebar()
-  }
-
-  componentDidMount() {
-    this.props.fetchAllEvents()
   }
 
   render() {
@@ -87,7 +79,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllEvents: () => dispatch(fetchAllEvents('')),
   fetchCurrentEventDetails: id => dispatch(fetchCurrentEventDetails(id)),
   setCurrentEvent: id => dispatch(setCurrentEvent(id)),
   showEventDetailSidebar: () => dispatch(toggleEventDetailSidebar(true)),

@@ -19,6 +19,8 @@ import {
   toggleChangePasswordForm
 } from './actions/app'
 
+import { fetchAllEvents } from './actions/event'
+
 import LeftPage from './pages/LeftPage'
 import MapPage from './pages/MapPage'
 
@@ -54,6 +56,8 @@ class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     const token = Cookies.get('token')
+
+    this.props.fetchAllEvents()
 
     if (token) {
       dispatch(fetchUserData(token))
@@ -110,6 +114,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  fetchAllEvents: () => dispatch(fetchAllEvents('')),
   setMapPageFull: () => {
     dispatch(toggleSignUpForm(false))
     dispatch(toggleSignInForm(false))
