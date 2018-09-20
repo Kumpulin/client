@@ -75,10 +75,7 @@ const styles = theme => ({
     }
   },
   hideForm: {
-    transform: `translate(calc(100% + ${theme.spacing.unit * 24}px), -50%)`,
-    [theme.breakpoints.up('lg')]: {
-      transform: `translate(calc(75% + ${theme.spacing.unit * 24}px), -50%)`
-    }
+    transform: `translate(100vw, -50%)`
   },
   loaderContainer: {
     position: 'absolute',
