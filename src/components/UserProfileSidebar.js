@@ -23,7 +23,7 @@ const styles = theme => ({
     left: theme.spacing.unit * 4,
     top: theme.spacing.unit * 4,
     bottom: theme.spacing.unit * 4,
-    zIndex: 3,
+    zIndex: 5,
     width: theme.spacing.unit * 48,
     overflow: 'hidden',
     display: 'flex',

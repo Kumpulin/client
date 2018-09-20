@@ -37,7 +37,8 @@ const styles = theme => ({
     borderRadius: '10px',
     width: theme.spacing.unit * 48,
     maxWidth: `calc(100% - ${theme.spacing.unit * 2}px)`,
-    transition: theme.transitions.create('transform')
+    transition: theme.transitions.create('transform'),
+    zIndex: 15
   },
   form: {
     display: 'flex',

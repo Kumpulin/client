@@ -37,7 +37,8 @@ const styles = theme => ({
     maxWidth: `calc(100% - ${theme.spacing.unit * 2}px)`,
     width: theme.spacing.unit * 64,
     borderRadius: '10px',
-    transition: theme.transitions.create('transform')
+    transition: theme.transitions.create('transform'),
+    zIndex: 15
   },
   formTitleGroup: {
     marginBottom: theme.spacing.unit * 4
