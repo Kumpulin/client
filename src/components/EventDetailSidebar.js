@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Slide from '@material-ui/core/Slide'
 import Paper from '@material-ui/core/Paper'
@@ -21,6 +21,7 @@ import {
 } from '../actions/event'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import EditIcon from '@material-ui/icons/Edit'
+import TextField from '@material-ui/core/TextField'
 
 const styles = theme => ({
   sidebar: {
@@ -84,7 +85,8 @@ const styles = theme => ({
   descriptionText: {
     color: '#aaa',
     lineHeight: theme.spacing.unit * 0.25,
-    fontSize: theme.spacing.unit * 2
+    fontSize: theme.spacing.unit * 2,
+    wordBreak: 'break-word'
   },
   buttonGroup: {
     display: 'flex',
@@ -109,15 +111,42 @@ const styles = theme => ({
   incrementedCounter: {
     backgroundColor: '#ff5d5d !important',
     color: 'white !important'
+  },
+  contentCentered: {
+    padding: theme.spacing.unit * 4,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
   }
 })
 
 class EventDetailSidebar extends Component {
+  state = {
+    isEventPasswordCorret: false,
+    password: ''
+  }
+
   handleJoinButtonClick = () => {
     const { currentEvent } = this.props
 
     this.props.joinEvent(currentEvent.id)
     this.props.fetchCurrentEventDetails(currentEvent.id)
+  }
+
+  handleEventPasswordSubmit = event => {
+    event.preventDefault()
+
+    if (this.state.password == this.props.currentEventDetails.password) {
+      this.setState({ isEventPasswordCorret: true })
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isEventPasswordCorret: false,
+      password: ''
+    })
   }
 
   render() {
@@ -157,84 +186,114 @@ class EventDetailSidebar extends Component {
                   alt="Event"
                 />
               </div>
-              <div className={classes.content}>
-                <div className={classes.contentHeader}>
-                  <Typography
-                    className={classes.sectionTitle}
-                    variant="headline"
-                  >
-                    {currentEvent.title}
-                  </Typography>
-                  <Typography className={classes.eventCreator} variant="body2">
-                    by <strong>{currentEventDetails.user.name}</strong>
-                  </Typography>
+              {currentEventDetails.privacy === 'PRIVATE' &&
+              !this.state.isEventPasswordCorret ? (
+                <div className={classes.contentCentered}>
+                  <form onSubmit={this.handleEventPasswordSubmit}>
+                    <TextField
+                      label="Password"
+                      value={this.state.password}
+                      onChange={e =>
+                        this.setState({ password: e.target.value })
+                      }
+                    />
+                  </form>
                 </div>
-                <div className={classes.iconWithText}>
-                  <ClockIcon />
-                  <Typography className={classes.iconText} variant="subheading">
-                    {format(currentEvent.start, 'HH:mm')} -{' '}
-                    {format(currentEvent.end, 'HH:mm')}
-                  </Typography>
-                </div>
-                <div className={classes.iconWithText}>
-                  <CalendarIcon />
-                  <Typography className={classes.iconText} variant="subheading">
-                    {format(currentEvent.start, 'd MMM')} -{' '}
-                    {format(currentEvent.end, 'd MMM')}
-                  </Typography>
-                </div>
-                <div className={classes.iconWithText}>
-                  <PlaceIcon />
-                  <Typography className={classes.iconText} variant="subheading">
-                    {currentEventDetails.full_address}
-                  </Typography>
-                </div>
-                <div className={classes.description}>
-                  <Typography
-                    className={classes.sectionTitle}
-                    variant="headline"
-                    gutterBottom
-                  >
-                    Description
-                  </Typography>
-                  <Typography
-                    className={classes.descriptionText}
-                    variant="body1"
-                    paragraph
-                  >
-                    {currentEventDetails.description}
-                  </Typography>
-                </div>
-              </div>
-              {user && (
-                <div className={classes.buttonGroup}>
-                  {currentEventDetails.user.id === user.id ||
-                    (currentEventDetails.attendees.indexOf(user.id) === -1 && (
+              ) : (
+                <Fragment>
+                  <div className={classes.content}>
+                    <div className={classes.contentHeader}>
+                      <Typography
+                        className={classes.sectionTitle}
+                        variant="headline"
+                      >
+                        {currentEvent.title}
+                      </Typography>
+                      <Typography
+                        className={classes.eventCreator}
+                        variant="body2"
+                      >
+                        by <strong>{currentEventDetails.user.name}</strong>
+                      </Typography>
+                    </div>
+                    <div className={classes.iconWithText}>
+                      <ClockIcon />
+                      <Typography
+                        className={classes.iconText}
+                        variant="subheading"
+                      >
+                        {format(currentEvent.start, 'HH:mm')} -{' '}
+                        {format(currentEvent.end, 'HH:mm')}
+                      </Typography>
+                    </div>
+                    <div className={classes.iconWithText}>
+                      <CalendarIcon />
+                      <Typography
+                        className={classes.iconText}
+                        variant="subheading"
+                      >
+                        {format(currentEvent.start, 'd MMM')} -{' '}
+                        {format(currentEvent.end, 'd MMM')}
+                      </Typography>
+                    </div>
+                    <div className={classes.iconWithText}>
+                      <PlaceIcon />
+                      <Typography
+                        className={classes.iconText}
+                        variant="subheading"
+                      >
+                        {currentEventDetails.full_address}
+                      </Typography>
+                    </div>
+                    <div className={classes.description}>
+                      <Typography
+                        className={classes.sectionTitle}
+                        variant="headline"
+                        gutterBottom
+                      >
+                        Description
+                      </Typography>
+                      <Typography
+                        className={classes.descriptionText}
+                        variant="body1"
+                        paragraph
+                      >
+                        {currentEventDetails.description}
+                      </Typography>
+                    </div>
+                  </div>
+                  {user && (
+                    <div className={classes.buttonGroup}>
+                      {currentEventDetails.user.id === user.id ||
+                        (currentEventDetails.attendees.indexOf(user.id) ===
+                          -1 && (
+                          <Button
+                            className={classNames([
+                              classes.button,
+                              classes.joinButton
+                            ])}
+                            variant="fab"
+                            onClick={this.handleJoinButtonClick}
+                          >
+                            <AddIcon />
+                          </Button>
+                        ))}
                       <Button
                         className={classNames([
                           classes.button,
-                          classes.joinButton
+                          classes.attendeesCounter,
+                          currentEventDetails.attendees.indexOf(user.id) !==
+                            -1 && classes.incrementedCounter
                         ])}
-                        variant="fab"
-                        onClick={this.handleJoinButtonClick}
+                        variant="extendedFab"
+                        fullWidth
+                        disabled
                       >
-                        <AddIcon />
+                        {currentEventDetails.attendees.length}
                       </Button>
-                    ))}
-                  <Button
-                    className={classNames([
-                      classes.button,
-                      classes.attendeesCounter,
-                      currentEventDetails.attendees.indexOf(user.id) !== -1 &&
-                        classes.incrementedCounter
-                    ])}
-                    variant="extendedFab"
-                    fullWidth
-                    disabled
-                  >
-                    {currentEventDetails.attendees.length}
-                  </Button>
-                </div>
+                    </div>
+                  )}
+                </Fragment>
               )}
             </Paper>
           </Slide>
