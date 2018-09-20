@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import Typography from '@material-ui/core/Typography'
 import compose from 'recompose/compose'
@@ -87,40 +88,19 @@ class EventImage extends Component {
         <input
           accept="image/*"
           className={classes.inputFile}
-          id="button-file"
+          id="outlined-button-file"
           type="file"
           onChange={this.handleImageChange}
         />
-        <ButtonBase className={classes.inputFileContainer}>
-          <label htmlFor="button-file" className={classes.inputFileLabel}>
-            <span
-              className={classes.image}
-              style={{
-                backgroundImage: `url(${
-                  eventImage
-                    ? URL.createObjectURL(eventImage.image)
-                    : isUpdateEvent
-                      ? `${
-                          process.env.REACT_APP_KUMPULIN_API_URL
-                        }/images/uploads/${image}`
-                      : image
-                        ? URL.createObjectURL(image)
-                        : ''
-                })`
-              }}
-            />
-            <span className={classes.inputTextContainer}>
-              <Typography
-                component="span"
-                variant="subheading"
-                color="inherit"
-                className={classes.inputText}
-              >
-                Select image
-              </Typography>
-            </span>
-          </label>
-        </ButtonBase>
+        <label htmlFor="outlined-button-file">
+          <Button
+            variant="outlined"
+            component="span"
+            className={classes.button}
+          >
+            Upload
+          </Button>
+        </label>
       </form>
     )
   }
