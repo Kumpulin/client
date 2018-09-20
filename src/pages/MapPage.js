@@ -23,7 +23,6 @@ import CreateEventForm from '../components/CreateEventForm'
 import EventDetailSidebar from '../components/EventDetailSidebar'
 import UserProfileSidebar from '../components/UserProfileSidebar'
 import { Avatar } from '@material-ui/core'
-import image from '../assets/images/gibran-khrisna-putra.jpg'
 
 const styles = theme => ({
   page: {
@@ -155,9 +154,9 @@ class MapPage extends Component {
             >
               {user.image ? (
                 <Avatar
-                  src={`${
-                    process.env.REACT_APP_KUMPULIN_API_URL
-                  }images/uploads/${user.image}`}
+                  src={`https://s3-ap-southeast-1.amazonaws.com/kumpulin-images/${
+                    user.image
+                  }`}
                 />
               ) : (
                 <Avatar>

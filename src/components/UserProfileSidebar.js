@@ -177,9 +177,9 @@ class UserProfileSidebar extends Component {
                     src={
                       image !== ''
                         ? URL.createObjectURL(image)
-                        : `${
-                            process.env.REACT_APP_KUMPULIN_API_URL
-                          }images/uploads/${user.image}`
+                        : `https://s3-ap-southeast-1.amazonaws.com/kumpulin-images/${
+                            user.image
+                          }`
                     }
                     className={classes.userImage}
                   />
@@ -256,9 +256,9 @@ class UserProfileSidebar extends Component {
                             backgroundImage: `url(${
                               image !== ''
                                 ? URL.createObjectURL(image)
-                                : `${
-                                    process.env.REACT_APP_KUMPULIN_API_URL
-                                  }images/uploads/${user.image}`
+                                : `https://s3-ap-southeast-1.amazonaws.com/kumpulin-images/${
+                                    user.image
+                                  }`
                             })`
                           }}
                         />

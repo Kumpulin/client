@@ -180,9 +180,9 @@ class EventDetailSidebar extends Component {
                   )}
                 <img
                   className={classes.eventImage}
-                  src={`${
-                    process.env.REACT_APP_KUMPULIN_API_URL
-                  }images/uploads/${currentEventDetails.image}`}
+                  src={`https://s3-ap-southeast-1.amazonaws.com/kumpulin-images/${
+                    currentEventDetails.image
+                  }`}
                   alt="Event"
                 />
               </div>
