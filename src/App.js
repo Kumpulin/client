@@ -42,7 +42,8 @@ const styles = theme => ({
     '&:hover': {
       boxShadow: theme.shadows[4],
       backgroundColor: grey[50]
-    }
+    },
+    zIndex: 11
   },
   hideStartExploringButton: {
     transform: `translate(-50%, ${theme.spacing.unit * 24}px)`
