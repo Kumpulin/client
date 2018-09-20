@@ -9,10 +9,20 @@ import {
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
   LOGOUT,
-  UPDATE_PROFILE
+  UPDATE_PROFILE_IMAGE
 } from '../constants/ActionTypes'
 
 import { setCurrentFullPage, toggleSignInForm, toggleSignUpForm } from './app'
+
+export const updateProfileImage = data => dispatch => {
+  console.log(data)
+
+  axios
+    .patch('/api/account/update_profile_image', data, authHeader)
+    .then(({ data }) =>
+      dispatch({ type: UPDATE_PROFILE_IMAGE, payload: { user: data.user } })
+    )
+}
 
 export const fetchUserData = token => dispatch => {
   axios
@@ -73,17 +83,6 @@ const signInSuccess = ({ user, token }) => {
 const signInFailure = message => ({
   type: SIGNIN_FAILURE,
   payload: { message }
-})
-
-export const updateProfile = data => dispatch => {
-  axios
-    .patch('/api/account/update_profile', data, authHeader)
-    .then(({ data }) => dispatch(updateUser(data.user)))
-}
-
-const updateUser = user => ({
-  type: UPDATE_PROFILE,
-  payload: { user }
 })
 
 const authHeader = {

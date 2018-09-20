@@ -14,9 +14,8 @@ import { toggleUserProfileSidebar } from '../actions/app'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Fade from '@material-ui/core/Fade'
 import classNames from 'classnames'
-import EditIcon from '@material-ui/icons/Edit'
 import PersonIcon from '@material-ui/icons/Person'
-import { updateProfile } from '../actions/auth'
+import { updateProfileImage } from '../actions/auth'
 
 const styles = theme => ({
   sidebar: {
@@ -136,21 +135,13 @@ class UserProfileSidebar extends Component {
     this.setState({ isEditing: !this.state.isEditing })
   }
 
-  handleFormSubmit = event => {
-    event.preventDefault()
-
-    this.props.dispatch(updateProfile(this.state))
-
-    this.setState({
-      isEditing: false,
-      name: '',
-      email: '',
-      image: ''
-    })
-  }
-
   handleImageChange = event => {
+    const data = new FormData()
+
     this.setState({ image: event.target.files[0] })
+    data.append('image', event.target.files[0])
+
+    this.props.dispatch(updateProfileImage(data))
   }
 
   handleChange = name => event => {
@@ -188,7 +179,7 @@ class UserProfileSidebar extends Component {
                         ? URL.createObjectURL(image)
                         : `${
                             process.env.REACT_APP_KUMPULIN_API_URL
-                          }images/uploads/${image}`
+                          }images/uploads/${user.image}`
                     }
                     className={classes.userImage}
                   />
@@ -254,10 +245,7 @@ class UserProfileSidebar extends Component {
                       type="file"
                       onChange={this.handleImageChange}
                     />
-                    <ButtonBase
-                      className={classes.inputFileContainer}
-                      disabled={!isEditing}
-                    >
+                    <ButtonBase className={classes.inputFileContainer}>
                       <label
                         htmlFor="button-file"
                         className={classes.inputFileLabel}
@@ -270,7 +258,7 @@ class UserProfileSidebar extends Component {
                                 ? URL.createObjectURL(image)
                                 : `${
                                     process.env.REACT_APP_KUMPULIN_API_URL
-                                  }images/uploads/${image}`
+                                  }images/uploads/${user.image}`
                             })`
                           }}
                         />

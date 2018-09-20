@@ -7,7 +7,7 @@ import {
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
   LOGOUT,
-  UPDATE_PROFILE
+  UPDATE_PROFILE_IMAGE
 } from '../constants/ActionTypes'
 
 const initialState = {
@@ -25,7 +25,7 @@ export default function authReducer(state = initialState, action) {
         isAuthenticated: true,
         user: action.payload.user
       }
-    case UPDATE_PROFILE:
+    case UPDATE_PROFILE_IMAGE:
       return {
         ...state,
         user: action.payload.user
