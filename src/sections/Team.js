@@ -23,7 +23,8 @@ const styles = theme => ({
     },
     display: 'flex',
     flexWrap: 'wrap',
-    minHeight: '100vh'
+    minHeight: '100vh',
+    backgroundColor: 'white'
   },
   member: {
     display: 'flex',
