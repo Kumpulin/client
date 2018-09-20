@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -8,7 +8,6 @@ import compose from 'recompose/compose'
 import Slide from '@material-ui/core/Slide'
 import { fetchAllEvents } from '../actions/event'
 import BackIcon from '@material-ui/icons/ArrowBack'
-import Hidden from '@material-ui/core/Hidden'
 import { setCurrentFullPage } from '../actions/app'
 
 const styles = theme => ({
