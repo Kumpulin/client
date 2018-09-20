@@ -137,7 +137,10 @@ class EventDetailSidebar extends Component {
   handleEventPasswordSubmit = event => {
     event.preventDefault()
 
-    if (this.state.password == this.props.currentEventDetails.password) {
+    if (
+      this.state.password.toString() ===
+      this.props.currentEventDetails.password.toString()
+    ) {
       this.setState({ isEventPasswordCorret: true })
     }
   }
@@ -192,6 +195,7 @@ class EventDetailSidebar extends Component {
                   <form onSubmit={this.handleEventPasswordSubmit}>
                     <TextField
                       label="Password"
+                      type="password"
                       value={this.state.password}
                       onChange={e =>
                         this.setState({ password: e.target.value })
