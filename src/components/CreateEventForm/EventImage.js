@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import ButtonBase from '@material-ui/core/ButtonBase'
-import Typography from '@material-ui/core/Typography'
 import compose from 'recompose/compose'
 import { saveTempEventImage } from '../../actions/event'
 
@@ -80,8 +78,7 @@ class EventImage extends Component {
   }
 
   render() {
-    const { image } = this.state
-    const { classes, isUpdateEvent, eventImage } = this.props
+    const { classes } = this.props
 
     return (
       <form className={classes.form}>
@@ -111,9 +108,7 @@ EventImage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  isUpdateEvent: state.event.isUpdateEvent,
-  currentEventDetails: state.event.currentEventDetails,
-  eventImage: state.event.temp.eventImage
+  currentEventDetails: state.event.currentEventDetails
 })
 
 const mapDispatchToProps = dispatch => ({
