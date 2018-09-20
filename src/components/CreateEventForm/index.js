@@ -97,7 +97,7 @@ class ChangeEventForm extends Component {
 
   handleClose = () => {
     const data = new FormData()
-    data.append('images', this.props.temp.eventImage.image)
+    data.append('image', this.props.temp.eventImage.image)
     data.append('event_details', JSON.stringify(this.props.temp.eventDetails))
     data.append(
       'additional_settings',
