@@ -153,7 +153,7 @@ class EventDetailSidebar extends Component {
                   className={classes.eventImage}
                   src={`${
                     process.env.REACT_APP_KUMPULIN_API_URL
-                  }/images/uploads/${currentEventDetails.image}`}
+                  }images/uploads/${currentEventDetails.image}`}
                   alt="Event"
                 />
               </div>

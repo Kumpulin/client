@@ -157,7 +157,7 @@ class MapPage extends Component {
                 <Avatar
                   src={`${
                     process.env.REACT_APP_KUMPULIN_API_URL
-                  }/images/uploads/${image}`}
+                  }images/uploads/${image}`}
                 />
               ) : (
                 <Avatar>
