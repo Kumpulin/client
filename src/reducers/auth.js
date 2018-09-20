@@ -6,7 +6,8 @@ import {
   SIGNIN_REQUEST,
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
-  LOGOUT
+  LOGOUT,
+  UPDATE_PROFILE
 } from '../constants/ActionTypes'
 
 const initialState = {
@@ -22,6 +23,11 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         isAuthenticated: true,
+        user: action.payload.user
+      }
+    case UPDATE_PROFILE:
+      return {
+        ...state,
         user: action.payload.user
       }
     case SIGNUP_REQUEST:

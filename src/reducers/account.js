@@ -1,14 +1,15 @@
 import {
   GET_JOINED_EVENTS,
-  GET_ATTENDED_EVENTS,
+  GET_ATTENDED_EVENTS
 } from '../constants/ActionTypes'
 
 const initalState = {
   joinedEvents: [],
-  attendedEvents: []
+  attendedEvents: [],
+  newPassword: null
 }
 
-export default function eventReducer (state = initalState, action) {
+export default function eventReducer(state = initalState, action) {
   switch (action.type) {
     case GET_JOINED_EVENTS:
       return {

@@ -8,18 +8,15 @@ import {
   SIGNIN_REQUEST,
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
-  LOGOUT
+  LOGOUT,
+  UPDATE_PROFILE
 } from '../constants/ActionTypes'
 
 import { setCurrentFullPage, toggleSignInForm, toggleSignUpForm } from './app'
 
 export const fetchUserData = token => dispatch => {
   axios
-    .get('/api/account/', {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    })
+    .get('/api/account/', authHeader)
     .then(({ data }) => dispatch(getUserData(data.user)))
 }
 
@@ -77,3 +74,20 @@ const signInFailure = message => ({
   type: SIGNIN_FAILURE,
   payload: { message }
 })
+
+export const updateProfile = data => dispatch => {
+  axios
+    .patch('/api/account/update_profile', data, authHeader)
+    .then(({ data }) => dispatch(updateUser(data.user)))
+}
+
+const updateUser = user => ({
+  type: UPDATE_PROFILE,
+  payload: { user }
+})
+
+const authHeader = {
+  headers: {
+    authorization: `Bearer ${Cookies.get('token')}`
+  }
+}

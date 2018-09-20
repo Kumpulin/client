@@ -24,7 +24,8 @@ const styles = theme => ({
     },
     [theme.breakpoints.up('lg')]: {
       transform: 'translateX(-50vw)'
-    }
+    },
+    zIndex: 10
   },
   hidePage: {
     transform: 'translateX(-100vw)'
