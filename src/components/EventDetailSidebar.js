@@ -154,7 +154,8 @@ class EventDetailSidebar extends Component {
   componentWillUnmount() {
     this.setState({
       isEventPasswordCorret: false,
-      password: ''
+      password: '',
+      hideJoinButton: false
     })
   }
 
@@ -274,7 +275,8 @@ class EventDetailSidebar extends Component {
                   </div>
                   {user && (
                     <div className={classes.buttonGroup}>
-                      {!this.state.hideJoinButton && (
+                      {(currentEventDetails.attendees.indexOf(user.id) === -1 ||
+                        !this.state.hideJoinButton) && (
                         <Button
                           className={classNames([
                             classes.button,
