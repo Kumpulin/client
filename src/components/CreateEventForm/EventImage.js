@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
+import ButtonBase from '@material-ui/core/ButtonBase'
+import Typography from '@material-ui/core/Typography'
 import compose from 'recompose/compose'
 import { saveTempEventImage } from '../../actions/event'
 
@@ -59,6 +60,7 @@ class EventImage extends Component {
   }
 
   handleImageChange = event => {
+    console.log(event)
     this.setState({ image: event.target.files[0] })
     this.props.dispatch(saveTempEventImage({ image: event.target.files[0] }))
   }
@@ -78,26 +80,53 @@ class EventImage extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { image } = this.state
+    const {
+      classes,
+      isUpdateEvent,
+      currentEventDetails,
+      eventImage
+    } = this.props
 
     return (
       <form className={classes.form}>
         <input
           accept="image/*"
           className={classes.inputFile}
-          id="outlined-button-file"
+          id="event-image-file"
           type="file"
           onChange={this.handleImageChange}
         />
-        <label htmlFor="outlined-button-file">
-          <Button
-            variant="outlined"
-            component="span"
-            className={classes.button}
-          >
-            Upload
-          </Button>
-        </label>
+        <ButtonBase className={classes.inputFileContainer}>
+          <label htmlFor="event-image-file" className={classes.inputFileLabel}>
+            <span
+              className={classes.image}
+              style={{
+                backgroundImage: `url(${
+                  eventImage
+                    ? URL.createObjectURL(eventImage.image)
+                    : isUpdateEvent
+                      ? `https://s3-ap-southeast-1.amazonaws.com/kumpulin-images/${
+                          currentEventDetails.image
+                        }`
+                      : image
+                        ? URL.createObjectURL(image)
+                        : ''
+                })`
+              }}
+            />
+            <span className={classes.inputTextContainer}>
+              <Typography
+                component="span"
+                variant="subheading"
+                color="inherit"
+                className={classes.inputText}
+              >
+                Select image
+              </Typography>
+            </span>
+          </label>
+        </ButtonBase>
       </form>
     )
   }
@@ -108,7 +137,9 @@ EventImage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  currentEventDetails: state.event.currentEventDetails
+  isUpdateEvent: state.event.isUpdateEvent,
+  currentEventDetails: state.event.currentEventDetails,
+  eventImage: state.event.temp.eventImage
 })
 
 const mapDispatchToProps = dispatch => ({
