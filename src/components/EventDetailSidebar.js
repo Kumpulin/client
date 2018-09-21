@@ -124,14 +124,20 @@ const styles = theme => ({
 class EventDetailSidebar extends Component {
   state = {
     isEventPasswordCorret: false,
-    password: ''
+    password: '',
+    attendeesCounter: 0,
+    hideJoinButton: false
   }
 
   handleJoinButtonClick = () => {
-    const { currentEvent } = this.props
+    // const { currentEvent } = this.props
 
-    this.props.joinEvent(currentEvent.id)
-    this.props.fetchCurrentEventDetails(currentEvent.id)
+    // this.props.joinEvent(currentEvent.id)
+    // this.props.fetchCurrentEventDetails(currentEvent.id)
+    this.setState({
+      attendeesCounter: this.state.attendeesCounter + 1,
+      hideJoinButton: true
+    })
   }
 
   handleEventPasswordSubmit = event => {
@@ -268,32 +274,30 @@ class EventDetailSidebar extends Component {
                   </div>
                   {user && (
                     <div className={classes.buttonGroup}>
-                      {currentEventDetails.user.id === user.id ||
-                        (currentEventDetails.attendees.indexOf(user.id) ===
-                          -1 && (
-                          <Button
-                            className={classNames([
-                              classes.button,
-                              classes.joinButton
-                            ])}
-                            variant="fab"
-                            onClick={this.handleJoinButtonClick}
-                          >
-                            <AddIcon />
-                          </Button>
-                        ))}
+                      {!this.state.hideJoinButton && (
+                        <Button
+                          className={classNames([
+                            classes.button,
+                            classes.joinButton
+                          ])}
+                          variant="fab"
+                          onClick={this.handleJoinButtonClick}
+                        >
+                          <AddIcon />
+                        </Button>
+                      )}
                       <Button
                         className={classNames([
                           classes.button,
                           classes.attendeesCounter,
-                          currentEventDetails.attendees.indexOf(user.id) !==
-                            -1 && classes.incrementedCounter
+                          this.state.hideJoinButton &&
+                            classes.incrementedCounter
                         ])}
                         variant="extendedFab"
                         fullWidth
                         disabled
                       >
-                        {currentEventDetails.attendees.length}
+                        {this.state.attendeesCounter}
                       </Button>
                     </div>
                   )}
