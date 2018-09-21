@@ -15,8 +15,6 @@ import {
 import { setCurrentFullPage, toggleSignInForm, toggleSignUpForm } from './app'
 
 export const updateProfileImage = data => dispatch => {
-  console.log(data)
-
   axios
     .patch('/api/account/update_profile_image', data, authHeader)
     .then(({ data }) =>
